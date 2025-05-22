@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         xmlns:local="clr-namespace:ModernUI"
         mc:Ignorable="d"
         Title="LoginView" Height="500" Width="800"
@@ -165,7 +166,7 @@
                              Margin="0,5,0,0"
                              Padding="35,0,0,0">
                         <TextBox.Background>
-                            <ImageBrush ImageSource="C:\InSync\PRUEBAS\SmarTools\Imagenes\Usuario.png"
+                            <ImageBrush ImageSource="C:\InSync\SmarTools\Imagenes\Usuario.png"
                                         Stretch="Uniform"
                                         AlignmentX="Left"
                                         AlignmentY="Center"/>
@@ -193,7 +194,7 @@
                              Margin="0,5,0,0"
                              Padding="35,0,0,0">
                         <TextBox.Background>
-                            <ImageBrush ImageSource="C:\InSync\PRUEBAS\SmarTools\Imagenes\Contraseña.png"
+                            <ImageBrush ImageSource="C:\InSync\SmarTools\Imagenes\Contraseña.png"
                                         Stretch="Uniform"
                                         AlignmentX="Left"
                                         AlignmentY="Center"/>

@@ -118,6 +118,30 @@
                             <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.75"></GradientStop>
                         </LinearGradientBrush>
                     </Border.Background>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <!--Control Bar-->
+                            <RowDefinition Height="25"/>
+                            <!--Header / Caption-->
+                            <RowDefinition Height="35"/>
+                            <!--Content Section-->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!--Control Bar-->
+                        <StackPanel x:Name="pnlControlBar"
+                                    Grid.Row="0"
+                                    Orientation="Horizontal"
+                                    FlowDirection="RightToLeft"
+                                    Background="Transparent"
+                                    Margin="0,0,5,0"
+                                    MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
+                                    MouseEnter="pnlControlBar_MouseEnter">
+                            
+                        </StackPanel>
+
+                    </Grid>
                 </Border>
             </Grid>
         </Border>

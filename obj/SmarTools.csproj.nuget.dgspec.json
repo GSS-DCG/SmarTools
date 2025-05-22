@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\InSync\\PRUEBAS\\SmarTools\\SmarTools.csproj": {}
+    "C:\\InSync\\SmarTools\\SmarTools.csproj": {}
   },
   "projects": {
-    "C:\\InSync\\PRUEBAS\\SmarTools\\SmarTools.csproj": {
+    "C:\\InSync\\SmarTools\\SmarTools.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\InSync\\PRUEBAS\\SmarTools\\SmarTools.csproj",
+        "projectUniqueName": "C:\\InSync\\SmarTools\\SmarTools.csproj",
         "projectName": "SmarTools",
-        "projectPath": "C:\\InSync\\PRUEBAS\\SmarTools\\SmarTools.csproj",
+        "projectPath": "C:\\InSync\\SmarTools\\SmarTools.csproj",
         "packagesPath": "C:\\Users\\darien.callejo\\.nuget\\packages\\",
-        "outputPath": "C:\\InSync\\PRUEBAS\\SmarTools\\obj\\",
+        "outputPath": "C:\\InSync\\SmarTools\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\darien.callejo\\AppData\\Roaming\\NuGet\\NuGet.Config",
