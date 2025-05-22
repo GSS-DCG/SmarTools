@@ -1,0 +1,128 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\InSync\\PRUEBAS\\SmarTools\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\pruebas\\smartools\\view\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\pruebas\\smartools\\view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\pruebas\\smartools\\styles\\buttonstyles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:styles\\buttonstyles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\pruebas\\smartools\\view\\mainview.xaml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\pruebas\\smartools\\view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LoginWindow.xaml",
+              "DocumentMoniker": "C:\\InSync\\PRUEBAS\\SmarTools\\View\\LoginWindow.xaml",
+              "RelativeDocumentMoniker": "View\\LoginWindow.xaml",
+              "ToolTip": "C:\\InSync\\PRUEBAS\\SmarTools\\View\\LoginWindow.xaml",
+              "RelativeToolTip": "View\\LoginWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-21T14:02:41.55Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainView.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\PRUEBAS\\SmarTools\\View\\MainView.xaml.cs",
+              "RelativeDocumentMoniker": "View\\MainView.xaml.cs",
+              "ToolTip": "C:\\InSync\\PRUEBAS\\SmarTools\\View\\MainView.xaml.cs",
+              "RelativeToolTip": "View\\MainView.xaml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-22T06:26:00.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ButtonStyles.xaml",
+              "DocumentMoniker": "C:\\InSync\\PRUEBAS\\SmarTools\\Styles\\ButtonStyles.xaml",
+              "RelativeDocumentMoniker": "Styles\\ButtonStyles.xaml",
+              "ToolTip": "C:\\InSync\\PRUEBAS\\SmarTools\\Styles\\ButtonStyles.xaml",
+              "RelativeToolTip": "Styles\\ButtonStyles.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-22T06:25:42.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainView.xaml",
+              "DocumentMoniker": "C:\\InSync\\PRUEBAS\\SmarTools\\View\\MainView.xaml",
+              "RelativeDocumentMoniker": "View\\MainView.xaml",
+              "ToolTip": "C:\\InSync\\PRUEBAS\\SmarTools\\View\\MainView.xaml",
+              "RelativeToolTip": "View\\MainView.xaml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-21T14:32:41.456Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "4b5c2186-b3d0-443c-808f-4ca73ba46b7b",
+        "Display": 1,
+        "X": 608,
+        "Y": 160,
+        "Width": 1949,
+        "Height": 1123,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainView.xaml",
+              "DocumentMoniker": "C:\\InSync\\PRUEBAS\\SmarTools\\View\\MainView.xaml",
+              "RelativeDocumentMoniker": "View\\MainView.xaml",
+              "ToolTip": "C:\\InSync\\PRUEBAS\\SmarTools\\View\\MainView.xaml",
+              "RelativeToolTip": "View\\MainView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-21T07:17:52.332Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
