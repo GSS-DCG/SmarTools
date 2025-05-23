@@ -50,6 +50,13 @@
                     </Border.Background>
                 </Border>
 
+                <TextBlock x:Name="VersionInfoText" 
+                           VerticalAlignment="Bottom" 
+                           Text="Error" 
+                           Foreground="White" 
+                           FontFamily="Neo Tech Std" 
+                           FontSize="15" Margin="25,0,0,10"></TextBlock>
+
                 <StackPanel>
                     <!--Logo-->
                     <StackPanel Orientation="Horizontal"

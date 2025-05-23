@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="APPS\ComprobacionUnionesAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ViewModel\Ajustes.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -27,6 +30,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="APPS\ComprobacionUnionesAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\ButtonStyles.xaml">
       <SubType>Designer</SubType>
     </Page>

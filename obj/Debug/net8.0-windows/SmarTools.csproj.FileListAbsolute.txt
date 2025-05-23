@@ -66,3 +66,5 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\Ajustes.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\RackSmart.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\TracSmart1V.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\TracSmart2V.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUnionesAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUnionesAPP.baml

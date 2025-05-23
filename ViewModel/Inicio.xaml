@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock x:Name="InfoVersionView" Text ="" Foreground="White" FontFamily="Neo Tech Std" FontSize="15"/>
+        <TextBlock x:Name="InfoVersionView" Text ="Error: No se ha podido establecer conexión con Z:/" Foreground="White" FontFamily="Neo Tech Std" FontSize="15"/>
         
     </Grid>
 </UserControl>

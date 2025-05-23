@@ -44,6 +44,8 @@ namespace ModernUI.View
             MainViewContentControl.Children.Add(Globales._inicio);
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
 
+            VersionInfoText.Text = Globales._version.Replace("_", " ");
+
             Globales._BellNotification = BellNotification;
             Herramientas.NotificacionCampana();
         }
@@ -85,19 +87,11 @@ namespace ModernUI.View
             MainViewContentControl.Children.Add(Globales._Ajustes);
         }
 
-        private System.Drawing.Color backColor;
-        private System.Drawing.Color borderColor;
-        private System.Drawing.Color menuItemBorderColor;
-        private System.Drawing.Color menuItemSelectedColor;
-
         private void btnBellIcon_Click(object sender, RoutedEventArgs e)
         {
-            backColor = System.Drawing.Color.FromArgb(0,0,0);
-            backColor = System.Drawing.Color.FromArgb(255,0,0);
-            backColor = System.Drawing.Color.FromArgb(0,255,0);
-            backColor = System.Drawing.Color.FromArgb(0,0,255);
-
-            
+            /////////
+            ///WIP///
+            /////////
         }
 
         private void btnInicio_Click(object sender, RoutedEventArgs e)
@@ -106,7 +100,8 @@ namespace ModernUI.View
             Caption_Icon.Icon = FontAwesome.Sharp.IconChar.Home;
             MainViewContentControl.Children.Clear();
             MainViewContentControl.Children.Add(Globales._inicio);
-            SmarTools.ViewModel.Inicio.InfoVersion();
+
+            Globales._inicio.InfoVersionView.Text = SmarTools.ViewModel.Inicio.InfoVersion();
         }
 
         private void btnTracSmart1V_Click(object sender, RoutedEventArgs e)

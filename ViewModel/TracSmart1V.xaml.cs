@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernUI.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SmarTools.ViewModel;
+using SmarTools.APPS;
 
 namespace SmarTools.ViewModel
 {
@@ -57,7 +60,8 @@ namespace SmarTools.ViewModel
 
         private void btnComprobacionUniones_Click(object sender, RoutedEventArgs e)
         {
-
+            ComprobacionUnionesAPP App = new ComprobacionUnionesAPP();
+            App.Show();
         }
 
         private void btnReacciones_Click(object sender, RoutedEventArgs e)

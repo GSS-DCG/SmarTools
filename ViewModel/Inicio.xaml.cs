@@ -32,6 +32,7 @@ namespace SmarTools.ViewModel
         {
             string ruta = @"Z:\300Logos\Cambios_Version.txt";
             string texto = File.ReadAllText(ruta);
+
             return texto;
         }
     }
