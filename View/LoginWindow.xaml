@@ -132,13 +132,14 @@
                             Orientation="Vertical"
                             Margin="0,35,0,0">
                     <Image Source="https://f7asturias.mygol.es/upload/D9/F7/wfhdvase.png"
-                           Margin="0,0,0,0"/>
+                           Margin="0,0,0,0"
+                           Height="50"/>
                     
                     <TextBlock Text="SmarTools"
                                Foreground="White"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               FontSize="40" 
+                               FontSize="50" 
                                FontWeight="Medium" 
                                FontFamily="Neo Tech Std" 
                                Margin="0,0,0,0">

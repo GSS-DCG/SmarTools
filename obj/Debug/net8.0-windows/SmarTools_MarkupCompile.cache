@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\InSync\SmarTools\App.xaml
-4-1941068831
+91085088012
 
-5-1951581479
+10-1022851162
 208-1396640709
-Styles\ButtonStyles.xaml;Styles\UIColors.xaml;View\LoginWindow.xaml;View\MainView.xaml;
+Styles\ButtonStyles.xaml;Styles\UIColors.xaml;ViewModel\Ajustes.xaml;ViewModel\Inicio.xaml;ViewModel\RackSmart.xaml;ViewModel\TracSmart1V.xaml;ViewModel\TracSmart2V.xaml;View\LoginWindow.xaml;View\MainView.xaml;
 
 False
 
