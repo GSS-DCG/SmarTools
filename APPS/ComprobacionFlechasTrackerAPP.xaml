@@ -66,7 +66,13 @@
                             <!--Content Section-->
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-
+                        <TextBlock Text="Comprobación de Flechas"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   FontWeight="Medium"
+                                   FontFamily="Neo Tech Std"
+                                   Margin="10,0,0,0"
+                                   FontSize="13.5"/>
                         <!--Control Bar-->
                         <StackPanel x:Name="pnlControlBar"
                                     Grid.Row="0"
@@ -102,12 +108,223 @@
                         <!--User Control-->
                         <Grid x:Name="MainViewContentControl"
                               Grid.Row="2"
-                              Margin="25"/>
+                              Margin="25">
+                            <StackPanel x:Name="TablaResultados"
+                                        Grid.Row="0"
+                                        Orientation="Horizontal"
+                                        FlowDirection="LeftToRight"
+                                        Background="Transparent"
+                                        Margin="0,0,5,0"
+                                        MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
+                                        MouseEnter="pnlControlBar_MouseEnter">
+                                <Grid Margin="10,10,10,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="175"/>
+                                        <ColumnDefinition Width="175"/>
+                                        <ColumnDefinition Width="175"/>
+                                        <ColumnDefinition Width="175"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0"
+                                           Content="Deformación"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Medium"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="0" Grid.Row="1"
+                                           Content="Desplome de Pilares"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Medium"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="0" Grid.Row="2"
+                                           Content="Flecha de vigas"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Medium"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="0" Grid.Row="3"
+                                           Content="Flecha de voladizo"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Medium"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="0" Grid.Row="4"
+                                           Content="Flecha de secundarias"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Medium"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="1" Grid.Row="0"
+                                           Content="Resultado"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Medium"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="1" Grid.Row="1"
+                                           x:Name="Resultado_pilares"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="1" Grid.Row="2"
+                                           x:Name="Resultado_vigas"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="1" Grid.Row="3"
+                                           x:Name="Resultado_voladizo"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="1" Grid.Row="4"
+                                           x:Name="Resultado_secundarias"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="2" Grid.Row="0"
+                                           Content="Flecha máx admisible"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Medium"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="2" Grid.Row="1"
+                                           x:Name="Admisible_pilares"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="2" Grid.Row="2"
+                                           x:Name="Admisible_vigas"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="2" Grid.Row="3"
+                                           x:Name="Admisible_voladizo"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="2" Grid.Row="4"
+                                           x:Name="Admisible_secundarias"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="3" Grid.Row="0"
+                                           Content="Check"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Medium"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="3" Grid.Row="1"
+                                           x:Name="Check_pilares"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="3" Grid.Row="2"
+                                           x:Name="Check_vigas"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="3" Grid.Row="3"
+                                           x:Name="Check_voladizo"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Label Grid.Column="3" Grid.Row="4"
+                                           x:Name="Check_secundarias"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Neo Tech Std"
+                                           FontWeight="Light"
+                                           FontSize="13.5"
+                                           Foreground="White"/>
+                                    <Border Grid.Column="0" Grid.Row="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="0" Grid.Row="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="0" Grid.Row="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="0" Grid.Row="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="0" Grid.Row="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="1" Grid.Row="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="1" Grid.Row="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="1" Grid.Row="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="1" Grid.Row="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="1" Grid.Row="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="2" Grid.Row="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="2" Grid.Row="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="2" Grid.Row="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="2" Grid.Row="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="2" Grid.Row="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="3" Grid.Row="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="3" Grid.Row="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="3" Grid.Row="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="3" Grid.Row="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Column="3" Grid.Row="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Button Grid.Column="1" Grid.Row="6"/>
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel>
+                                
+                            </StackPanel>
+                            
+                        </Grid>
                     </Grid>
                 </Border>
             </Grid>
         </Border>
-
     </Border>
 </Window>
 
