@@ -17,6 +17,7 @@ using SmarTools.ViewModel;
 using System.Drawing;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using SAP2000v1;
 
 namespace ModernUI.View
 {
@@ -35,6 +36,10 @@ namespace ModernUI.View
             public static RackSmart _RackSmart = new RackSmart();
             public static Ajustes _Ajustes = new Ajustes();
             public static FontAwesome.Sharp.IconImage _BellNotification = new FontAwesome.Sharp.IconImage();
+            public static cHelper _myHelper;
+            public static cOAPI _mySapObject;
+            public static cSapModel _mySapModel;
+
         }
         public MainView()
         {

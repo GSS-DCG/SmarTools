@@ -55,7 +55,8 @@ namespace SmarTools.ViewModel
 
         private void btnCalcularFlechas_Click(object sender, RoutedEventArgs e)
         {
-
+            ComprobacionFlechasTrackerAPP App = new ComprobacionFlechasTrackerAPP();
+            App.Show();
         }
 
         private void btnComprobacionUniones_Click(object sender, RoutedEventArgs e)
