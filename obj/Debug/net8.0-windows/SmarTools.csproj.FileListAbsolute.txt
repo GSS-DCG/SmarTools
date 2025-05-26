@@ -55,3 +55,16 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\refint\SmarTools.dll
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\SmarTools.pdb
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\SmarTools.genruntimeconfig.cache
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\ref\SmarTools.dll
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\Inicio.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\Inicio.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\Ajustes.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\RackSmart.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\TracSmart1V.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\TracSmart2V.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\Ajustes.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\RackSmart.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\TracSmart1V.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\TracSmart2V.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUnionesAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUnionesAPP.baml

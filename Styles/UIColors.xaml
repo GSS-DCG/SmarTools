@@ -11,13 +11,14 @@
     <Color x:Key="windowBorderColor1">#005380</Color>
     <Color x:Key="windowBorderColor2">#08A0C3</Color>
     <Color x:Key="windowBorderColor3">#0685AE</Color>
+    <Color x:Key="Over2">#D1ECFF</Color>
     
     <!--General-->
     <SolidColorBrush x:Key="General1">#060531</SolidColorBrush>
     <SolidColorBrush x:Key="General2">#005380</SolidColorBrush>
     <SolidColorBrush x:Key="General3">#0685AE</SolidColorBrush>
     <SolidColorBrush x:Key="General4">#08A0C3</SolidColorBrush>
-
+    <SolidColorBrush x:Key="Resaltado">#80D2FF</SolidColorBrush>
     <!---Color Palette-->
     <SolidColorBrush x:Key="Over1">#D1ECFF</SolidColorBrush>
     

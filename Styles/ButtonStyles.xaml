@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp">
     <Style x:Key="menuButton" TargetType="RadioButton">
-        <!--Normal button-->
+        <!--Menu button-->
         <Setter Property="Height" Value="50"/>
         <Setter Property="Margin" Value="-5,0,0,5"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -31,7 +31,7 @@
             </Trigger>
             
             <!--Active button back color-->
-            <Trigger Property="IsMouseOver" Value="True">
+            <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Height" Value="50"/>
                 <Setter Property="Margin" Value="0,0,0,5"/>
                 <Setter Property="Background" Value="{StaticResource Over1}"/>
@@ -56,5 +56,146 @@
         <Setter Property="FontWeight" Value="Medium"/>
         <Setter Property="FontSize" Value="13.5"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="ControlButton" TargetType="Button">
+        <!--Control button-->
+        <Setter Property="Width" Value="35"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                        CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <!--Mouse over-->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource Over1}"/>
+                <Setter Property="Foreground" Value="{StaticResource General1}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Control button icon-->
+    <Style x:Key="ControlButtonIcon" TargetType="fa:IconImage">
+        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}"></Setter>
+        <Setter Property="Width" Value="9"></Setter>
+        <Setter Property="Height" Value="9"></Setter>
+    </Style>
+
+    <Style x:Key="IconButton" TargetType="Button">
+        <!--Icon button-->
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Width" Value="35"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <!--Mouse over-->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Icon button icon-->
+    <Style x:Key="IconButtonIcon" TargetType="fa:IconImage">
+        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}"></Setter>
+        <Setter Property="Width" Value="30"></Setter>
+        <Setter Property="Height" Value="30"></Setter>
+    </Style>
+
+    <Style x:Key="SelectorButton" TargetType="RadioButton">
+        <!--Selector button-->
+        <Setter Property="Height" Value="auto"/>
+        <Setter Property="Margin" Value="-5,0,0,5"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="White"/>
+
+        <Setter Property="Margin" Value="10"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="4"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            CornerRadius="25">
+                        <ContentPresenter HorizontalAlignment="center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <!--Mouse over-->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Height" Value="auto"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--Selector button icon-->
+    <Style x:Key="SelectorButtonIcon" TargetType="fa:IconImage">
+        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}"></Setter>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!--Selector button Image-->
+    <Style x:Key="SelectorButtonImage" TargetType="Image">
+        <Setter Property="Source" Value="{Binding Path=Tag}"></Setter>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!--Selector button .svg-->
+    <Style x:Key="SelectorButtonSVG" TargetType="Viewbox">
+        <Style.Resources>
+            <DataTemplate>
+                <Path Fill="White">
+                    <Path.Data>
+                        <PathGeometry Figures="{Binding Path=Tag}" ></PathGeometry>
+                    </Path.Data>
+                </Path>
+            </DataTemplate>
+        </Style.Resources>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!--Selector button-->
+    <Style x:Key="selectorButtonText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
+        <Setter Property="FontFamily" Value="Neo Tech Std"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
 </ResourceDictionary>

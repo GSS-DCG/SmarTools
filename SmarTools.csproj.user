@@ -7,15 +7,51 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="APPS\ComprobacionUnionesAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewModel\Ajustes.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewModel\Inicio.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewModel\RackSmart.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewModel\TracSmart1V.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ViewModel\TracSmart2V.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\MainView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="APPS\ComprobacionUnionesAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\ButtonStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\UIColors.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\Ajustes.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\Inicio.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\RackSmart.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\TracSmart1V.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\TracSmart2V.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\LoginWindow.xaml">

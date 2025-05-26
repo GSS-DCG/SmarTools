@@ -3,28 +3,12 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\viewmodel\\tracsmart1v.xaml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:viewmodel\\tracsmart1v.xaml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\wordfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\wordfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\windowsfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\windowsfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\viewmodel\\tracsmart1v.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:viewmodel\\tracsmart1v.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,83 +18,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LoginWindow.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\LoginWindow.xaml",
-              "RelativeDocumentMoniker": "View\\LoginWindow.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\View\\LoginWindow.xaml",
-              "RelativeToolTip": "View\\LoginWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-21T14:02:41.55Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SAPFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\SAPFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\SAPFunctions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAANAHAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-23T06:12:39.383Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "WordFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\WordFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\WordFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\WordFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\WordFunctions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T11:22:26.71Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "WindowsFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\WindowsFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\WindowsFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\WindowsFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\WindowsFunctions.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAwwJIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T11:18:53.643Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainView.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\MainView.xaml",
-              "RelativeDocumentMoniker": "View\\MainView.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\View\\MainView.xaml",
-              "RelativeToolTip": "View\\MainView.xaml",
+              "Title": "TracSmart1V.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\ViewModel\\TracSmart1V.xaml",
+              "RelativeDocumentMoniker": "ViewModel\\TracSmart1V.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\ViewModel\\TracSmart1V.xaml",
+              "RelativeToolTip": "ViewModel\\TracSmart1V.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-21T07:17:52.332Z",
+              "WhenOpened": "2025-05-23T11:51:40.601Z",
               "EditorCaption": ""
-            },
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "781b785c-c409-41ce-9c13-31b46094835e",
+        "Display": 1,
+        "X": 0,
+        "Y": 36,
+        "Width": 800,
+        "Height": 600,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MainView.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\MainView.xaml.cs",
-              "RelativeDocumentMoniker": "View\\MainView.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\View\\MainView.xaml.cs",
-              "RelativeToolTip": "View\\MainView.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T06:26:00.94Z",
+              "DocumentIndex": 0,
+              "Title": "TracSmart1V.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\ViewModel\\TracSmart1V.xaml",
+              "RelativeDocumentMoniker": "ViewModel\\TracSmart1V.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\ViewModel\\TracSmart1V.xaml",
+              "RelativeToolTip": "ViewModel\\TracSmart1V.xaml",
+              "ViewState": "AQIAAIgAAAAAAAAAAAAtwLAAAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-26T07:08:58.591Z",
               "EditorCaption": ""
             }
           ]
