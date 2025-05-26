@@ -261,8 +261,7 @@
                         <Grid x:Name="MainViewContentControl"
                               Grid.Row="2"
                               Margin="25"/>
-                        
-                        
+
                     </Grid>
                 </Border>
             </Grid>

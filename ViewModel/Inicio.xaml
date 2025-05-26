@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SmarTools.ViewModel"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="571" d:DesignWidth="996">
     <Grid>
         <TextBlock x:Name="InfoVersionView" Text ="Error: No se ha podido establecer conexión con Z:/" Foreground="White" FontFamily="Neo Tech Std" FontSize="15"/>
         

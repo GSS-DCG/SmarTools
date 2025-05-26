@@ -163,6 +163,32 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
+    <!--Selector button Image-->
+    <Style x:Key="SelectorButtonImage" TargetType="Image">
+        <Setter Property="Source" Value="{Binding Path=Tag}"></Setter>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!--Selector button .svg-->
+    <Style x:Key="SelectorButtonSVG" TargetType="Viewbox">
+        <Style.Resources>
+            <DataTemplate>
+                <Path Fill="White">
+                    <Path.Data>
+                        <PathGeometry Figures="{Binding Path=Tag}" ></PathGeometry>
+                    </Path.Data>
+                </Path>
+            </DataTemplate>
+        </Style.Resources>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
     <!--Selector button-->
     <Style x:Key="selectorButtonText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
