@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\InSync\PRUEBAS\SmarTools\obj\Debug\net8.0-windows\
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\
 SmarTools
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\InSync\PRUEBAS\SmarTools\App.xaml
+C:\InSync\SmarTools\App.xaml
 4-1941068831
 
-7-1221116621
-208-1396640709
+121333028292
+2231483303160
 Styles\ButtonStyles.xaml;Styles\UIColors.xaml;View\LoginWindow.xaml;View\MainView.xaml;
 
-True
+False
 
