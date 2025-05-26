@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\viewmodel\\tracsmart1v.xaml||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:viewmodel\\tracsmart1v.xaml||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\excelfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\excelfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\viewmodel\\tracsmart1v.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -18,15 +22,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ExcelFunctions.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\ExcelFunctions.cs",
+              "RelativeDocumentMoniker": "Model\\Repository\\ExcelFunctions.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\ExcelFunctions.cs",
+              "RelativeToolTip": "Model\\Repository\\ExcelFunctions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T09:38:24.937Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MainView.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\MainView.xaml",
+              "RelativeDocumentMoniker": "View\\MainView.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\View\\MainView.xaml",
+              "RelativeToolTip": "View\\MainView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-05-26T09:38:09.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "TracSmart1V.xaml",
               "DocumentMoniker": "C:\\InSync\\SmarTools\\ViewModel\\TracSmart1V.xaml",
               "RelativeDocumentMoniker": "ViewModel\\TracSmart1V.xaml",
@@ -34,40 +59,6 @@
               "RelativeToolTip": "ViewModel\\TracSmart1V.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-05-23T11:51:40.601Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "781b785c-c409-41ce-9c13-31b46094835e",
-        "Display": 1,
-        "X": 0,
-        "Y": 36,
-        "Width": 800,
-        "Height": 600,
-        "WindowState": 2
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TracSmart1V.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\ViewModel\\TracSmart1V.xaml",
-              "RelativeDocumentMoniker": "ViewModel\\TracSmart1V.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\ViewModel\\TracSmart1V.xaml",
-              "RelativeToolTip": "ViewModel\\TracSmart1V.xaml",
-              "ViewState": "AQIAAIgAAAAAAAAAAAAtwLAAAAA/AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-26T07:08:58.591Z",
               "EditorCaption": ""
             }
           ]
