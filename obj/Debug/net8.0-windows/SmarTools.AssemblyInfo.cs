@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmarTools")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24bae2e45ab40ff75d93d35158d24e65769b2835")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa2f033b0400a3850ce70132f415a8e013beb62d")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmarTools")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmarTools")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
