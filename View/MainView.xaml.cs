@@ -36,6 +36,7 @@ namespace ModernUI.View
             public static RackSmart _RackSmart = new RackSmart();
             public static Ajustes _Ajustes = new Ajustes();
             public static FontAwesome.Sharp.IconImage _BellNotification = new FontAwesome.Sharp.IconImage();
+
             public static cHelper _myHelper;
             public static cOAPI _mySapObject;
             public static cSapModel _mySapModel;
@@ -52,7 +53,14 @@ namespace ModernUI.View
             VersionInfoText.Text = Globales._version.Replace("_", " ");
 
             Globales._BellNotification = BellNotification;
-            Herramientas.NotificacionCampana();
+
+            //Ejecutamos de manera asincrona el SAP2000
+            this.Loaded += MainView_Loaded;
+        }
+
+        private async void MainView_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Herramientas.ConexionSAP2000Async();
         }
 
         [DllImport("user32.dll")]
@@ -72,6 +80,11 @@ namespace ModernUI.View
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+
+            Globales._mySapObject.Unhide();
+            Globales._mySapObject.ApplicationExit(false);
+            Globales._mySapModel = null;
+            Globales._mySapObject = null;
         }
 
         private void btnMaximize_Click(object sender, RoutedEventArgs e)
@@ -156,6 +169,45 @@ namespace ModernUI.View
             {
                 ModernUI.View.MainView.Globales._BellNotification.Visibility = Visibility.Hidden;
             }
+        }
+
+        public static async Task ConexionSAP2000Async()
+        {
+            await Task.Run(() =>
+            {
+                cHelper myHelper;
+                cOAPI mySapObject;
+                cSapModel mySapModel;
+
+                string ProgramPath = @"C:\Program Files\Computers and Structures\SAP2000 25\SAP2000.exe";
+
+                try
+                {
+                    myHelper = (cHelper)Activator.CreateInstance(Type.GetTypeFromProgID("SAP2000v1.Helper", true));
+                    mySapObject = myHelper.CreateObject(ProgramPath);
+                    mySapObject.ApplicationStart(eUnits.kN_m_C);
+
+                    mySapModel = mySapObject.SapModel;
+
+                    // Guardar en variables globales (esto debe hacerse en el hilo principal si afecta a la UI)
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        MainView.Globales._myHelper = myHelper;
+                        MainView.Globales._mySapObject = mySapObject;
+                        MainView.Globales._mySapModel = mySapModel;
+                    });
+
+                    mySapObject.Hide();
+                }
+                catch (Exception ex)
+                {
+                    // Puedes mostrar un mensaje si quieres
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show($"Error al iniciar SAP2000: {ex.Message}");
+                    });
+                }
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 FC:\InSync\SmarTools\App.xaml;;
+FC:\InSync\SmarTools\APPS\ComprobacionFlechasTrackerAPP.xaml;;
 FC:\InSync\SmarTools\APPS\ComprobacionUnionesAPP.xaml;;
 FC:\InSync\SmarTools\ViewModel\Ajustes.xaml;;
 FC:\InSync\SmarTools\ViewModel\Inicio.xaml;;
@@ -8,5 +9,4 @@ FC:\InSync\SmarTools\ViewModel\TracSmart1V.xaml;;
 FC:\InSync\SmarTools\ViewModel\TracSmart2V.xaml;;
 FC:\InSync\SmarTools\View\LoginWindow.xaml;;
 FC:\InSync\SmarTools\View\MainView.xaml;;
-FC:\InSync\SmarTools\APPS\ComprobacionFlechasTrackerAPP.xaml;;
 
