@@ -889,7 +889,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\darien.callejo\\.nuget\\packages\\": {}
+    "C:\\Users\\miriam.roldan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -897,11 +897,11 @@
       "projectUniqueName": "C:\\InSync\\SmarTools\\SmarTools.csproj",
       "projectName": "SmarTools",
       "projectPath": "C:\\InSync\\SmarTools\\SmarTools.csproj",
-      "packagesPath": "C:\\Users\\darien.callejo\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\miriam.roldan\\.nuget\\packages\\",
       "outputPath": "C:\\InSync\\SmarTools\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\darien.callejo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\miriam.roldan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -972,7 +972,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

@@ -165,6 +165,20 @@ namespace ListadosDeCalculo.Scripts
             }
 
             /// <summary>
+            /// Desbloquea un modelo SAP2000 calculado
+            /// </summary>
+            /// <param name="SapModel">
+            /// Instancia del modelo SAP (SapModel) con un fichero calculable cargado. 
+            /// </param>
+            public static void UnlockModel(cSapModel SapModel)
+            {
+                if(SapModel.GetModelIsLocked() == true)
+                {
+                    SapModel.SetModelIsLocked(false);
+                }
+            }
+
+            /// <summary>
             /// Selecciona las hipótesis que se quieren analizar para sacar algún output 
             /// (como reacciones o esfuerzos). Se seleccionan a partir de un string con 
             /// el nombre de la hipótesis deseada (por ejemplo "ULS") y de una instancia 

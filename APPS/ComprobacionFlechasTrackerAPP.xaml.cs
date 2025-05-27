@@ -27,8 +27,6 @@ namespace SmarTools.APPS
             InitializeComponent();
         }
 
-        ComprobacionFlechasTracker Flechas = new ComprobacionFlechasTracker();
-
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
 
@@ -56,6 +54,11 @@ namespace SmarTools.APPS
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void btnCalcularFlecha_Click(object sender, RoutedEventArgs e)
+        {
+            ComprobacionFlechasTracker.ComprobarFlechas(this);
         }
     }
 }
