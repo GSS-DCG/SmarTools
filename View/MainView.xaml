@@ -216,7 +216,7 @@
                                                   Width="25"
                                                   Style="{StaticResource ControlButtonIcon}"/>
                                 </Button>
-                                
+
                                 <Button x:Name="BellBtn"    
                                         Style="{StaticResource IconButton}" 
                                         Tag="{StaticResource General4}"
@@ -228,9 +228,22 @@
                                                   Style="{StaticResource ControlButtonIcon}">
                                     </fa:IconImage>
                                 </Button>
+                                <Grid>
+                                    <fa:IconImage x:Name="StatusInfo" 
+                                                  Icon="Signal"
+                                                  Foreground="#C72021"
+                                                  Height="25"
+                                                  Width="25"
+                                                  Margin="5,0,0,0"></fa:IconImage>
 
+                                    <fa:IconImage x:Name="StatusInfoSlash" 
+                                                      Icon="Slash"
+                                                      Foreground="#C72021"
+                                                      Height="25"
+                                                      Width="25"
+                                                      Margin="5,0,0,0"></fa:IconImage>
+                                </Grid>
                                 
-
                             </StackPanel>
 
                             <Grid Grid.Column="1"
