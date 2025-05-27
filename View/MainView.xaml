@@ -228,22 +228,15 @@
                                                   Style="{StaticResource ControlButtonIcon}">
                                     </fa:IconImage>
                                 </Button>
-                                <Grid>
-                                    <fa:IconImage x:Name="StatusInfo" 
-                                                  Icon="Signal"
-                                                  Foreground="#C72021"
-                                                  Height="25"
-                                                  Width="25"
-                                                  Margin="5,0,0,0"></fa:IconImage>
+                                <Border x:Name="StatusInfo" 
+                                        CornerRadius="12"
+                                                  Background="#C72021"
+                                                BorderThickness="4"
+                                                BorderBrush="white"
+                                                  Height="20"
+                                                  Width="20"
+                                                  Margin="5,0,0,0"></Border>
 
-                                    <fa:IconImage x:Name="StatusInfoSlash" 
-                                                      Icon="Slash"
-                                                      Foreground="#C72021"
-                                                      Height="25"
-                                                      Width="25"
-                                                      Margin="5,0,0,0"></fa:IconImage>
-                                </Grid>
-                                
                             </StackPanel>
 
                             <Grid Grid.Column="1"

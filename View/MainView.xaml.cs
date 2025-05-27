@@ -29,10 +29,11 @@ namespace ModernUI.View
     /// </summary>
     public partial class MainView : Window
     {
+        private System.Windows.Forms.Timer Estado;
+
         public static class Globales
         {
             public static string _version = "Version_0.0";
-
             public static Inicio _inicio = new Inicio();
             public static TracSmart1V _TracSmart1V = new TracSmart1V();
             public static TracSmart2V _TracSmart2V = new TracSmart2V();
@@ -45,9 +46,44 @@ namespace ModernUI.View
             public static cSapModel _mySapModel;
 
         }
+
+        private void EstadoConexion(Object sender, EventArgs e)
+        {
+            try
+            {
+                if(Globales._myHelper != null)
+                {
+                    Globales._mySapObject.GetOAPIVersionNumber();
+                    if (Globales._mySapModel != null || Globales._mySapObject != null)
+                    {
+                        StatusInfo.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79));
+                    }
+                    else
+                    {
+                        StatusInfo.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+                    }
+                }
+            }
+            catch
+            {
+                Globales._myHelper = null;
+                Globales._mySapObject = null;
+                Globales._mySapModel = null;
+                StatusInfo.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+            }
+            
+        }
+
         public MainView()
         {
+
             InitializeComponent();
+
+            Estado = new System.Windows.Forms.Timer();
+            Estado.Interval = 500;
+            Estado.Tick += EstadoConexion;
+            Estado.Start();
+
             Caption_Text.Text = "Inicio";
             Caption_Icon.Icon = FontAwesome.Sharp.IconChar.Home;
             MainViewContentControl.Children.Add(Globales._inicio);
@@ -56,6 +92,7 @@ namespace ModernUI.View
             VersionInfoText.Text = Globales._version.Replace("_", " ");
 
             Globales._BellNotification = BellNotification;
+            Herramientas.NotificacionCampana();
 
             //Ejecutamos de manera asincrona el SAP2000
             this.Loaded += MainView_Loaded;
@@ -212,6 +249,28 @@ namespace ModernUI.View
             });
         }
 
+        public static void CheckSAP2000()
+        {
+            MessageBoxResult resultado = MessageBoxResult.Yes;
+
+            if (MainView.Globales._myHelper == null || MainView.Globales._mySapObject == null || MainView.Globales._mySapModel == null)
+            {
+                while (resultado == MessageBoxResult.Yes)
+                {
+                    resultado = System.Windows.MessageBox.Show("No se encuentra instancia de SAP2000 Activa\\n¿Quieres abrir SAP2000?", "Estado de Conexión", System.Windows.MessageBoxButton.YesNo);
+
+                    if (resultado == MessageBoxResult.Yes)
+                    {
+                        ConexionSAP2000Async();
+                    }
+                    else if (resultado == MessageBoxResult.No)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
         //Buscar Rutas en el explorador de windows
         public static string BuscarArchivo()
         {
@@ -251,17 +310,20 @@ namespace ModernUI.View
         public static int AbrirArchivoSAP2000()
         {
             int ret = 0;
-            string ruta_abrir = BuscarArchivo();
+            string ruta_abrir = string.Empty;
+
+            ruta_abrir = BuscarArchivo();
+
             MessageBoxResult resultado = MessageBoxResult.Yes;
 
             while (ruta_abrir == string.Empty)
             {
                 resultado = System.Windows.MessageBox.Show("No se ha seleccionado un archivo de SAP2000\n ¿Cerrar SAP2000?", "ERROR", System.Windows.MessageBoxButton.YesNo);
 
-                if (resultado == MessageBoxResult.Yes) 
+                if (resultado == MessageBoxResult.Yes)
                 {
-                    ret = MainView.Globales._mySapObject.Hide();
-
+                    if (MainView.Globales._mySapObject != null) { ret = MainView.Globales._mySapObject.Hide(); }
+ 
                     return ret;
                 }
                 else if (resultado == MessageBoxResult.No)
@@ -271,7 +333,7 @@ namespace ModernUI.View
             }
 
             ret = AbrirArchivo(ruta_abrir);
-
+            
             return ret;
         } 
 
