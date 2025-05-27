@@ -340,15 +340,17 @@ namespace ModernUI.View
         private static int AbrirArchivo(string ruta_archivo)
         {
             int ret = 0;
+            if (MainView.Globales._mySapObject != null)
+            {
+                ret = MainView.Globales._mySapObject.Unhide();
 
-            ret = MainView.Globales._mySapObject.Unhide();
+                ret = MainView.Globales._mySapModel.InitializeNewModel(eUnits.kN_m_C);
 
-            ret = MainView.Globales._mySapModel.InitializeNewModel(eUnits.kN_m_C);
+                ret = MainView.Globales._mySapModel.File.OpenFile(ruta_archivo);
 
-            ret = MainView.Globales._mySapModel.File.OpenFile(ruta_archivo);
-
-            ret = CambiarUnidadesSAP2000();
-
+                ret = CambiarUnidadesSAP2000();
+            }
+            
             return ret;
         }
 
