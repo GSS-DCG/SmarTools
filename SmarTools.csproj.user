@@ -31,6 +31,9 @@
     <Compile Update="View\MainView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\Status.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="APPS\ComprobacionFlechasTrackerAPP.xaml">
@@ -64,6 +67,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\MainView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Status.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

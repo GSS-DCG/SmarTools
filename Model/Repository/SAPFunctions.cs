@@ -153,10 +153,10 @@ namespace ListadosDeCalculo.Scripts
             /// Calcula un archivo .sdb abierto a partir de la instancia del modelo (SapModel). 
             /// Es necesario que la instancia SapModel tenga cargado un fichero calculable.
             /// </summary>
-            /// <param name="SapModel">
+            /// <param name="mySapModel">
             /// Instancia del modelo SAP (SapModel) con un fichero calculable cargado. 
             /// </param>
-            public static void RunModel(cSapModel SapModel)
+            public static void RunModel(cSapModel mySapModel)
             {
                 if (mySapModel.GetModelIsLocked() == false)
                 {

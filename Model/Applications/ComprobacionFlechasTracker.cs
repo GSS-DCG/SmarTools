@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using ListadosDeCalculo.Scripts;
 using ModernUI.View;
 using SAP2000v1;
 using SmarTools.APPS;
+using SmarTools.View;
 using static OfficeOpenXml.ExcelErrorValue;
 
 namespace SmarTools.Model.Applications
@@ -20,14 +22,26 @@ namespace SmarTools.Model.Applications
         
         public static void ComprobarFlechas(ComprobacionFlechasTrackerAPP vista)
         {
-            mySapModel.SetPresentUnits(eUnits.N_mm_C);
-            SAP.AnalysisSubclass.RunModel(mySapModel);
-            SAP.AnalysisSubclass.SelectHypotesis(mySapModel,"SLS",false);
+            var loadingWindow = new Status();
+            loadingWindow.Show();
+            loadingWindow.UpdateLayout();
 
-            DesplomePilares(vista);
-            FlechaVigas(vista);
-            FlechaSecundarias(vista);
-            FlechaVoladizo(vista);
+            try
+            {
+                Herramientas.AbrirArchivoSAP2000();
+                mySapModel.SetPresentUnits(eUnits.N_mm_C);
+                SAP.AnalysisSubclass.RunModel(mySapModel);
+                SAP.AnalysisSubclass.SelectHypotesis(mySapModel, "SLS", false);
+
+                DesplomePilares(vista);
+                FlechaVigas(vista);
+                FlechaSecundarias(vista);
+                FlechaVoladizo(vista);
+            }
+            finally
+            {
+                loadingWindow.Close();
+            }
         }
 
         public static void DesplomePilares(ComprobacionFlechasTrackerAPP vista)
@@ -159,11 +173,11 @@ namespace SmarTools.Model.Applications
             SAP.AnalysisSubclass.UnlockModel(mySapModel);
             for (int i = 0;i<sec_sup_norte.Length;i++)
             {
-                mySapModel.PointObj.SetRestraint(sec_sup_norte[i],ref empotramiento);
+                mySapModel.PointObj.SetRestraint(nudos_viga_norte[i],ref empotramiento);
             }
             for (int i = 0; i < sec_sup_sur.Length; i++)
             {
-                mySapModel.PointObj.SetRestraint(sec_sup_sur[i], ref empotramiento);
+                mySapModel.PointObj.SetRestraint(nudos_viga_sur[i], ref empotramiento);
             }
 
             // Calcular vano entre dos puntos de referencia
@@ -218,7 +232,7 @@ namespace SmarTools.Model.Applications
             double X = 0, Y = 0, Z = 0;
             //Datos geoméricos
             int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
-            int npilares= SAP.ElementFinderSubclass.TrackerSubclass.PileNumber(mySapModel);
+            int npilares= SAP.ElementFinderSubclass.TrackerSubclass.PileNumber(mySapModel)-1;
             string[] pilares_n=SAP.ElementFinderSubclass.TrackerSubclass.NorthPiles(mySapModel);
             string[] pilares_s = SAP.ElementFinderSubclass.TrackerSubclass.SouthPiles(mySapModel);
             string[] gps_n = SAP.ElementFinderSubclass.TrackerSubclass.GetJoints(mySapModel, pilares_n, 2);

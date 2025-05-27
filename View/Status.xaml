@@ -1,0 +1,18 @@
+﻿<Window x:Class="SmarTools.View.Status"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SmarTools.View"
+        mc:Ignorable="d"
+        Title="Status" Height="100" Width="250"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True">
+
+    <Grid Background="white">
+        <TextBlock Text="Calculando, por favor espere..."
+                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="14" FontWeight="Bold"/>
+    </Grid>
+
+</Window>
