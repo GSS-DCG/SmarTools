@@ -7,12 +7,43 @@
         mc:Ignorable="d"
         Title="Status" Height="100" Width="250"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True">
+        WindowStyle="None" 
+        ResizeMode="NoResize" 
+        ShowInTaskbar="False" 
+        Topmost="True"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="https://www.gsolarsteel.com/wp-content/uploads/2024/11/v2-galeria-2-scaled-1-2048x1088.webp"
+                Stretch="UniformToFill"/>
+        </Border.Background>
 
-    <Grid Background="white">
-        <TextBlock Text="Calculando, por favor espere..."
+        <Border CornerRadius="10"
+        BorderThickness="2"
+        Opacity="0.90">
+
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="{StaticResource windowBorderColor1}" Offset="0"></GradientStop>
+                    <GradientStop Color="{StaticResource windowBorderColor2}" Offset="0.75"></GradientStop>
+                    <GradientStop Color="{StaticResource windowBorderColor3}" Offset="1"></GradientStop>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                    <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.75"></GradientStop>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <TextBlock Text="Calculando, por favor espere..."
                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                   FontSize="14" FontWeight="Bold"/>
-    </Grid>
-
+                   FontSize="14" FontWeight="Bold" Foreground="White" FontFamily="Neo Tech Std"/>
+                
+            </Grid>
+        </Border>
+    </Border>
 </Window>

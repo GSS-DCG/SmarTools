@@ -216,7 +216,7 @@
                                                   Width="25"
                                                   Style="{StaticResource ControlButtonIcon}"/>
                                 </Button>
-                                
+
                                 <Button x:Name="BellBtn"    
                                         Style="{StaticResource IconButton}" 
                                         Tag="{StaticResource General4}"
@@ -228,8 +228,14 @@
                                                   Style="{StaticResource ControlButtonIcon}">
                                     </fa:IconImage>
                                 </Button>
-
-                                
+                                <Border x:Name="StatusInfo" 
+                                        CornerRadius="12"
+                                                  Background="#C72021"
+                                                BorderThickness="4"
+                                                BorderBrush="white"
+                                                  Height="20"
+                                                  Width="20"
+                                                  Margin="5,0,0,0"></Border>
 
                             </StackPanel>
 
