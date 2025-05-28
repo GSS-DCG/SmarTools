@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernUI.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace SmarTools.ViewModel
         public TracSmart2V()
         {
             InitializeComponent();
+            MainView.Globales._producto = "2V";
         }
     }
 }

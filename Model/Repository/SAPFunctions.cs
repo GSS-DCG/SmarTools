@@ -494,6 +494,119 @@ namespace ListadosDeCalculo.Scripts
 
                 return new double[] {N,Vy,Vz,Mt,My,Mz };
             }
+
+            public static double[] ObtenerMaximosEsfuerzos(cSapModel mySapModel, string[] vigas)
+            {
+                int n = vigas.Length;
+                double[][] esfuerzos = new double[6][];
+
+                for (int j = 0; j < 6; j++)
+                    esfuerzos[j] = new double[n];
+
+                for (int i = 0; i < n; i++)
+                {
+                    double[] resultado = ObtenerEsfuerzosEnExtremo(mySapModel, vigas[i], 1);
+                    for (int j = 0; j < 6; j++)
+                        esfuerzos[j][i] = resultado[j];
+                }
+
+                return esfuerzos.Select(e => e.Max()).ToArray();
+
+            }
+
+            public static double[] ObtenerEsfuerzosEnExtremo(cSapModel mySapModel, string barra, int extremo)
+            {
+                double[] Esfuerzos = new double[6];
+
+                int ret = 0;
+
+                mySapModel.SetPresentUnits(eUnits.kN_m_C);
+
+                string inicio = "";
+                string final = "";
+
+                ret = mySapModel.FrameObj.GetPoints(barra, ref inicio, ref final);
+
+                double Xi = 0;
+                double Yi = 0;
+                double Zi = 0;
+                double Xf = 0;
+                double Yf = 0;
+                double Zf = 0;
+
+                mySapModel.PointElm.GetCoordCartesian(inicio, ref Xi, ref Yi, ref Zi);
+                mySapModel.PointElm.GetCoordCartesian(final, ref Xf, ref Yf, ref Zf);
+
+                double L = Math.Sqrt(Math.Pow((Xf - Xi), 2) + Math.Pow((Yf - Yi), 2) + Math.Pow((Zf - Zi), 2));
+
+                double nudo = 0;
+
+                if (extremo == 0)
+                {
+                    nudo = 0;
+                }
+                else if (extremo == 1)
+                {
+                    nudo = L;
+                }
+
+                int NumberResults = 5000;
+                string[] Obj = new string[1];
+                double[] ObjSta = new double[1];
+                string[] Elm = new string[1];
+                double[] ElmSta = new double[1];
+                string[] LoadCase = new string[1];
+                string[] StepType = new string[1];
+                double[] StepNum = new double[1];
+                double[] P = new double[1];
+                double[] V2 = new double[1];
+                double[] V3 = new double[1];
+                double[] T = new double[1];
+                double[] M2 = new double[1];
+                double[] M3 = new double[1];
+
+                if (mySapModel.GetModelIsLocked() == false)
+                {
+                    mySapModel.Analyze.RunAnalysis();
+                }
+
+                mySapModel.Results.Setup.DeselectAllCasesAndCombosForOutput();
+                mySapModel.Results.Setup.SetComboSelectedForOutput("ULS");
+
+                ret = mySapModel.Results.FrameForce(barra, eItemTypeElm.ObjectElm, ref NumberResults, ref Obj, ref ObjSta, ref Elm, ref ElmSta, ref LoadCase, ref StepType, ref StepNum, ref P, ref V2, ref V3, ref T, ref M2, ref M3);
+
+                double[] N = new double[2];
+                double[] Vy = new double[2];
+                double[] Vz = new double[2];
+                double[] Mt = new double[2];
+                double[] My = new double[2];
+                double[] Mz = new double[2];
+
+                int contador = 0;
+
+                for (int i = 0; i < ObjSta.Length; i++)
+                {
+                    if (ObjSta[i] == nudo)
+                    {
+                        N[contador] = P[i];
+                        Vy[contador] = V2[i];
+                        Vz[contador] = V3[i];
+                        Mt[contador] = T[i];
+                        My[contador] = M2[i];
+                        Mz[contador] = M3[i];
+                        contador++;
+                    }
+                }
+
+                Esfuerzos[0] = Math.Max(Math.Abs(N[0]), Math.Abs(N[1]));
+                Esfuerzos[1] = Math.Max(Math.Abs(Vy[0]), Math.Abs(Vy[1]));
+                Esfuerzos[2] = Math.Max(Math.Abs(Vz[0]), Math.Abs(Vz[1]));
+                Esfuerzos[3] = Math.Max(Math.Abs(Mt[0]), Math.Abs(Mt[1]));
+                Esfuerzos[4] = Math.Max(Math.Abs(My[0]), Math.Abs(My[1]));
+                Esfuerzos[5] = Math.Max(Math.Abs(Mz[0]), Math.Abs(Mz[1]));
+
+                return Esfuerzos;
+            }
         }
 
         public class ExcelTablesSubclass // Clase para las funciones que hagan análisis (calcular, seleccionar hipótesis...)

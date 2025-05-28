@@ -45,6 +45,8 @@ namespace ModernUI.View
             public static cOAPI _mySapObject;
             public static cSapModel _mySapModel;
 
+            public static string _producto;
+
         }
 
         private void EstadoConexion(Object sender, EventArgs e)

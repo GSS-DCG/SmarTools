@@ -26,6 +26,7 @@ namespace SmarTools.ViewModel
         public TracSmart1V()
         {
             InitializeComponent();
+            MainView.Globales._producto = "1V";
         }
 
         private void btnNumeroPilares_Click(object sender, RoutedEventArgs e)

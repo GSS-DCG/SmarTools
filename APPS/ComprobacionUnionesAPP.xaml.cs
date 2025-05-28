@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
 using SmarTools.Model.Applications;
+using ModernUI.View;
 
 namespace SmarTools.APPS
 {
@@ -59,6 +60,7 @@ namespace SmarTools.APPS
         private void btnCalcularUniones_Click(object sender, RoutedEventArgs e)
         {
             ComprobacionUniones1V.ComprobarUniones1V(this);
+            
         }
     }
 }
