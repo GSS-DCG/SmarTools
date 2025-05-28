@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using SmarTools.Model.Applications;
 
 namespace SmarTools.APPS
 {
@@ -53,6 +54,11 @@ namespace SmarTools.APPS
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void btnCalcularUniones_Click(object sender, RoutedEventArgs e)
+        {
+            ComprobacionUniones1V.ComprobarUniones1V(this);
         }
     }
 }
