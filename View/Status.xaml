@@ -10,8 +10,10 @@
         WindowStyle="None" 
         ResizeMode="NoResize" 
         ShowInTaskbar="False" 
-        Topmost="True">
-    <Border>
+        Topmost="True"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Border CornerRadius="12">
         <Border.Background>
             <ImageBrush ImageSource="https://www.gsolarsteel.com/wp-content/uploads/2024/11/v2-galeria-2-scaled-1-2048x1088.webp"
                 Stretch="UniformToFill"/>

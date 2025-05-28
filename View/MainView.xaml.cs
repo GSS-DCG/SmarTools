@@ -98,7 +98,7 @@ namespace ModernUI.View
             this.Loaded += MainView_Loaded;
         }
 
-        private async void MainView_Loaded(object sender, RoutedEventArgs e)
+        public async void MainView_Loaded(object sender, RoutedEventArgs e)
         {
             await Herramientas.ConexionSAP2000Async();
         }
@@ -249,6 +249,42 @@ namespace ModernUI.View
             });
         }
 
+        public static void ConexionSAP2000()
+        {
+            cHelper myHelper;
+            cOAPI mySapObject;
+            cSapModel mySapModel;
+
+            string ProgramPath = @"C:\Program Files\Computers and Structures\SAP2000 25\SAP2000.exe";
+
+            try
+            {
+                myHelper = (cHelper)Activator.CreateInstance(Type.GetTypeFromProgID("SAP2000v1.Helper", true));
+                mySapObject = myHelper.CreateObject(ProgramPath);
+                mySapObject.ApplicationStart(eUnits.kN_m_C);
+
+                mySapModel = mySapObject.SapModel;
+
+                // Guardar en variables globales (esto debe hacerse en el hilo principal si afecta a la UI)
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    MainView.Globales._myHelper = myHelper;
+                    MainView.Globales._mySapObject = mySapObject;
+                    MainView.Globales._mySapModel = mySapModel;
+                });
+
+                mySapObject.Hide();
+            }
+            catch (Exception ex)
+            {
+                // Puedes mostrar un mensaje si quieres
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    System.Windows.MessageBox.Show($"Error al iniciar SAP2000: {ex.Message}");
+                });
+            }
+        }
+
         public static void CheckSAP2000()
         {
             MessageBoxResult resultado = MessageBoxResult.Yes;
@@ -312,28 +348,49 @@ namespace ModernUI.View
             int ret = 0;
             string ruta_abrir = string.Empty;
 
-            ruta_abrir = BuscarArchivo();
-
-            MessageBoxResult resultado = MessageBoxResult.Yes;
-
-            while (ruta_abrir == string.Empty)
+            if(MainView.Globales._mySapModel == null)
             {
-                resultado = System.Windows.MessageBox.Show("No se ha seleccionado un archivo de SAP2000\n ¿Cerrar SAP2000?", "ERROR", System.Windows.MessageBoxButton.YesNo);
-
-                if (resultado == MessageBoxResult.Yes)
-                {
-                    if (MainView.Globales._mySapObject != null) { ret = MainView.Globales._mySapObject.Hide(); }
- 
-                    return ret;
-                }
-                else if (resultado == MessageBoxResult.No)
-                {
-                    ruta_abrir = BuscarArchivo();
-                }
+                ConexionSAP2000();
             }
 
-            ret = AbrirArchivo(ruta_abrir);
+            int NumberItems = 0;
+            string[] Item = [];
+            string[] Data = [];
+            try
+            {
+                ret = MainView.Globales._mySapModel.GetProjectInfo(ref NumberItems, ref Item, ref Data);
+            }
+            catch
+            {
+                ConexionSAP2000() ;
+                ret = MainView.Globales._mySapModel.GetProjectInfo(ref NumberItems, ref Item, ref Data);
+            }
             
+
+            if (NumberItems == 0)
+            {
+                ruta_abrir = BuscarArchivo();
+
+                MessageBoxResult resultado = MessageBoxResult.Yes;
+
+                while (ruta_abrir == string.Empty)
+                {
+                    resultado = System.Windows.MessageBox.Show("No se ha seleccionado un archivo de SAP2000\n ¿Cerrar SAP2000?", "ERROR", System.Windows.MessageBoxButton.YesNo);
+
+                    if (resultado == MessageBoxResult.Yes)
+                    {
+                        if (MainView.Globales._mySapObject != null) { ret = MainView.Globales._mySapObject.Hide(); }
+
+                        return ret;
+                    }
+                    else if (resultado == MessageBoxResult.No)
+                    {
+                        ruta_abrir = BuscarArchivo();
+                    }
+                }
+
+                ret = AbrirArchivo(ruta_abrir);
+            }
             return ret;
         } 
 
@@ -350,6 +407,7 @@ namespace ModernUI.View
 
                 ret = CambiarUnidadesSAP2000();
             }
+
             
             return ret;
         }

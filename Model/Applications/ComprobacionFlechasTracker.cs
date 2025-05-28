@@ -23,12 +23,12 @@ namespace SmarTools.Model.Applications
         public static void ComprobarFlechas(ComprobacionFlechasTrackerAPP vista)
         {
             var loadingWindow = new Status();
-            loadingWindow.Show();
-            loadingWindow.UpdateLayout();
 
             try
             {
                 Herramientas.AbrirArchivoSAP2000();
+                loadingWindow.Show();
+                loadingWindow.UpdateLayout();
                 mySapModel.SetPresentUnits(eUnits.N_mm_C);
                 SAP.AnalysisSubclass.RunModel(mySapModel);
                 SAP.AnalysisSubclass.SelectHypotesis(mySapModel, "SLS", false);
@@ -40,7 +40,14 @@ namespace SmarTools.Model.Applications
             }
             finally
             {
-                loadingWindow.Close();
+                try
+                {
+                    loadingWindow.Close();
+                }
+                catch
+                {
+
+                }
             }
         }
 
