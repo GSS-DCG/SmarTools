@@ -22,8 +22,32 @@
     <!---Color Palette-->
     <SolidColorBrush x:Key="Over1">#D1ECFF</SolidColorBrush>
     
+    <Color x:Key="Blue0">#102936</Color>
+    <Color x:Key="Blue1">#103A4F</Color>
+    <Color x:Key="Blue2">#0A4969</Color>
+    <Color x:Key="Blue3">#005782</Color>
+    <Color x:Key="Blue4">#5DBAE8</Color>
+    <Color x:Key="Blue5">#80D4FF</Color>
+    <Color x:Key="Blue6">#99DDFF</Color>
+    <Color x:Key="Blue7">#B3E5FF</Color>
+    <Color x:Key="Blue8">#CCEEFF</Color>
+    <Color x:Key="Blue9">#E5F7FF</Color>
+
+
+    <SolidColorBrush x:Key="Blue00">#102936</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue01">#103A4F</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue02">#0A4969</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue03">#005782</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue04">#5DBAE8</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue05">#80D4FF</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue06">#99DDFF</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue07">#B3E5FF</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue08">#CCEEFF</SolidColorBrush>
+    <SolidColorBrush x:Key="Blue09">#E5F7FF</SolidColorBrush>
     
-    <!---Font Color-->
-    
-    
+    <Color x:Key="Rojo">#BF0013</Color>
+    <Color x:Key="Verde">#00BF2B</Color>
+
+    <SolidColorBrush x:Key="Rojo0">#BF0013</SolidColorBrush>
+    <SolidColorBrush x:Key="Verde0">#00BF2B</SolidColorBrush>
 </ResourceDictionary>

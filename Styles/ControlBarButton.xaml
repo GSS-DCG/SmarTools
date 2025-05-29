@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="Ventana_TEST.Styles.ControlBarButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Ventana_TEST.Styles"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             mc:Ignorable="d">
+
+    <!--Control Bar-->
+    <Grid FlowDirection="RightToLeft">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel 
+            x:Name="pnlControlBar"
+            Grid.Column="0"
+            Orientation="Horizontal"
+            FlowDirection="RightToLeft"
+            Background="Transparent"
+            Margin="0,0,5,0"
+            MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            MouseEnter="pnlControlBar_MouseEnter"
+            Height="25">
+        
+            <Button 
+                x:Name="btnClose"
+                Style="{StaticResource ControlButton}"
+                Tag="{StaticResource Blue03}"
+                Click="btnClose_Click">
+                <fa:IconImage Icon="Xmark" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+            </Button>
+
+            <Button 
+                x:Name="btnMaximize"
+                Style="{StaticResource ControlButton}"
+                Tag="{StaticResource Blue03}"
+                Click="btnMaximize_Click">
+                <fa:IconImage Icon="WindowMaximize" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+            </Button>
+
+            <Button 
+                x:Name="btnMinimize"
+                Style="{StaticResource ControlButton}"
+                Tag="{StaticResource Blue03}"
+                Click="btnMinimize_Click">
+                <fa:IconImage Icon="WindowMinimize" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+            </Button>
+        </StackPanel>
+
+        <Border Grid.Column="1" Background="Transparent" Height="25" VerticalAlignment="Top" MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown" MouseEnter="pnlControlBar_MouseEnter"></Border>
+        
+        <StackPanel 
+            x:Name="pnlControlBarText"
+            Grid.Column="2"
+            Orientation="Horizontal"
+            FlowDirection="LeftToRight"
+            Background="Transparent"
+            Margin="10,0,0,0"
+            MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            MouseEnter="pnlControlBar_MouseEnter"
+            Height="25">
+                <TextBlock 
+                    x:Name="ControlBarTxt"
+                    Foreground="White"
+                    VerticalAlignment="Center"
+                    FontSize="13.5" 
+                    FontWeight="Medium" 
+                    FontFamily="Neo Tech Std" 
+                    Margin="10,0,0,0"
+                    >
+                </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>
