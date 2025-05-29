@@ -46,7 +46,8 @@ namespace SmarTools.ViewModel
 
         private void btnDimensionamiento_Click(object sender, RoutedEventArgs e)
         {
-
+            Dimensionamiento1VAPP App = new Dimensionamiento1VAPP();
+            App.Show();
         }
 
         private void btnItalia_Click(object sender, RoutedEventArgs e)

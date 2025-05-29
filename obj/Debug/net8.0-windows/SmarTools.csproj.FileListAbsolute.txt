@@ -69,3 +69,5 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\refint\SmarTools.dll
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\SmarTools.pdb
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\SmarTools.genruntimeconfig.cache
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\ref\SmarTools.dll
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\Dimensionamiento1VAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\Dimensionamiento1VAPP.baml

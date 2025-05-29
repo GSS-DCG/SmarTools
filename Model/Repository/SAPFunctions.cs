@@ -885,6 +885,60 @@ namespace ListadosDeCalculo.Scripts
                 _fixed = new FixedSubclass(this);
             }
 
+            /// <summary>
+            /// Obtiene una lista de todos los perfiles del modelo SAP2000 ordenados por peso
+            /// </summary>
+            /// <param name="mySapModel">
+            /// Instancia SAP2000
+            /// </param>
+            /// <returns>
+            /// Lista de perfiles ordenados por peso
+            /// </returns>
+            public static string[] GetFrameSectionsInWeightOrder(cSapModel mySapModel)
+            {
+                //Variables para la extracción de la tabla
+                int tableVersion = 0;
+                string[] fieldsKeysIncluded = new string[50];
+                int numberRecords = 0;
+                string[] tableData = new string[5000];
+
+                int ret = mySapModel.DatabaseTables.GetTableForEditingArray("Frame Section Properties 01 - General","ALL",ref tableVersion,ref fieldsKeysIncluded,ref numberRecords,ref tableData);
+
+                if (ret != 0) throw new Exception("Error al obtener la tabla de propiedades de secciones.");
+
+                //Dimensiones de la tabla
+                int columns = fieldsKeysIncluded.Length;
+                int rows = numberRecords;
+
+                //Convierte un array en una matriz 2D para facilitar el acceso por fila y columna
+                string[,] tabla = new string[rows, columns];
+                for (int i = 0; i < rows; i++)
+                {
+                    for (int j = 0; j < columns; j++)
+                    {
+                        int k = i * columns + j;
+                        if (k < tableData.Length)
+                            tabla[i, j] = tableData[k];
+                    }
+                }
+
+                //Busca el índice de la columna "Area" (como no se pueden obtener pesos, filtrar por área es igual que filtrar por peso)
+                int areaCol = Array.IndexOf(fieldsKeysIncluded, "Area");
+                if (areaCol == -1) throw new Exception("No se encontró la columna 'Area'.");
+
+                //Crea una lista de objetos con el nombre del perfil y su área. Luego ordena y elimina duplicados
+                return Enumerable.Range(0, rows)
+                 .Select(i => new
+                 {
+                     Nombre = tabla[i, 0],
+                     Area = double.TryParse(tabla[i, areaCol], out double area) ? area : 0.0
+                 })
+                 .OrderBy(p => p.Area)
+                 .Select(p => p.Nombre.Trim())
+                 .Distinct()
+                 .ToArray();
+            }
+
             public class TrackerSubclass // Funciones para trackers
             {
                 private readonly ElementFinderSubclass _elementFinder;
@@ -1355,8 +1409,6 @@ namespace ListadosDeCalculo.Scripts
                         return null;
                     }
                 }
-
-
 
             }
 
