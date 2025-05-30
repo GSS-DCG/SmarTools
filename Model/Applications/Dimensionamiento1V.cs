@@ -116,7 +116,7 @@ namespace SmarTools.Model.Applications
 
         public static void Dimensionar1V(Dimensionamiento1VAPP vista)
         {
-
+            
         }
 
         public static void ObtenerMateriales(Dimensionamiento1VAPP vista)
@@ -229,71 +229,7 @@ namespace SmarTools.Model.Applications
             }
         }
 
-        private bool verificar_y_redimensionar(cSapModel mySapModel, string group_name, string[] profile_list, float apr_ratio, string design_type)
-        {
-            // Variables para resultados de diseño
-            int ret = 0;
-            int numberSteelItem = 0;
-            int numberColdFormedItem = 0;
-            string[] FrameSteelName = null;
-            string[] FrameColdFormedName = null;
-            double[] Ratio = null;
-            int[] RatioType = null;
-            double[] Location = null;
-            string[] ComboName = null;
-            string[] ErrorSummary = null;
-            string[] WarningSummary = null;
+       
 
-            // Seleccionar el grupo o barra
-            if (group_name.StartsWith("B"))
-            {
-                ret = mySapModel.FrameObj.SetSelected(group_name, true, eItemType.Objects);
-            }
-            else
-            {
-                ret = mySapModel.SelectObj.Group(group_name);
-            }
-
-            // Determinar tipo de item
-            eItemType itemType = group_name.StartsWith("B") ? eItemType.Objects : eItemType.Group;
-
-            // Iniciar diseño según el tipo especificado
-            if (design_type == "Steel")
-            {
-                ret = mySapModel.DesignSteel.StartDesign();
-                ret = mySapModel.DesignSteel.GetSummaryResults(group_name,ref numberSteelItem,ref FrameSteelName,ref Ratio,ref RatioType,ref Location,ref ComboName,ref ErrorSummary,ref WarningSummary,itemType);
-            }
-            else if (design_type == "ColdFormed")
-            {
-                ret = mySapModel.DesignColdFormed.StartDesign();
-                ret = mySapModel.DesignColdFormed.GetSummaryResults(group_name,ref numberColdFormedItem,ref FrameColdFormedName,ref Ratio,ref RatioType,ref Location,ref ComboName,ref ErrorSummary,ref WarningSummary,itemType);
-            }
-            else // Auto-detect based on ratio
-            {
-                ret = mySapModel.DesignColdFormed.StartDesign();
-                ret = mySapModel.DesignColdFormed.GetSummaryResults(group_name,ref numberColdFormedItem,ref FrameColdFormedName,ref Ratio,ref RatioType,ref Location,ref ComboName,ref ErrorSummary,ref WarningSummary,itemType);
-
-                if (Ratio != null && Ratio.Length > 0 && Ratio[0] == 0)
-                {
-                    ret = mySapModel.DesignSteel.StartDesign();
-                    ret = mySapModel.DesignSteel.GetSummaryResults(group_name,ref numberSteelItem,ref FrameSteelName,ref Ratio,ref RatioType,ref Location,ref ComboName,ref ErrorSummary,ref WarningSummary,itemType);
-                }
-            }
-
-            // Verificar ratios y errores
-            if (Ratio != null)
-            {
-                foreach (double ratio in Ratio)
-                {
-                    if (ratio > apr_ratio / 100 || (ErrorSummary != null && ErrorSummary.Length > 0 && ErrorSummary[0].Contains("Section is too slender")))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-
-        }
     }
 }
