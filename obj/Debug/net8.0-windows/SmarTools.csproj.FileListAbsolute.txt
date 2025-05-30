@@ -71,3 +71,7 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\SmarTools.genruntimeconfig.cache
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\ref\SmarTools.dll
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\Dimensionamiento1VAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\Dimensionamiento1VAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\Styles\ControlBarButton.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\Styles\ControlBarButton.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\Styles\Window.baml

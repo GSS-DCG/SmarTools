@@ -743,13 +743,10 @@ namespace ListadosDeCalculo.Scripts
             /// <param name="barra">
             /// Barra que se quiere analizar
             /// </param>
-            /// <param name="punto">
-            /// Posición de la barra que se quiere analizar
-            /// </param>
             /// <returns>
             /// Devuelve el aprovechamiento en cortante y torsión combinadas
             /// </returns>
-            public static double[] ShearTorsionInteractionCheck(cSapModel mySapModel, string barra, double punto)
+            public static double[] ShearTorsionInteractionCheck(cSapModel mySapModel, string barra)
             {
                 //Sacamos del modelo los datos de diseño necesarios. Unidades en N y mm
                 mySapModel.SetPresentUnits(eUnits.N_mm_C);

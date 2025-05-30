@@ -486,7 +486,9 @@
                                           Height="200"
                                           Margin="25,10,10,10"
                                           BorderThickness="2"
-                                          BorderBrush="{StaticResource General2}"/>
+                                          BorderBrush="{StaticResource General2}"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"/>
                                 <TextBlock Text="Resultados"
                                            Margin="10,0,0,0"
                                            Grid.Row="1"
@@ -500,7 +502,9 @@
                                           Height="200"
                                           Margin="25,10,10,10"
                                           BorderThickness="2"
-                                          BorderBrush="{StaticResource General2}"/>
+                                          BorderBrush="{StaticResource General2}"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"/>
                                 <Button x:Name="btnDimensionar"
                                         BorderThickness="0"
                                         Content="Dimensionar"

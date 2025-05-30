@@ -13,6 +13,7 @@ using DocumentFormat.OpenXml.Presentation;
 using DocumentFormat.OpenXml.Spreadsheet;
 using ListadosDeCalculo.Scripts;
 using ModernUI.View;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using SAP2000v1;
 using SmarTools.APPS;
 using SmarTools.View;
@@ -116,7 +117,49 @@ namespace SmarTools.Model.Applications
 
         public static void Dimensionar1V(Dimensionamiento1VAPP vista)
         {
-            
+            //Preparamos el modelo 
+            vista.Progreso.Items.Clear();
+            vista.Resultados.Items.Clear();
+            mySapModel.SetPresentUnits(eUnits.kN_m_C);
+            SAP.AnalysisSubclass.RunModel(mySapModel);
+
+            if(vista.Pilar_motor.Items.Count==0)
+            {
+                MessageBox.Show("Debes filtrar los perfiles antes de dimensionar el modelo","Aviso",MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                mySapModel.SelectObj.ClearSelection();
+
+                //Listas de perfiles
+                string[] perfiles_MP = new string[vista.Pilar_motor.Items.Count];
+                vista.Pilar_motor.Items.CopyTo(perfiles_MP,0);
+                string[] perfiles_GP = new string[vista.Pilar_general.Items.Count];
+                vista.Pilar_general.Items.CopyTo(perfiles_GP, 0);
+                string[] perfiles_vigas = new string[vista.Viga_B1.Items.Count];
+                vista.Viga_B1.Items.CopyTo(perfiles_vigas, 0);
+                string[] perfiles_SB=new string[vista.Viga_secundaria.Items.Count];
+                vista.Viga_secundaria.Items.CopyTo (perfiles_SB, 0);
+
+                var secciones = new Dictionary<string, (string perfil, string[] listaperfiles, eItemType tipo)>
+                {
+                    { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group) },
+                    { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group) },
+                    { "B-1_Motor",("B-1_Motor", perfiles_vigas, eItemType.Objects) },
+                    { "B1_Motor",("B1_Motor", perfiles_vigas,eItemType.Objects) },
+                    { "B-1",("B-1", perfiles_vigas,eItemType.Objects) },
+                    { "B1",("B1", perfiles_vigas,eItemType.Objects) },
+                    { "B-2",("B-2", perfiles_vigas,eItemType.Objects) },
+                    { "B2",("B2", perfiles_vigas,eItemType.Objects) },
+                    { "B-3",("B-3", perfiles_vigas,eItemType.Objects) },
+                    { "B3",("B3", perfiles_vigas,eItemType.Objects) },
+                    { "B-4",("B-4", perfiles_vigas,eItemType.Objects) },
+                    { "B4",("B4", perfiles_vigas,eItemType.Objects) },
+                    { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group) }
+                };
+
+                
+            }
         }
 
         public static void ObtenerMateriales(Dimensionamiento1VAPP vista)
@@ -229,7 +272,147 @@ namespace SmarTools.Model.Applications
             }
         }
 
-       
+        public static string[] ObtenerSeccionYtipo(cSapModel mySapModel,string barra)
+        {
+            //Variables necesarias para SAP2000
+            int ret = 0;
+            int numberItems = 0;
+            int[] objectType = new int[1];
+            string[] itemName = new string[1];
+            string section = "";
 
+            //Variable de salida
+            string[] seccion_tipo = new string[2];
+
+            //Interacción con SAP
+            ret=mySapModel.FrameObj.SetSelected(barra, true, eItemType.Objects);
+            
+            if(ret==0)
+            {
+                mySapModel.SelectObj.GetSelected(ref numberItems,ref objectType,ref itemName);
+                ret = mySapModel.DesignColdFormed.GetDesignSection(barra, ref section);
+                if(section=="")
+                {
+                    mySapModel.DesignSteel.GetDesignSection(barra, ref section);
+                    seccion_tipo = new string[] { section, "Laminado" };
+                }
+                else
+                {
+                    seccion_tipo = new string[] { section, "Conformado" };
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("No se pudo seleccionar el perfil");
+            }
+
+            return seccion_tipo;
+        }
+
+        public static double RatioGrupo(Dimensionamiento1VAPP vista, string grupo,string barra, string[] listaperfiles,eItemType tipo)
+        {
+            string[] seccion_tipo = ObtenerSeccionYtipo(mySapModel, barra);
+            mySapModel.SelectObj.ClearSelection();
+
+            //Variables
+            int numberItems = 0;
+            int[] ObjectType = new int[1], ratioType=new int[1];
+            string[] ObjectName = new string[1], ComboName = new string[1], ErrorSummary = new string[1], WarningSummary = new string[1], PropName = new string[1];
+            double[] Ratio = new double[1], location=new double[1];
+
+            switch (seccion_tipo[1])
+            {
+                case "Laminado":
+
+                    mySapModel.DesignSteel.StartDesign();
+
+                    if (grupo==barra)
+                    {
+                        mySapModel.FrameObj.SetSelected(barra, true, tipo);
+                        mySapModel.DesignSteel.GetSummaryResults(grupo, ref numberItems, ref ObjectName, ref Ratio, ref ratioType, ref location, ref ComboName, ref ErrorSummary, ref WarningSummary, tipo);
+                        if(barra.StartsWith("B"))
+                        {
+                            double[] aprTorsor = SAP.DesignSubclass.ShearTorsionInteractionCheck(mySapModel, barra);
+                        }
+
+                        if (ErrorSummary.Contains("Section is too slender"))
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return Ratio.Max();
+                        }
+                    }
+                    else
+                    {
+                        mySapModel.SelectObj.Group(grupo);
+                        mySapModel.SelectObj.GetSelected(ref numberItems,ref ObjectType,ref ObjectName);
+                        mySapModel.DesignSteel.GetSummaryResults(grupo,ref numberItems,ref ObjectName,ref Ratio,ref ratioType,ref location,ref ComboName,ref ErrorSummary,ref WarningSummary,tipo);
+
+                        if (ErrorSummary.Contains("Section is too slender"))
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return Ratio.Max();
+                        }
+                    }
+
+                    break;
+
+                case "Conformado":
+
+                    mySapModel.DesignColdFormed.StartDesign();
+
+                    if (grupo == barra)
+                    {
+                        mySapModel.FrameObj.SetSelected(barra,true,tipo);
+                        mySapModel.DesignColdFormed.GetSummaryResults(grupo, ref numberItems, ref ObjectName, ref Ratio, ref ratioType, ref location, ref ComboName, ref ErrorSummary, ref WarningSummary, tipo);
+
+                        if(ErrorSummary.Contains("Section is too slender"))
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return Ratio.Max();
+                        }
+                    }
+                    else
+                    {
+                        mySapModel.SelectObj.Group(grupo);
+                        mySapModel.SelectObj.GetSelected(ref numberItems, ref ObjectType, ref ObjectName);
+                        mySapModel.DesignColdFormed.GetSummaryResults(grupo, ref numberItems, ref ObjectName, ref Ratio, ref ratioType, ref location, ref ComboName, ref ErrorSummary, ref WarningSummary, tipo);
+
+                        if (ErrorSummary.Contains("Section is too slender"))
+                        {
+                            return 1;
+                        }
+                        else
+                        {
+                            return Ratio.Max();
+                        }
+                    }
+
+                    break;
+            }
+            mySapModel.SelectObj.ClearSelection();
+
+            return 0;
+        }
+
+        public static void RatioSuperiorSteel(Dimensionamiento1VAPP vista, string barra, double[] Ratio, string[] listaperfiles)
+        {
+            string seccion = "";
+
+            mySapModel.DesignSteel.GetDesignSection(barra, ref seccion);
+            vista.Progreso.Items.Add("Perfil " + seccion + " Ratio: " + Ratio.Max().ToString("F3"));
+            SAP.AnalysisSubclass.UnlockModel(mySapModel);
+            SAP.DesignSubclass.ChangeSection(mySapModel, listaperfiles);
+            SAP.AnalysisSubclass.RunModel(mySapModel);
+        }
     }
 }
