@@ -778,8 +778,8 @@ namespace ListadosDeCalculo.Scripts
                 double MtRd = (1 / Math.Sqrt(3)) * Wt * fyd / 1000;
            
                 //Ratios
-                double AprV = VcEd / VplTEd * 100;
-                double AprM = MtEd / MtRd * 100;
+                double AprV = VcEd / VplTEd ;
+                double AprM = MtEd / MtRd;
                
                 return new[] {Math.Round(AprV,0), Math.Round(AprM,0)}; 
             }

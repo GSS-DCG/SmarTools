@@ -7,8 +7,16 @@
       "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\dimensionamiento1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -30,24 +38,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "LoginWindow.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\LoginWindow.xaml",
+              "RelativeDocumentMoniker": "View\\LoginWindow.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\View\\LoginWindow.xaml",
+              "RelativeToolTip": "View\\LoginWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-02T07:01:21.743Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "ComprobacionFlechasTracker.cs",
               "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionFlechasTracker.cs",
               "RelativeDocumentMoniker": "Model\\Applications\\ComprobacionFlechasTracker.cs",
               "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionFlechasTracker.cs",
               "RelativeToolTip": "Model\\Applications\\ComprobacionFlechasTracker.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAACAAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-30T07:35:19.144Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-30T07:35:19.144Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Dimensionamiento1VAPP.xaml.cs",
               "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml.cs",
               "RelativeDocumentMoniker": "APPS\\Dimensionamiento1VAPP.xaml.cs",
@@ -55,21 +73,7 @@
               "RelativeToolTip": "APPS\\Dimensionamiento1VAPP.xaml.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAABwAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T11:43:28.897Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SAPFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\SAPFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\SAPFunctions.cs",
-              "ViewState": "AgIAAOoCAAAAAAAAAAD4v+gCAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-28T15:07:02.924Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-29T11:43:28.897Z"
             },
             {
               "$type": "Document",
@@ -79,43 +83,44 @@
               "RelativeDocumentMoniker": "Model\\Applications\\Dimensionamiento1V.cs",
               "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento1V.cs",
               "RelativeToolTip": "Model\\Applications\\Dimensionamiento1V.cs",
-              "ViewState": "AgIAAP4AAAAAAAAAAIA7wE8BAAB0AAAAAAAAAA==",
+              "ViewState": "AgIAAKAAAAAAAAAAAAAwwLIAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-29T10:28:07.377Z",
               "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "e7dd1aa8-f582-4197-83d6-0a8d9bec07dc",
-        "Display": 1,
-        "X": 651,
-        "Y": 113,
-        "Width": 1432,
-        "Height": 965,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
+            },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "LoginWindow.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\LoginWindow.xaml.cs",
+              "RelativeDocumentMoniker": "View\\LoginWindow.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\View\\LoginWindow.xaml.cs",
+              "RelativeToolTip": "View\\LoginWindow.xaml.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAmwF8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T07:40:30.027Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainView.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\MainView.xaml",
+              "RelativeDocumentMoniker": "View\\MainView.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\View\\MainView.xaml",
+              "RelativeToolTip": "View\\MainView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-02T08:38:42.887Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Dimensionamiento1VAPP.xaml",
               "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml",
               "RelativeDocumentMoniker": "APPS\\Dimensionamiento1VAPP.xaml",
               "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml",
               "RelativeToolTip": "APPS\\Dimensionamiento1VAPP.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-28T14:08:22.723Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-28T14:08:22.723Z"
             }
           ]
         }

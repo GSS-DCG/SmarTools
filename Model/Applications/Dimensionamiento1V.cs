@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.AccessControl;
@@ -157,8 +158,47 @@ namespace SmarTools.Model.Applications
                     { "B4",("B4", perfiles_vigas,eItemType.Objects) },
                     { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group) }
                 };
+                List<double> ratios = new List<double>();
 
-                
+                bool comprobacion=false;
+
+                while (comprobacion)
+                {
+                    foreach (var propiedad in secciones)
+                    {
+                        string grupo = propiedad.Key;
+                        string perfil = propiedad.Value.perfil;
+                        string[] listaperfiles = propiedad.Value.listaperfiles;
+                        eItemType tipo = propiedad.Value.tipo;
+                        double ratio = RatioGrupo(vista, grupo, perfil, listaperfiles, tipo);
+                        ratios.Add(ratio);
+                    }
+
+                    if(ratios.Max() < 1)
+                    {
+                        comprobacion = true;
+                    }
+
+                    int index = 0;
+
+                    SAP.AnalysisSubclass.UnlockModel(mySapModel);
+
+                    foreach (var propiedad in secciones)
+                    {
+                        string grupo = propiedad.Key;
+                        string perfil = propiedad.Value.perfil;
+                        string[] listaperfiles = propiedad.Value.listaperfiles;
+                        eItemType tipo = propiedad.Value.tipo;
+                        double ratio = ratios[index];
+                        if (ratio != 0 && ratio > 1)
+                        {
+                            RatioSuperior(vista, grupo, perfil, ratio, listaperfiles, tipo);
+                        }
+                        index++;
+                    }
+
+                    SAP.AnalysisSubclass.RunModel(mySapModel);
+                }
             }
         }
 
@@ -334,11 +374,14 @@ namespace SmarTools.Model.Applications
                         if(barra.StartsWith("B"))
                         {
                             double[] aprTorsor = SAP.DesignSubclass.ShearTorsionInteractionCheck(mySapModel, barra);
+                            if (aprTorsor[0]>1||aprTorsor[1]>1)
+                            {
+                                return 2;
+                            }
                         }
-
                         if (ErrorSummary.Contains("Section is too slender"))
                         {
-                            return 1;
+                            return 2;
                         }
                         else
                         {
@@ -361,8 +404,6 @@ namespace SmarTools.Model.Applications
                         }
                     }
 
-                    break;
-
                 case "Conformado":
 
                     mySapModel.DesignColdFormed.StartDesign();
@@ -371,10 +412,17 @@ namespace SmarTools.Model.Applications
                     {
                         mySapModel.FrameObj.SetSelected(barra,true,tipo);
                         mySapModel.DesignColdFormed.GetSummaryResults(grupo, ref numberItems, ref ObjectName, ref Ratio, ref ratioType, ref location, ref ComboName, ref ErrorSummary, ref WarningSummary, tipo);
-
-                        if(ErrorSummary.Contains("Section is too slender"))
+                        if (barra.StartsWith("B"))
                         {
-                            return 1;
+                            double[] aprTorsor = SAP.DesignSubclass.ShearTorsionInteractionCheck(mySapModel, barra);
+                            if (aprTorsor[0] > 1 || aprTorsor[1] > 1)
+                            {
+                                return 2;
+                            }
+                        }
+                        if (ErrorSummary.Contains("Section is too slender"))
+                        {
+                            return 2;
                         }
                         else
                         {
@@ -396,23 +444,28 @@ namespace SmarTools.Model.Applications
                             return Ratio.Max();
                         }
                     }
-
-                    break;
             }
             mySapModel.SelectObj.ClearSelection();
 
             return 0;
         }
 
-        public static void RatioSuperiorSteel(Dimensionamiento1VAPP vista, string barra, double[] Ratio, string[] listaperfiles)
+        public static void RatioSuperior(Dimensionamiento1VAPP vista, string grupo, string barra, double Ratio, string[] listaperfiles,eItemType tipo)
         {
             string seccion = "";
 
             mySapModel.DesignSteel.GetDesignSection(barra, ref seccion);
-            vista.Progreso.Items.Add("Perfil " + seccion + " Ratio: " + Ratio.Max().ToString("F3"));
-            SAP.AnalysisSubclass.UnlockModel(mySapModel);
+            vista.Progreso.Items.Add("Perfil " + seccion + " no válido. Ratio: " + Ratio.ToString("F3"));
+            if (grupo == barra)
+            {
+                mySapModel.FrameObj.SetSelected(barra, true, tipo);
+            }
+            else
+            {
+                mySapModel.SelectObj.Group(grupo);
+            }
             SAP.DesignSubclass.ChangeSection(mySapModel, listaperfiles);
-            SAP.AnalysisSubclass.RunModel(mySapModel);
+            
         }
     }
 }
