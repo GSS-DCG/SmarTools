@@ -36,7 +36,7 @@ namespace SmarTools.Model.Applications
             LimpiarListasPerfiles(vista.Pilar_motor, vista.Pilar_general,vista.Viga_B1, vista.Viga_B2, vista.Viga_B3, vista.Viga_B4,vista.Viga_secundaria);
 
             // Ejecutar análisis y obtener perfiles
-            SAP.AnalysisSubclass.RunModel(mySapModel);
+            //SAP.AnalysisSubclass.RunModel(mySapModel);
             string[] Perfiles = SAP.ElementFinderSubclass.GetFrameSectionsInWeightOrder(mySapModel);
 
             // Variables de entrada
@@ -142,62 +142,92 @@ namespace SmarTools.Model.Applications
                 string[] perfiles_SB=new string[vista.Viga_secundaria.Items.Count];
                 vista.Viga_secundaria.Items.CopyTo (perfiles_SB, 0);
 
-                var secciones = new Dictionary<string, (string perfil, string[] listaperfiles, eItemType tipo)>
+                var secciones = new Dictionary<string, (string barraControl, string[] listaperfiles, eItemType tipo,double ratiomax)>
                 {
-                    { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group) },
-                    { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group) },
-                    { "B-1_Motor",("B-1_Motor", perfiles_vigas, eItemType.Objects) },
-                    { "B1_Motor",("B1_Motor", perfiles_vigas,eItemType.Objects) },
-                    { "B-1",("B-1", perfiles_vigas,eItemType.Objects) },
-                    { "B1",("B1", perfiles_vigas,eItemType.Objects) },
-                    { "B-2",("B-2", perfiles_vigas,eItemType.Objects) },
-                    { "B2",("B2", perfiles_vigas,eItemType.Objects) },
-                    { "B-3",("B-3", perfiles_vigas,eItemType.Objects) },
-                    { "B3",("B3", perfiles_vigas,eItemType.Objects) },
-                    { "B-4",("B-4", perfiles_vigas,eItemType.Objects) },
-                    { "B4",("B4", perfiles_vigas,eItemType.Objects) },
-                    { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group) }
+                    { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group,0.9) },
+                    { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group,0.9) },
+                    { "B-1_Motor",("B-1_Motor", perfiles_vigas, eItemType.Objects,1) },
+                    { "B1_Motor",("B1_Motor", perfiles_vigas,eItemType.Objects,1) },
+                    { "B-1",("B-1", perfiles_vigas,eItemType.Objects,1) },
+                    { "B1",("B1", perfiles_vigas,eItemType.Objects,1) },
+                    { "B-2",("B-2", perfiles_vigas,eItemType.Objects,1) },
+                    { "B2",("B2", perfiles_vigas,eItemType.Objects,1) },
+                    { "B-3",("B-3", perfiles_vigas,eItemType.Objects,1) },
+                    { "B3",("B3", perfiles_vigas,eItemType.Objects,1) },
+                    { "B-4",("B-4", perfiles_vigas,eItemType.Objects,1) },
+                    { "B4",("B4", perfiles_vigas,eItemType.Objects,1) },
+                    { "B-5",("B-5", perfiles_vigas,eItemType.Objects,1) },
+                    { "B5",("B5", perfiles_vigas,eItemType.Objects,1) },
+                    { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group,1) }
                 };
                 List<double> ratios = new List<double>();
 
                 bool comprobacion=false;
+                int index = 0;
 
-                while (comprobacion)
+                while (comprobacion==false)
                 {
+                    ratios.Clear();
+
                     foreach (var propiedad in secciones)
                     {
                         string grupo = propiedad.Key;
-                        string perfil = propiedad.Value.perfil;
+                        string barraControl = propiedad.Value.barraControl;
                         string[] listaperfiles = propiedad.Value.listaperfiles;
                         eItemType tipo = propiedad.Value.tipo;
-                        double ratio = RatioGrupo(vista, grupo, perfil, listaperfiles, tipo);
+                        double ratio = RatioGrupo(vista, grupo, barraControl, listaperfiles, tipo);
                         ratios.Add(ratio);
                     }
 
-                    if(ratios.Max() < 1)
+                    List<bool> comprobacionPorGrupo = new List<bool>();
+
+                    index = 0;
+
+                    for (int i = 0; i < ratios.Count; i++)
+                    {
+                        double ratiomax = secciones.ElementAt(i).Value.ratiomax;
+                        comprobacionPorGrupo.Add(ratios[i] < ratiomax);
+                    }
+
+                    if(!comprobacionPorGrupo.Contains(false))
                     {
                         comprobacion = true;
                     }
 
-                    int index = 0;
+                    index = 0;
 
                     SAP.AnalysisSubclass.UnlockModel(mySapModel);
 
                     foreach (var propiedad in secciones)
                     {
                         string grupo = propiedad.Key;
-                        string perfil = propiedad.Value.perfil;
+                        string barraControl = propiedad.Value.barraControl;
                         string[] listaperfiles = propiedad.Value.listaperfiles;
                         eItemType tipo = propiedad.Value.tipo;
+                        double ratiomax=propiedad.Value.ratiomax;
                         double ratio = ratios[index];
-                        if (ratio != 0 && ratio > 1)
+                        if (ratio != 0 && ratio > ratiomax)
                         {
-                            RatioSuperior(vista, grupo, perfil, ratio, listaperfiles, tipo);
+                            mySapModel.SelectObj.ClearSelection();
+                            RatioSuperior(vista, grupo, barraControl, ratio, listaperfiles, tipo);
                         }
                         index++;
                     }
 
                     SAP.AnalysisSubclass.RunModel(mySapModel);
+                }
+
+                index = 0;
+
+                foreach (var propiedad in secciones)
+                {
+                    string barraControl = propiedad.Value.barraControl;
+                    if (ratios[index]!=0 && ratios[index] < 1)
+                    {
+                        Resultados(vista, barraControl, ratios[index]);
+                    }
+
+                    index++;
                 }
             }
         }
@@ -342,10 +372,6 @@ namespace SmarTools.Model.Applications
                 }
 
             }
-            else
-            {
-                MessageBox.Show("No se pudo seleccionar el perfil");
-            }
 
             return seccion_tipo;
         }
@@ -452,10 +478,21 @@ namespace SmarTools.Model.Applications
 
         public static void RatioSuperior(Dimensionamiento1VAPP vista, string grupo, string barra, double Ratio, string[] listaperfiles,eItemType tipo)
         {
-            string seccion = "";
+            string[] seccion_tipo = ObtenerSeccionYtipo(mySapModel, barra);
+            string propname = "";
 
-            mySapModel.DesignSteel.GetDesignSection(barra, ref seccion);
-            vista.Progreso.Items.Add("Perfil " + seccion + " no válido. Ratio: " + Ratio.ToString("F3"));
+            switch (seccion_tipo[1])
+            {
+                case "Laminado":
+                    mySapModel.DesignSteel.GetDesignSection(barra,ref propname);
+                    break;
+                case "Conformado":
+                    mySapModel.DesignColdFormed.GetDesignSection(barra, ref propname);
+                    break;
+            }
+
+            vista.Progreso.Items.Add("Perfil " + propname + " no válido. Ratio: " + Ratio.ToString("F3"));
+            
             if (grupo == barra)
             {
                 mySapModel.FrameObj.SetSelected(barra, true, tipo);
@@ -465,7 +502,13 @@ namespace SmarTools.Model.Applications
                 mySapModel.SelectObj.Group(grupo);
             }
             SAP.DesignSubclass.ChangeSection(mySapModel, listaperfiles);
-            
+        }
+
+        public static void Resultados(Dimensionamiento1VAPP vista, string barra, double ratio)
+        {
+            string[] seccion_tipo = ObtenerSeccionYtipo(mySapModel, barra);
+
+            vista.Resultados.Items.Add("Perfil " + seccion_tipo[0] + " no válido. Ratio: " + ratio.ToString("F3"));
         }
     }
 }
