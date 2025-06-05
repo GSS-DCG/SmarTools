@@ -1018,6 +1018,36 @@ namespace ListadosDeCalculo.Scripts
                     return vigas;
                 }
 
+                public static string[] BeamNames(cSapModel mySapModel, string grupo)
+                {
+                    mySapModel.SelectObj.ClearSelection();
+                    int ret=mySapModel.FrameObj.SetSelected(grupo,true, eItemType.Group);
+
+                    int NumberItems = 0;
+                    int[] ObjectType=new int[1];
+                    string[] ObjectName= new string[1];
+
+                    mySapModel.SelectObj.GetSelected(ref NumberItems,ref ObjectType,ref ObjectName);
+
+                    return ObjectName;
+                }
+
+                public static string BeamName(cSapModel mySapModel,string nombreBarra)
+                {
+                    mySapModel.SelectObj.ClearSelection();
+                    int ret = mySapModel.FrameObj.SetSelected(nombreBarra, true, eItemType.Objects);
+
+                    int NumberItems = 0;
+                    int[] ObjectType = new int[1];
+                    string[] ObjectName = new string[1];
+
+                    mySapModel.SelectObj.GetSelected(ref NumberItems, ref ObjectType, ref ObjectName);
+
+                    string seccion=ObjectName[0];
+
+                    return seccion;
+                }
+
                 /// <summary>
                 /// Devuelve un array con los nombres de las vigas del lado sur que existen en el modelo SAP2000.
                 /// </summary>

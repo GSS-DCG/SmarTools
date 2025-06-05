@@ -121,8 +121,7 @@ namespace SmarTools.Model.Applications
             //Preparamos el modelo 
             vista.Progreso.Items.Clear();
             vista.Resultados.Items.Clear();
-            mySapModel.SetPresentUnits(eUnits.kN_m_C);
-            SAP.AnalysisSubclass.RunModel(mySapModel);
+            
 
             if(vista.Pilar_motor.Items.Count==0)
             {
@@ -142,28 +141,31 @@ namespace SmarTools.Model.Applications
                 string[] perfiles_SB=new string[vista.Viga_secundaria.Items.Count];
                 vista.Viga_secundaria.Items.CopyTo (perfiles_SB, 0);
 
+                int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
+                string[] vigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNames(mySapModel,"04 Vigas Principales");
+                int mitad = vigas.Length / 2;
+                string[] vigasNorte=vigas.Take(mitad).ToArray();
+                string[] vigasSur=vigas.Skip(mitad).ToArray();
+
                 var secciones = new Dictionary<string, (string barraControl, string[] listaperfiles, eItemType tipo,double ratiomax)>
                 {
                     { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group,0.9) },
                     { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group,0.9) },
-                    { "B-1_Motor",("B-1_Motor", perfiles_vigas, eItemType.Objects,1) },
-                    { "B1_Motor",("B1_Motor", perfiles_vigas,eItemType.Objects,1) },
-                    { "B-1",("B-1", perfiles_vigas,eItemType.Objects,1) },
-                    { "B1",("B1", perfiles_vigas,eItemType.Objects,1) },
-                    { "B-2",("B-2", perfiles_vigas,eItemType.Objects,1) },
-                    { "B2",("B2", perfiles_vigas,eItemType.Objects,1) },
-                    { "B-3",("B-3", perfiles_vigas,eItemType.Objects,1) },
-                    { "B3",("B3", perfiles_vigas,eItemType.Objects,1) },
-                    { "B-4",("B-4", perfiles_vigas,eItemType.Objects,1) },
-                    { "B4",("B4", perfiles_vigas,eItemType.Objects,1) },
-                    { "B-5",("B-5", perfiles_vigas,eItemType.Objects,1) },
-                    { "B5",("B5", perfiles_vigas,eItemType.Objects,1) },
                     { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group,1) }
                 };
+
+                for (int i=0;i<vigas.Length;i++)
+                {
+                    secciones[vigas[i]] = (vigas[i], perfiles_vigas, eItemType.Objects, 1);
+                }
+
                 List<double> ratios = new List<double>();
 
                 bool comprobacion=false;
                 int index = 0;
+
+                mySapModel.SetPresentUnits(eUnits.kN_m_C);
+                SAP.AnalysisSubclass.RunModel(mySapModel);
 
                 while (comprobacion==false)
                 {
@@ -219,12 +221,29 @@ namespace SmarTools.Model.Applications
 
                 index = 0;
 
-                foreach (var propiedad in secciones)
+                var resumen = new Dictionary<string, (string[] nombreBarras, eItemType tipo)>
                 {
-                    string barraControl = propiedad.Value.barraControl;
+                    { "Pilar motor",(new []{"Column_0"},eItemType.Group)},
+                    {"Pilares generales",(new[]{"Column_1"},eItemType.Group)},
+                    {"Vigas Secundarias",(new[]{"SBsN_2"},eItemType.Group)}
+                };
+
+                resumen["Viga motor"] = (new[] { vigasNorte[0], vigasSur[0] },eItemType.Objects);
+
+                for (int i = 1; i < vigasNorte.Length; i++)
+                {
+                    resumen["Viga B" + (i + 1)] = (new[] { vigasNorte[i], vigasSur[i] },eItemType.Objects);
+                }
+
+                foreach (var propiedad in resumen)
+                {
+                    string elemento = propiedad.Key;
+                    string[] nombreBarras=propiedad.Value.nombreBarras;
+                    eItemType tipo=propiedad.Value.tipo;
+
                     if (ratios[index]!=0 && ratios[index] < 1)
                     {
-                        Resultados(vista, barraControl, ratios[index]);
+                        Resultados(vista, elemento,nombreBarras, ratios[index]);
                     }
 
                     index++;
@@ -491,7 +510,7 @@ namespace SmarTools.Model.Applications
                     break;
             }
 
-            vista.Progreso.Items.Add("Perfil " + propname + " no válido. Ratio: " + Ratio.ToString("F3"));
+            vista.Progreso.Items.Add("Perfil " + propname + " no válido. Ratio: " + Ratio.ToString("F2"));
             
             if (grupo == barra)
             {
@@ -504,11 +523,34 @@ namespace SmarTools.Model.Applications
             SAP.DesignSubclass.ChangeSection(mySapModel, listaperfiles);
         }
 
-        public static void Resultados(Dimensionamiento1VAPP vista, string barra, double ratio)
+        public static void Resultados(Dimensionamiento1VAPP vista, string elemento,string[]nombreBarras, double ratio)
         {
-            string[] seccion_tipo = ObtenerSeccionYtipo(mySapModel, barra);
+            if(nombreBarras.Length==2)//Vigas principales
+            {
+                double[] tuboNorte = SAP.AnalysisSubclass.GetSHSProperties(mySapModel, nombreBarras[0]);
+                double[] tuboSur = SAP.AnalysisSubclass.GetSHSProperties(mySapModel, nombreBarras[1]);
 
-            vista.Resultados.Items.Add("Perfil " + seccion_tipo[0] + " no válido. Ratio: " + ratio.ToString("F3"));
+                if (tuboNorte[1] != tuboSur[1])
+                {
+                    if (tuboNorte[1] > tuboSur[1])
+                    {
+                        string seccionNorte = SAP.ElementFinderSubclass.TrackerSubclass.BeamName(mySapModel, nombreBarras[0]);
+                        mySapModel.SelectObj.ClearSelection();
+                        mySapModel.FrameObj.SetSection(nombreBarras[1], seccionNorte, eItemType.Objects);
+
+                    }
+                    else
+                    {
+                        string seccionSur = SAP.ElementFinderSubclass.TrackerSubclass.BeamName(mySapModel, nombreBarras[1]);
+                        mySapModel.SelectObj.ClearSelection();
+                        mySapModel.FrameObj.SetSection(nombreBarras[1], seccionSur, eItemType.Objects);
+                    }
+                }
+            }
+
+            string[] seccion_tipo = ObtenerSeccionYtipo(mySapModel, nombreBarras[0]);
+
+            vista.Resultados.Items.Add(elemento+": " + seccion_tipo[0]+" Ratio: "+ ratio.ToString("F2"));
         }
     }
 }
