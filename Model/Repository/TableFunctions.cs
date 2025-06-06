@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ListadosDeCalculo.Scripts
+namespace SmarTools.Model.Repository
 {
     class TableFunctions
     {
@@ -20,7 +20,7 @@ namespace ListadosDeCalculo.Scripts
         /// <returns>
         /// Devuelve la tabla con las columnas seleccionadas
         /// </returns>
-        public string[,] GetTableColumns(string[,] table, string[] columnNames)
+        public static string[,] GetTableColumns(string[,] table, string[] columnNames)
         {
             int filas = table.GetLength(0);
             int columnas = columnNames.Length;
@@ -66,7 +66,7 @@ namespace ListadosDeCalculo.Scripts
         /// <returns>
         /// Devuelve la tabla filtrada
         /// </returns>
-        public string[,] FilterTableEqual(string[,] table, string column, string value)
+        public static string[,] FilterTableEqual(string[,] table, string column, string value)
         {
             int filas = table.GetLength(0);
             int columnas = table.GetLength(1);
@@ -147,7 +147,7 @@ namespace ListadosDeCalculo.Scripts
         /// <returns>
         /// Devuelve la tabla filtrada
         /// </returns>
-        public string[,] FilterTableNotEqual(string[,] table, string column, string value)
+        public static string[,] FilterTableNotEqual(string[,] table, string column, string value)
         {
             int filas = table.GetLength(0);
             int columnas = table.GetLength(1);
@@ -232,7 +232,7 @@ namespace ListadosDeCalculo.Scripts
         /// <returns>
         /// Devuelve la tabla filtrada
         /// </returns>
-        public string[,] FilterTableByComparison(string[,] table, string column, double value, bool? minor = null)
+        public static string[,] FilterTableByComparison(string[,] table, string column, double value, bool? minor = null)
         {
             int filas = table.GetLength(0);
             int columnas = table.GetLength(1);
@@ -317,7 +317,7 @@ namespace ListadosDeCalculo.Scripts
         /// <returns>
         /// string [,] tabla 
         /// </returns>
-        public string[,] ConvertListToTable(List<string[]> lista)
+        public static string[,] ConvertListToTable(List<string[]> lista)
         {
 
             if (lista == null || lista.Count == 0)

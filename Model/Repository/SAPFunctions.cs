@@ -13,7 +13,7 @@ using Microsoft.VisualBasic;
 using SAP2000v1;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace ListadosDeCalculo.Scripts
+namespace SmarTools.Model.Repository
 {
     class SAP
     {
@@ -57,7 +57,7 @@ namespace ListadosDeCalculo.Scripts
             /// Abre la aplicación SAP2000 y te devuelve la instancia del objeto.
             /// </summary>
             /// <returns>Instancia del objecto SAP.</returns>
-            public cOAPI OpenSAPObject()
+            public static cOAPI OpenSAPObject()
             {
                 cHelper myHelper = new Helper();
                 cOAPI mySapObject = null;
@@ -75,7 +75,7 @@ namespace ListadosDeCalculo.Scripts
             /// <returns>
             /// Devuelve el objeto SAP abierto
             /// </returns>
-            public cOAPI OpenSAPObjectHidden()
+            public static cOAPI OpenSAPObjectHidden()
             {
                 cHelper myHelper = new Helper();
                 cOAPI mySapObject = null;
@@ -96,7 +96,7 @@ namespace ListadosDeCalculo.Scripts
             /// <returns>
             /// Instancia del modelo de SAP2000 (SapModel).
             /// </returns>
-            public cSapModel OpenSAPModel(cOAPI SapObject)
+            public static cSapModel OpenSAPModel(cOAPI SapObject)
             {
                 mySapModel = SapObject.SapModel;
                 mySapModel.InitializeNewModel();
@@ -113,7 +113,7 @@ namespace ListadosDeCalculo.Scripts
             /// <param name="SapFileRoute">
             /// Ruta del fichero .sdb de SAP2000 que se desea cargar (string). 
             /// </param>
-            public void LoadModels(cSapModel SapModel, string SAPFileRoute)
+            public static void LoadModels(cSapModel SapModel, string SAPFileRoute)
             {
                 SapModel.File.OpenFile(SAPFileRoute);
             }
@@ -129,7 +129,7 @@ namespace ListadosDeCalculo.Scripts
             /// <param name="SapModel">
             /// Instancia del modelo SAP (SapModel). 
             /// </param>
-            public void CloseModels(cOAPI SAPObject, cSapModel SapModel)
+            public static void CloseModels(cOAPI SAPObject, cSapModel SapModel)
             {
                 SAPObject.ApplicationExit(true);
                 SAPObject = null;
@@ -629,7 +629,7 @@ namespace ListadosDeCalculo.Scripts
             /// <param name="TableKey">
             /// Array de strings con los nombres de las tablas a extraer. 
             /// </param>
-            public void ExtractDataInExcel(cSapModel SapModel, string[] TableKey)
+            public static void ExtractDataInExcel(cSapModel SapModel, string[] TableKey)
             {
                 int WindowHandle = 1;
                 SapModel.DatabaseTables.ShowTablesInExcel(ref TableKey, WindowHandle);
@@ -647,7 +647,7 @@ namespace ListadosDeCalculo.Scripts
             /// <returns>
             /// Devuelve la tabla completa del modelo SAP2000
             /// </returns>
-            public string[,] GetTableArray(cSapModel mySapModel, string tableName)
+            public static string[,] GetTableArray(cSapModel mySapModel, string tableName)
             {
                 int ret = 0;
                 string[] FieldKeyList = new string[500];
@@ -1453,7 +1453,130 @@ namespace ListadosDeCalculo.Scripts
 
         }
 
-        public string[,] TablaConnectivityFrame(cSapModel mySapModel)
+        public static string[] GetElements(cSapModel mySapModel, int objectType)
+        {
+            //Seleccionamos todo en el modelo
+            mySapModel.SelectObj.All();
+
+            int NumberItems = 0;
+            int[] Type = new int[1];
+            string[] ObjectName = new string[1];
+
+            mySapModel.SelectObj.GetSelected(ref NumberItems, ref Type, ref ObjectName);
+
+            //Obtenemos el listado de elementos en función de lo que se necesite: 
+            // 1:Point Object
+            // 2:Frame Object
+            // 3:Cable Object
+            // 4:Tendom Object
+            // 5:Area Object
+            // 6:Solid Object
+            // 7:Link Object
+
+            List<string> nombres = new List<string>();
+            for (int i = 0; i < NumberItems; i++)
+            {
+                if (Type[i] == objectType)
+                {
+                    nombres.Add(ObjectName[i]);
+                }
+            }
+
+            string[] elementos = nombres.ToArray();
+
+            mySapModel.SelectObj.ClearSelection();
+
+            return elementos;
+        }
+
+        public static double GetLength(cSapModel mySapModel, string Point1, string Point2)
+        {
+            double X1 = 0;
+            double Y1 = 0;
+            double Z1 = 0;
+            double X2 = 0;
+            double Y2 = 0;
+            double Z2 = 0;
+
+            mySapModel.PointElm.GetCoordCartesian(Point1, ref X1, ref Y1, ref Z1);
+            mySapModel.PointElm.GetCoordCartesian(Point2, ref X2, ref Y2, ref Z2);
+
+            double dx = X2 - X1;
+            double dy = Y2 - Y1;
+            double dz = Z2 - Z1;
+
+            return Math.Sqrt(dx * dx + dy * dy + dz * dz);
+        }
+
+        public static string[,] ConvertListToTable(List<string[]> lista)
+        {
+
+            if (lista == null || lista.Count == 0)
+            {
+                return new string[0, 0];
+            }
+
+            int filas = lista.Count;
+            int columnas = lista[0].Length;
+
+            string[,] resultado = new string[filas, columnas];
+
+            for (int i = 0; i < filas; i++)
+            {
+                for (int j = 0; j < columnas; j++)
+                {
+                    resultado[i, j] = lista[i][j];
+                }
+            }
+
+            return resultado;
+        }
+
+        public static string[,] TablaJointCoordinates(cSapModel mySapModel)
+        {
+            //Obtenemos la lista de nudos (Point Element=1)
+            string[] nudos = GetElements(mySapModel, 1);
+
+            //Generamos la lista y el encabezado de la tabla
+            List<string[]> TablaJointCoordinates = new List<string[]>();
+            string[] encabezado = new string[6]
+                {
+                    "Joint\nText",
+                    "CoordSys\nText",
+                    "CoordType\nText",
+                    "GlobalX\n(m)",
+                    "GlobalY\n(m)",
+                    "GlobalZ\n(m)",
+                };
+            TablaJointCoordinates.Add(encabezado);
+
+            //Obtenemos las coordenadas de todos los nudos y los almacenamos en la lista
+            double X = 0;
+            double Y = 0;
+            double Z = 0;
+
+            for (int i = 0; i < nudos.Length; i++)
+            {
+                mySapModel.PointElm.GetCoordCartesian(nudos[i], ref X, ref Y, ref Z);
+                string[] fila = new string[6]
+                {
+                    nudos[i],
+                    "GLOBAL",
+                    "Cartesian",
+                    X.ToString("F3"),
+                    Y.ToString("F3"),
+                    Z.ToString("F3"),
+                };
+                TablaJointCoordinates.Add(fila);
+            }
+
+            //Convertimos la lista en un array bidimensional 
+            string[,] tabla = ConvertListToTable(TablaJointCoordinates);
+
+            return tabla;
+        }
+
+        public static string[,] TablaConnectivityFrame(cSapModel mySapModel)
         {
             //Seleccionamos las barras (Frame Object=2)
             string[] barras = SAP.AnalysisSubclass.GetElements(mySapModel,2);
@@ -1496,7 +1619,7 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaMaterialColdFormed(cSapModel mySapModel)
+        public static string[,] TablaMaterialColdFormed(cSapModel mySapModel)
         {
             int numberNames = 0;
             string[] MyName = new string[1];
@@ -1537,7 +1660,7 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaMaterialSteel(cSapModel mySapModel)
+        public static string[,] TablaMaterialSteel(cSapModel mySapModel)
         {
             int numberNames = 0;
             string[] MyName = new string[1];
@@ -1585,7 +1708,7 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaSectionProperties(cSapModel mySapModel)
+        public static string[,] TablaSectionProperties(cSapModel mySapModel)
         {
             //Obtenemos la lista con todos los frames del modelo (Frame Object=2)
             string[] barras = SAP.AnalysisSubclass.GetElements(mySapModel, 2);
@@ -1695,7 +1818,7 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaSectionAssignments(cSapModel mySapModel)
+        public static string[,] TablaSectionAssignments(cSapModel mySapModel)
         {
             //Obtenemos la lista con todos los frames del modelo (Frame Object=2)
             string[] barras = SAP.AnalysisSubclass.GetElements(mySapModel, 2);
@@ -1732,7 +1855,7 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaJointReactions(cSapModel mySapModel)
+        public static string[,] TablaJointReactions(cSapModel mySapModel)
         {
             int ret = 0;
 
@@ -1772,7 +1895,7 @@ namespace ListadosDeCalculo.Scripts
 
                     // Activa un caso de carga estático que sí tenga reacciones
                     ret = mySapModel.Results.Setup.SetComboSelectedForOutput(caseNames[i], true);
-                    tabla = ExcelTables.GetTableArray(mySapModel,"Joint Reactions");
+                    tabla = ExcelTablesSubclass.GetTableArray(mySapModel,"Joint Reactions");
                     string[] columnas= new string[]{ "Joint", "OutputCase", "F1", "F2", "F3", "M1", "M2", "M3" };
                     tabla = TableFunctions.GetTableColumns(tabla,columnas);
                     for(int j = 1;j<tabla.GetLength(0);j++)
@@ -1797,7 +1920,7 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaElementForces(cSapModel mySapModel)
+        public static string[,] TablaElementForces(cSapModel mySapModel)
         {
             string Name = "";
             int NumberResults = 0;
@@ -1870,9 +1993,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaColdFormedDesign1(cSapModel SapModel, string[]tablas)
+        public static string[,] TablaColdFormedDesign1(cSapModel SapModel, string[]tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[8]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[8]);
 
             string[] columnas= new string[] { "Frame", "DesignSect", "DesignType", "Combo", "CombinedEq", "TotalRatio" };
             tabla=TableFunctions.GetTableColumns(tabla,columnas);
@@ -1887,9 +2010,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaColdFormedDesign2(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaColdFormedDesign2(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[9]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[9]);
 
             string[] columnas = new string[] { "Frame", "DesignSect", "DesignType", "Combo", "Location", "NtRd", "NcRd" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);
@@ -1904,9 +2027,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaColdFormedDesign3a(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaColdFormedDesign3a(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[10]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[10]);
 
             string[] columnas = new string[] { "Frame", "DesignSect", "Combo", "Location", "MbRd", "McRd", "MRk" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);
@@ -1921,9 +2044,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaColdFormedDesign3b(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaColdFormedDesign3b(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[11]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[11]);
 
             string[] columnas = new string[] { "Frame", "DesignSect", "Combo", "Location", "McRd", "MRk" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);
@@ -1938,9 +2061,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaColdFormedDesign4(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaColdFormedDesign4(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[12]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[12]);
 
             string[] columnas = new string[] { "Frame", "DesignSect", "Combo", "Location", "Vb2Rd", "Vb3Rd" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);
@@ -1955,9 +2078,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaSteelDesign1(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaSteelDesign1(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[13]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[13]);
 
             string[] columnas = new string[] { "Frame", "DesignSect", "DesignType", "Ratio", "Combo" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);
@@ -1972,9 +2095,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaSteelDesign2(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaSteelDesign2(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[14]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[14]);
 
             string[] columnas = new string[] { "Frame", "NEd", "MyEd", "MzEd", "VzEd", "VyEd", "Tu", "TotalRatio" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);
@@ -1989,7 +2112,7 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaResponseSpectrum1(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaResponseSpectrum1(cSapModel SapModel, string[] tablas)
         {
             int ret = 0;
             string[,] tabla = new string[1, 1];
@@ -2047,7 +2170,7 @@ namespace ListadosDeCalculo.Scripts
 
                     if (ret == 0 && NumberRecords > 0)
                     {
-                        tabla = ExcelTables.GetTableArray(mySapModel, tablas[15]);
+                        tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[15]);
                         string[] columnas = new string[] {"OutputCase", "ModalCase","StepType","StepNum","Period","DampRatio","U1Acc","U2Acc","U3Acc" };
                         tabla = TableFunctions.GetTableColumns(tabla, columnas);
                         for(int i =1;i<tabla.GetLength(0); i++)
@@ -2072,7 +2195,7 @@ namespace ListadosDeCalculo.Scripts
 
         }
 
-        public string[,] TablaResponseSpectrum2(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaResponseSpectrum2(cSapModel SapModel, string[] tablas)
         {
             int ret = 0;
             string[,] tabla = new string[1, 1];
@@ -2128,7 +2251,7 @@ namespace ListadosDeCalculo.Scripts
 
                     if (ret == 0 && NumberRecords > 0)
                     {
-                        tabla = ExcelTables.GetTableArray(mySapModel, tablas[15]);
+                        tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[15]);
                         string[] columnas = new string[] { "OutputCase", "ModalCase", "StepType", "StepNum", "U1Amp", "U2Amp", "U3Amp" };
                         tabla = TableFunctions.GetTableColumns(tabla, columnas);
                         for (int i = 1; i < tabla.GetLength(0); i++)
@@ -2152,9 +2275,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaModalParticipatingRatios1(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaModalParticipatingRatios1(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[16]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[16]);
 
             string[] columnas = new string[] { "OutputCase", "StepType", "StepNum", "Period", "UX", "UY", "UZ", "SumUX", "SumUY" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);
@@ -2169,9 +2292,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaModalParticipatingRatios2(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaModalParticipatingRatios2(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[16]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[16]);
 
             string[] columnas = new string[] { "OutputCase", "StepType", "StepNum", "SumUZ", "RX", "RY", "RZ", "SumRX", "SumRY", "SumRZ" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);
@@ -2186,9 +2309,9 @@ namespace ListadosDeCalculo.Scripts
             return tabla;
         }
 
-        public string[,] TablaModalLoadRatios(cSapModel SapModel, string[] tablas)
+        public static string[,] TablaModalLoadRatios(cSapModel SapModel, string[] tablas)
         {
-            string[,] tabla = ExcelTables.GetTableArray(mySapModel, tablas[17]);
+            string[,] tabla = ExcelTablesSubclass.GetTableArray(mySapModel, tablas[17]);
 
             string[] columnas = new string[] { "OutputCase", "ItemType", "Item", "Static", "Dynamic" };
             tabla = TableFunctions.GetTableColumns(tabla, columnas);

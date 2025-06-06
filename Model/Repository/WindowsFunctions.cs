@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ListadosDeCalculo.Scripts
+namespace SmarTools.Model.Repository
 {
     class WindowsFunctions
     {
@@ -23,7 +23,7 @@ namespace ListadosDeCalculo.Scripts
         /// Ruta de la carpeta seleccionada (string). Si no se selecciona nada te 
         /// devuelve un string vacío.
         /// </returns>
-        public string SelectFolder(string baseName)
+        public static string SelectFolder(string baseName)
         {
             string ruta = "";
             OpenFolderDialog openFolder = new OpenFolderDialog { Title = "Seleccionar carpeta de " + baseName };
@@ -49,7 +49,7 @@ namespace ListadosDeCalculo.Scripts
         /// Ruta del archivo seleccionado (string). Si no se selecciona nada te devuelve 
         /// un string vacío.
         /// </returns>
-        public string SearchFile()
+        public static string SearchFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -75,7 +75,7 @@ namespace ListadosDeCalculo.Scripts
         /// Ruta del archivo seleccionado (string). Si no se selecciona nada te devuelve 
         /// un string vacío.
         /// </returns>
-        public string SearchSAPFile()
+        public static string SearchSAPFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {

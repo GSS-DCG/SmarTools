@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ListadosDeCalculo.Scripts
+namespace SmarTools.Model.Repository
 {
     class WordFunctions
     {
@@ -29,7 +29,7 @@ namespace ListadosDeCalculo.Scripts
         /// <returns>
         /// Ruta del archivo guardado, con nombre de archivo y extensión .docx
         /// </returns>
-        public string CreateDocument(string fileName, string wordPath, string templatePath)
+        public static string CreateDocument(string fileName, string wordPath, string templatePath)
         {
             Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
             object missing = System.Reflection.Missing.Value;
@@ -78,7 +78,7 @@ namespace ListadosDeCalculo.Scripts
         /// <returns>
         /// Objeto word abierto
         /// </returns>
-        public Microsoft.Office.Interop.Word.Document OpenWord(string wordPath)
+        public static Microsoft.Office.Interop.Word.Document OpenWord(string wordPath)
         {
             Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
             object missing = System.Reflection.Missing.Value;
@@ -103,7 +103,7 @@ namespace ListadosDeCalculo.Scripts
         /// <param name="doc">
         /// Objeto Word abierto
         /// </param>
-        public void CloseWord(Microsoft.Office.Interop.Word.Document doc)
+        public static void CloseWord(Microsoft.Office.Interop.Word.Document doc)
         {
             Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
             try
@@ -134,7 +134,7 @@ namespace ListadosDeCalculo.Scripts
         /// <param name="titleStyle">
         /// Booleano para elegir si el texto es normal(false) o título(true). Por defecto es texto normal. 
         /// </param>
-        public void AddText(string text, Microsoft.Office.Interop.Word.Document doc, bool? titleStyle = false)
+        public static void AddText(string text, Microsoft.Office.Interop.Word.Document doc, bool? titleStyle = false)
         {
             try
             {
@@ -165,7 +165,7 @@ namespace ListadosDeCalculo.Scripts
         /// <param name="doc">
         /// Objeto word abierto
         /// </param>
-        public void AddPageBreak(Microsoft.Office.Interop.Word.Document doc)
+        public static void AddPageBreak(Microsoft.Office.Interop.Word.Document doc)
         {
             try
             {
@@ -189,7 +189,7 @@ namespace ListadosDeCalculo.Scripts
         /// <param name="doc">
         /// Objeto word abierto
         /// </param>
-        public void AddTable(string[,] table, Microsoft.Office.Interop.Word.Document doc)
+        public static void AddTable(string[,] table, Microsoft.Office.Interop.Word.Document doc)
         {
             try
             {
@@ -242,7 +242,7 @@ namespace ListadosDeCalculo.Scripts
         /// <param name="doc">
         /// Objeto Word abierto
         /// </param>
-        public void Paste(Microsoft.Office.Interop.Word.Document doc)
+        public static void Paste(Microsoft.Office.Interop.Word.Document doc)
         {
             try
             {
@@ -259,7 +259,7 @@ namespace ListadosDeCalculo.Scripts
         /// <summary>
         /// Ajusta el ancho de la última tabla añadida al ancho de la página
         /// </summary>
-        public void AutoFitTableWidth(Microsoft.Office.Interop.Word.Document doc)
+        public static void AutoFitTableWidth(Microsoft.Office.Interop.Word.Document doc)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace ListadosDeCalculo.Scripts
         /// <param name="numberRows">
         /// Número de filas a las que se les va a aplicar el formato tipo encabezado.
         /// </param>
-        public void FormatHeaderRow(Microsoft.Office.Interop.Word.Document doc,int numberRows)
+        public static void FormatHeaderRow(Microsoft.Office.Interop.Word.Document doc,int numberRows)
         {
             try
             {

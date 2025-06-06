@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\InSync\SmarTools\App.xaml
-151374557224
+161501639851
 
-231467104751
+25-1868392097
 230-369350313
-APPS\ComprobacionFlechasTrackerAPP.xaml;APPS\ComprobacionUnionesAPP.xaml;APPS\Dimensionamiento1VAPP.xaml;Styles\ButtonStyles.xaml;Styles\ControlBarButton.xaml;Styles\UIColors.xaml;Styles\Window.xaml;ViewModel\Ajustes.xaml;ViewModel\Inicio.xaml;ViewModel\RackSmart.xaml;ViewModel\TracSmart1V.xaml;ViewModel\TracSmart2V.xaml;View\LoginWindow.xaml;View\MainView.xaml;View\Status.xaml;
+APPS\ComprobacionFlechasTrackerAPP.xaml;APPS\ComprobacionUnionesAPP.xaml;APPS\Dimensionamiento1VAPP.xaml;APPS\ListadosDeCalculo1VAPP.xaml;Styles\ButtonStyles.xaml;Styles\ControlBarButton.xaml;Styles\UIColors.xaml;Styles\Window.xaml;ViewModel\Ajustes.xaml;ViewModel\Inicio.xaml;ViewModel\RackSmart.xaml;ViewModel\TracSmart1V.xaml;ViewModel\TracSmart2V.xaml;View\LoginWindow.xaml;View\MainView.xaml;View\Status.xaml;
 
 False
 

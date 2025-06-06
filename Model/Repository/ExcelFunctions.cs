@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Drawing;
 using Excel = Microsoft.Office.Interop.Excel;
-using static ListadosDeCalculo.Scripts.SAP;
+using static SmarTools.Model.Repository.SAP;
 
-namespace ListadosDeCalculo.Scripts
+namespace SmarTools.Model.Repository
 {
     class ExcelFunctions
     {
@@ -54,7 +54,7 @@ namespace ListadosDeCalculo.Scripts
             ///Variable que activa centrar verticalmente el contenido de las celdas de todo el archivo
             ///Por defecto aparece desactivado.
             ///</param>
-            public void ApplyFont(int fontSize, string fontName, Excel.Workbook libro, bool? horizontalAlignmentCenter = false, bool? verticalAlignmentCenter = false)
+            public static void ApplyFont(int fontSize, string fontName, Excel.Workbook libro, bool? horizontalAlignmentCenter = false, bool? verticalAlignmentCenter = false)
             {
                 try
                 {
@@ -98,7 +98,7 @@ namespace ListadosDeCalculo.Scripts
             ///<param name="libro">
             ///Objeto excel abierto
             ///</param>
-            public void ApplyColor(Color fontColor, Color interiorColor, Excel.Workbook libro)
+            public static void ApplyColor(Color fontColor, Color interiorColor, Excel.Workbook libro)
             {
                 try
                 {
@@ -145,7 +145,7 @@ namespace ListadosDeCalculo.Scripts
             ///Variable que activa centrar verticalmente el contenido de las celdas de todo el archivo
             ///Por defecto aparece desactivado.
             ///</param>
-            public void ApplyFontToRow(int fontSize, string fontName, int row, Excel.Workbook libro, bool? horizontalAlignmentCenter = false, bool? verticalAlignmentCenter = false)
+            public static void ApplyFontToRow(int fontSize, string fontName, int row, Excel.Workbook libro, bool? horizontalAlignmentCenter = false, bool? verticalAlignmentCenter = false)
             {
                 try
                 {
@@ -193,7 +193,7 @@ namespace ListadosDeCalculo.Scripts
             ///<param name="libro">
             ///Objeto excel abierto
             ///</param>
-            public void ApplyColorToRow(int row, Color fontColor, Color interiorColor, Excel.Workbook libro)
+            public static void ApplyColorToRow(int row, Color fontColor, Color interiorColor, Excel.Workbook libro)
             {
                 try
                 {
@@ -282,7 +282,7 @@ namespace ListadosDeCalculo.Scripts
         /// <param name="ExcelFileRoute">
         /// Ruta donde se desea guardar el archivo excel (string). 
         /// </param>
-        public void SaveInexistentExcel(string ExcelFileRoute)
+        public static void SaveInexistentExcel(string ExcelFileRoute)
         {
             try
             {
@@ -339,7 +339,7 @@ namespace ListadosDeCalculo.Scripts
         /// <param name="ExcelFileRoute">
         /// Ruta donde se desea guardar el archivo excel (string). 
         /// </param>
-        public void CloseExcel()
+        public static void CloseExcel()
         {
             try
             {
@@ -403,7 +403,7 @@ namespace ListadosDeCalculo.Scripts
         ///<returns>
         ///Devuelve la ruta del excel si lo encuentra, si no devuelve null
         ///</returns>
-        public Excel.Workbook CatchExcel()
+        public static Excel.Workbook CatchExcel()
         {
             Excel.Application excelApp = null;
             Excel.Workbook libro = null;
@@ -444,7 +444,7 @@ namespace ListadosDeCalculo.Scripts
         ///<summary>
         ///Obtener todos los procesos de Excel en ejecución y finalizarlos
         /// </summary>
-        public void TerminateExcelProcesses()
+        public static void TerminateExcelProcesses()
         {
             // Obtener todos los procesos de Excel en ejecución
             Process[] excelProcesses = Process.GetProcessesByName("Excel");
@@ -473,7 +473,7 @@ namespace ListadosDeCalculo.Scripts
         ///<param name="libro">
         ///Objeto libro abierto
         ///</param>
-        public void DeleteExcelTableRow(int row, Excel.Workbook libro)
+        public static void DeleteExcelTableRow(int row, Excel.Workbook libro)
         {
             try
             {
@@ -506,7 +506,7 @@ namespace ListadosDeCalculo.Scripts
         ///<param name="libro">
         ///Objeto excel abierto
         ///</param>
-        public void KeepExcelTableColumns(string[] columnNames, Excel.Workbook libro)
+        public static void KeepExcelTableColumns(string[] columnNames, Excel.Workbook libro)
         {
             try
             {
@@ -554,7 +554,7 @@ namespace ListadosDeCalculo.Scripts
         ///<param name="libro">
         ///Objeto excel abierto
         ///</param>
-        public void FilterTableEqual(string columnaFiltro, string valorFiltro, Excel.Workbook libro)
+        public static void FilterTableEqual(string columnaFiltro, string valorFiltro, Excel.Workbook libro)
         {
             try
             {
@@ -605,7 +605,7 @@ namespace ListadosDeCalculo.Scripts
         ///<param name="libro">
         ///Objeto excel abierto
         ///</param>
-        public void FilterTableNotEqual(string columnaFiltro, string valorFiltro, Excel.Workbook libro)
+        public static void FilterTableNotEqual(string columnaFiltro, string valorFiltro, Excel.Workbook libro)
         {
             try
             {
@@ -659,7 +659,7 @@ namespace ListadosDeCalculo.Scripts
         ///Variable opcional para elegir entre "mayor que" o "menor que". Por defecto el valor es false, 
         ///por lo que la función compararía con "mayor que"
         ///</param>
-        public void FilterTableByComparison(string columnaFiltro, string valorFiltro, Excel.Workbook libro, bool? minor = null)
+        public static void FilterTableByComparison(string columnaFiltro, string valorFiltro, Excel.Workbook libro, bool? minor = null)
         {
             try
             {
@@ -709,7 +709,7 @@ namespace ListadosDeCalculo.Scripts
         ///<param name="libro">
         ///Objeto excel abierto
         ///</param>
-        public void CopyExcel(Excel.Workbook libro)
+        public static void CopyExcel(Excel.Workbook libro)
         {
             try
             {
@@ -742,7 +742,7 @@ namespace ListadosDeCalculo.Scripts
         ///<summary>
         ///Abre excel en segundo plano
         ///</summary>
-        public void StartExcel()
+        public static void StartExcel()
         {
             Excel.Application excelApp = new Excel.Application();
             excelApp.Visible = false;
@@ -760,7 +760,7 @@ namespace ListadosDeCalculo.Scripts
         /// <returns>
         /// Devuelve el objeto libro de excel que ha abierto para copiar la tabla
         /// </returns>
-        public Excel.Workbook PasteTableInExcel(string[,] table)
+        public static Excel.Workbook PasteTableInExcel(string[,] table)
         {
             Excel.Workbook workbook = null;
 

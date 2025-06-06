@@ -74,7 +74,8 @@ namespace SmarTools.ViewModel
 
         private void btnListadosCalculo_Click(object sender, RoutedEventArgs e)
         {
-
+            ListadosDeCalculo1VAPP App = new ListadosDeCalculo1VAPP();
+            App.Show();
         }
     }
 }
