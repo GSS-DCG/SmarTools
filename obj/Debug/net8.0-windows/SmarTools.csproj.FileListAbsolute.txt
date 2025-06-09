@@ -77,3 +77,5 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\Styles\ControlBarButton.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\Styles\Window.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ListadosDeCalculo1VAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ListadosDeCalculo1VAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\NumeroPilaresAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\NumeroPilaresAPP.baml

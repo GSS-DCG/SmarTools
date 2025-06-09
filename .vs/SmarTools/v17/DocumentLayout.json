@@ -3,44 +3,16 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\listadosdecalculo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\listadosdecalculo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\numeropilares.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\numeropilares.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\numeropilaresapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\numeropilaresapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\comprobacionuniones1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\comprobacionuniones1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\listadosdecalculo1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\listadosdecalculo1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\listadosdecalculo1vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\listadosdecalculo1vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\dimensionamiento1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\dimensionamiento1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento1vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento1vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\numeropilaresapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\numeropilaresapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,153 +22,44 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NumeroPilares.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\NumeroPilares.cs",
+              "RelativeDocumentMoniker": "Model\\Applications\\NumeroPilares.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\NumeroPilares.cs",
+              "RelativeToolTip": "Model\\Applications\\NumeroPilares.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAAwGEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T06:56:33.184Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MainView.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\MainView.xaml",
-              "RelativeDocumentMoniker": "View\\MainView.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\View\\MainView.xaml",
-              "RelativeToolTip": "View\\MainView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-06T11:31:12.345Z",
+              "Title": "NumeroPilaresAPP.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\NumeroPilaresAPP.xaml.cs",
+              "RelativeDocumentMoniker": "APPS\\NumeroPilaresAPP.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\NumeroPilaresAPP.xaml.cs",
+              "RelativeToolTip": "APPS\\NumeroPilaresAPP.xaml.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAEwEUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T06:55:25.865Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "App.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\App.xaml",
-              "RelativeDocumentMoniker": "App.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\App.xaml",
-              "RelativeToolTip": "App.xaml",
+              "Title": "NumeroPilaresAPP.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\NumeroPilaresAPP.xaml",
+              "RelativeDocumentMoniker": "APPS\\NumeroPilaresAPP.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\NumeroPilaresAPP.xaml",
+              "RelativeToolTip": "APPS\\NumeroPilaresAPP.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-06T11:30:38.842Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "SAPFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\SAPFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\SAPFunctions.cs",
-              "ViewState": "AgIAAGICAAAAAAAAAAAewIkCAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-06T07:45:00.798Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ListadosDeCalculo.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\ListadosDeCalculo.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\ListadosDeCalculo.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\ListadosDeCalculo.cs",
-              "RelativeToolTip": "Model\\Applications\\ListadosDeCalculo.cs",
-              "ViewState": "AgIAAJ0AAAAAAAAAAAAawLYAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T15:27:10.441Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ListadosDeCalculo1VAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\ListadosDeCalculo1VAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\ListadosDeCalculo1VAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\ListadosDeCalculo1VAPP.xaml",
-              "RelativeToolTip": "APPS\\ListadosDeCalculo1VAPP.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-05T15:20:25.804Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ListadosDeCalculo1VAPP.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\ListadosDeCalculo1VAPP.xaml.cs",
-              "RelativeDocumentMoniker": "APPS\\ListadosDeCalculo1VAPP.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\ListadosDeCalculo1VAPP.xaml.cs",
-              "RelativeToolTip": "APPS\\ListadosDeCalculo1VAPP.xaml.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAADwv0MAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T13:09:30.593Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "945d59b0-fd6a-48be-8414-3cce0ee08841",
-        "Display": 1,
-        "X": 476,
-        "Y": 107,
-        "Width": 1457,
-        "Height": 965,
-        "WindowState": 2
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 3,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Dimensionamiento1VAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\Dimensionamiento1VAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml",
-              "RelativeToolTip": "APPS\\Dimensionamiento1VAPP.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-05T13:02:10.711Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Dimensionamiento1VAPP.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml.cs",
-              "RelativeDocumentMoniker": "APPS\\Dimensionamiento1VAPP.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml.cs",
-              "RelativeToolTip": "APPS\\Dimensionamiento1VAPP.xaml.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAABwAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T13:09:36.495Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Dimensionamiento1V.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento1V.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\Dimensionamiento1V.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento1V.cs",
-              "RelativeToolTip": "Model\\Applications\\Dimensionamiento1V.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAABLAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T15:21:09.858Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ComprobacionUniones1V.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionUniones1V.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\ComprobacionUniones1V.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionUniones1V.cs",
-              "RelativeToolTip": "Model\\Applications\\ComprobacionUniones1V.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-05T15:29:17.494Z",
+              "WhenOpened": "2025-06-09T06:55:00.365Z",
               "EditorCaption": ""
             }
           ]

@@ -31,7 +31,8 @@ namespace SmarTools.ViewModel
 
         private void btnNumeroPilares_Click(object sender, RoutedEventArgs e)
         {
-
+            NumeroPilaresAPP App= new NumeroPilaresAPP();
+            App.Show();
         }
 
         private void btnCambiarCombinaciones_Click(object sender, RoutedEventArgs e)

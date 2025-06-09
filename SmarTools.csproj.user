@@ -19,6 +19,9 @@
     <Compile Update="APPS\ListadosDeCalculo1VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="APPS\NumeroPilaresAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ViewModel\Ajustes.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +55,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\ListadosDeCalculo1VAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="APPS\NumeroPilaresAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\ButtonStyles.xaml">
