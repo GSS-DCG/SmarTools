@@ -198,4 +198,82 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
+
+    <Style x:Key="SelectorButtonNotAvailable" TargetType="RadioButton">
+        <!--Selector button-->
+        <Setter Property="Height" Value="auto"/>
+        <Setter Property="Margin" Value="-5,0,0,5"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Rojo01}"/>
+
+        <Setter Property="Margin" Value="10"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderThickness="4"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        CornerRadius="25">
+                        <ContentPresenter HorizontalAlignment="center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <!--Mouse over-->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Height" Value="auto"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Selector button icon-->
+    <Style x:Key="SelectorButtonIconNotAvailable" TargetType="fa:IconImage">
+        <Setter Property="Foreground" Value="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType=RadioButton}}"></Setter>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!--Selector button Image-->
+    <Style x:Key="SelectorButtonImageNotAvailable" TargetType="Image">
+        <Setter Property="Source" Value="{Binding Path=Tag}"></Setter>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!--Selector button .svg-->
+    <Style x:Key="SelectorButtonSVGNotAvailable" TargetType="Viewbox">
+        <Style.Resources>
+            <DataTemplate>
+                <Path Fill="{StaticResource Rojo01}">
+                    <Path.Data>
+                        <PathGeometry Figures="{Binding Path=Tag}" ></PathGeometry>
+                    </Path.Data>
+                </Path>
+            </DataTemplate>
+        </Style.Resources>
+        <Setter Property="Width" Value="40"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Margin" Value="5"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!--Selector button-->
+    <Style x:Key="selectorButtonTextNotAvailable" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{Binding Path=BorderBrush, RelativeSource={RelativeSource AncestorType=RadioButton}}"/>
+        <Setter Property="FontFamily" Value="Neo Tech Std"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
 </ResourceDictionary>

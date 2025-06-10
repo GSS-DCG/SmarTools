@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SmarTools.APPS;
 
 namespace SmarTools.ViewModel
 {
@@ -25,6 +26,46 @@ namespace SmarTools.ViewModel
         {
             InitializeComponent();
             MainView.Globales._producto = "2V";
+        }
+        private void btnCambiarCombinaciones_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCambiarCargas_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDimensionamiento_Click(object sender, RoutedEventArgs e)
+        {
+            Dimensionamiento2VAPP App= new Dimensionamiento2VAPP();
+            App.Show();
+        }
+
+        private void btnItalia_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCalcularFlechas_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnComprobacionUniones_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnReacciones_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnListadosCalculo_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

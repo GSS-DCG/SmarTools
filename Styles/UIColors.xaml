@@ -46,8 +46,12 @@
     <SolidColorBrush x:Key="Blue09">#E5F7FF</SolidColorBrush>
     
     <Color x:Key="Rojo">#BF0013</Color>
+    <Color x:Key="Rojo1">#75000A</Color>
+    <Color x:Key="Rojo2">#DB7179</Color>
     <Color x:Key="Verde">#00BF2B</Color>
 
     <SolidColorBrush x:Key="Rojo0">#BF0013</SolidColorBrush>
+    <SolidColorBrush x:Key="Rojo01">#75000A</SolidColorBrush>
+    <SolidColorBrush x:Key="Rojo02">#DB7179</SolidColorBrush>
     <SolidColorBrush x:Key="Verde0">#00BF2B</SolidColorBrush>
 </ResourceDictionary>

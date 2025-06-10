@@ -1,0 +1,496 @@
+﻿<Window x:Class="SmarTools.APPS.Dimensionamiento2VAPP"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SmarTools.APPS"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        mc:Ignorable="d"
+        Title="Dimensionamiento2VAPP" 
+        Height="550" Width="800"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="https://www.gsolarsteel.com/wp-content/uploads/2024/08/v2-galeria-4-scaled-1-2048x1394.jpg"
+                Stretch="UniformToFill"/>
+        </Border.Background>
+
+        <Border CornerRadius="10"
+        BorderThickness="2"
+        Opacity="0.95">
+
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="{StaticResource windowBorderColor1}" Offset="0"></GradientStop>
+                    <GradientStop Color="{StaticResource windowBorderColor2}" Offset="0.5"></GradientStop>
+                    <GradientStop Color="{StaticResource windowBorderColor3}" Offset="1"></GradientStop>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Grid>
+                <!--Navigation Menu-->
+                <Border CornerRadius="10,0,0,10"
+                Grid.Column="0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                            <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.75"></GradientStop>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <TextBlock x:Name="VersionInfoText" 
+                   VerticalAlignment="Bottom" 
+                   Text="Error" 
+                   Foreground="White" 
+                   FontFamily="Neo Tech Std" 
+                   FontSize="15" Margin="25,0,0,10"></TextBlock>
+
+                <!--Main Section-->
+                <Border CornerRadius="0,10,10,0"
+                Grid.Column="1">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                            <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                            <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.75"></GradientStop>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <!--Control Bar-->
+                            <RowDefinition Height="25"/>
+                            <!--Content Section-->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Dimensionamiento"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontFamily="Neo Tech Std"
+                           Margin="10,0,0,0"
+                           FontSize="13.5"/>
+                        <!--Control Bar-->
+                        <StackPanel x:Name="pnlControlBar"
+                            Grid.Row="0"
+                            Orientation="Horizontal"
+                            FlowDirection="RightToLeft"
+                            Background="Transparent"
+                            Margin="0,0,5,0"
+                            MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
+                            MouseEnter="pnlControlBar_MouseEnter">
+
+                            <Button x:Name="btnClose"
+                            Style="{StaticResource ControlButton}"
+                            Tag="{StaticResource General4}"
+                            Click="btnClose_Click">
+                                <fa:IconImage Icon="Xmark" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+
+                            <Button x:Name="btnMaximize"
+                            Style="{StaticResource ControlButton}"
+                            Tag="{StaticResource General4}"
+                            Click="btnMaximize_Click">
+                                <fa:IconImage Icon="WindowMaximize" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+
+                            <Button x:Name="btnMinimize"
+                            Style="{StaticResource ControlButton}"
+                            Tag="{StaticResource General4}"
+                            Click="btnMinimize_Click">
+                                <fa:IconImage Icon="WindowMinimize" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                FlowDirection="LeftToRight"
+                                Background="Transparent">
+                            <StackPanel Orientation="Vertical"
+                                    Width="400">
+                                <TextBlock Text="Materiales"
+                                       FontFamily="Neo Tech Std"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       FontSize="12"
+                                       Margin="10,10,0,0"/>
+                                <Grid Margin="10,10,10,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label  Content="Ambiente"
+                                        Grid.Row="0" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <Label  Content="Material de pilar motor"
+                                        Grid.Row="1" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <Label  Content="Material de pilar general"
+                                        Grid.Row="2" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <Label  Content="Tipología de pilar general"
+                                        Grid.Row="3" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <Label  Content="Material de vigas"
+                                        Grid.Row="4" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <Label  Content="Material de secundarias"
+                                        Grid.Row="5" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <Label  Content="Altura de secundarias"
+                                        Grid.Row="6" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <ComboBox x:Name="Ambiente"
+                                          Grid.Row="0" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center">
+                                        <ComboBoxItem Content="Normal"/>
+                                        <ComboBoxItem Content="Ligeramente corrosivo"/>
+                                        <ComboBoxItem Content="Altamente corrosivo"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="Material_MP"
+                                          Grid.Row="1" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center"/>
+                                    <ComboBox x:Name="Material_GP"
+                                          Grid.Row="2" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center"/>
+                                    <CheckBox x:Name="Pilares_conformados"
+                                          Content="Conformados"
+                                          Grid.Row="3" Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          FontFamily="Neo Tech Std"
+                                          Foreground="White"
+                                          FontWeight="Light"
+                                          Margin="5,0,100,0"/>
+                                    <CheckBox x:Name="Pilares_laminados"
+                                          Content="Laminados"
+                                          Grid.Row="3" Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          FontFamily="Neo Tech Std"
+                                          Foreground="White"
+                                          FontWeight="Light"
+                                          Margin="100,0,0,0"/>
+
+                                    <ComboBox x:Name="Material_Vigas"
+                                          Grid.Row="4" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center"/>
+                                    <ComboBox x:Name="Material_Secundarias"
+                                          Grid.Row="5" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center"/>
+                                    <CheckBox x:Name="OH_75"
+                                          Content="OH-75"
+                                          Grid.Row="6" Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          FontFamily="Neo Tech Std"
+                                          Foreground="White"
+                                          FontWeight="Light"
+                                          Margin="5,0,0,0"/>
+                                    <CheckBox x:Name="OH_90"
+                                          Content="OH-90"
+                                          Grid.Row="6" Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          FontFamily="Neo Tech Std"
+                                          Foreground="White"
+                                          FontWeight="Light"
+                                          Margin="100,0,0,0"/>
+                                </Grid>
+                                <Button x:Name="btnFiltrarPerfiles"
+                                    BorderThickness="0"
+                                    Content="Filtrar perfiles"
+                                    Foreground="White"
+                                    FontSize="16"
+                                    FontFamily="Neo Tech Std"
+                                    Cursor="Hand"
+                                    Grid.Column="1"
+                                    Margin="15,10,0,0"
+                                    Click="btnFiltrarPerfiles_Click">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="#08A0C3"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#A8D8FF"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Width="130" 
+                                                Height="30"
+                                                CornerRadius="15"
+                                                Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <TextBlock Text="Perfiles"
+                                       FontFamily="Neo Tech Std"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       FontSize="12"
+                                       Margin="10,30,0,0"/>
+                                <Grid Margin="10,10,10,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label  Content="Pilar Motor"
+                                        Grid.Row="0" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <Label  Content="Pilares Generales"
+                                        Grid.Row="1" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <Label  Content="Viga Motor B1"
+                                        Grid.Row="2" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    
+                                    <Label  Content="Vigas secundarias"
+                                        Grid.Row="3" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <ComboBox x:Name="Pilar_motor"
+                                          Grid.Row="0" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center"/>
+                                    <ComboBox x:Name="Pilar_general"
+                                          Grid.Row="1" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center"/>
+                                    <ComboBox x:Name="Viga_B1"
+                                          Grid.Row="2" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center"/>
+                                    
+                                    <ComboBox x:Name="Viga_secundaria"
+                                          Grid.Row="3" Grid.Column="1"
+                                          Width="150"
+                                          Margin="5,0,5,0"
+                                          VerticalAlignment="Center"
+                                          Foreground="{StaticResource General2}"
+                                          FontFamily="Neo Tech Std"
+                                          FontWeight="Light"
+                                          HorizontalContentAlignment="Center"/>
+                                </Grid>
+                                <Button x:Name="btnAsignarPerfiles"
+                                    BorderThickness="0"
+                                    Content="Asignar Perfiles"
+                                    Foreground="White"
+                                    FontSize="16"
+                                    FontFamily="Neo Tech Std"
+                                    Cursor="Hand"
+                                    Grid.Column="1"
+                                    Margin="15,15,0,0"
+                                    Click="btnAsignarPerfiles_Click">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="#08A0C3"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#A8D8FF"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Width="130" 
+                                                Height="30"
+                                                CornerRadius="15"
+                                                Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Progreso"
+                                       Grid.Row="1"
+                                       Margin="10,0,0,0"
+                                       FontFamily="Neo Tech Std"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       FontSize="12"/>
+                                <ListView x:Name="Progreso"
+                                      Width="350"
+                                      Height="200"
+                                      Margin="25,10,10,10"
+                                      BorderThickness="2"
+                                      BorderBrush="{StaticResource General2}"
+                                      Foreground="{StaticResource General2}"
+                                      FontFamily="Neo Tech Std"/>
+                                <TextBlock Text="Resultados"
+                                       Margin="10,0,0,0"
+                                       Grid.Row="1"
+                                       FontFamily="Neo Tech Std"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center"
+                                       Foreground="White"
+                                       FontSize="12"/>
+                                <ListView x:Name="Resultados"
+                                      Width="350"
+                                      Height="200"
+                                      Margin="25,10,10,10"
+                                      BorderThickness="2"
+                                      BorderBrush="{StaticResource General2}"
+                                      Foreground="{StaticResource General2}"
+                                      FontFamily="Neo Tech Std"/>
+                                <Button x:Name="btnDimensionar"
+                                    BorderThickness="0"
+                                    Content="Dimensionar"
+                                    Foreground="White"
+                                    FontSize="16"
+                                    FontFamily="Neo Tech Std"
+                                    Cursor="Hand"
+                                    Grid.Column="1"
+                                    Margin="15,5,0,0"
+                                    Click="btnDimensionar_Click">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="#08A0C3"></Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#A8D8FF"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Width="130" 
+                                                Height="30"
+                                                CornerRadius="15"
+                                                Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

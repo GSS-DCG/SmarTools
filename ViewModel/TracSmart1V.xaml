@@ -47,26 +47,26 @@
         </RadioButton>
 
         <!--Cambiar Combinaciones-->
-        <RadioButton Style="{StaticResource SelectorButton}" 
-             Tag="{StaticResource Resaltado}"
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+             Tag="{StaticResource Rojo02}"
              Grid.Row="1"
              Grid.Column="1"
                      Click="btnCambiarCombinaciones_Click">
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIcon}"/>
-                <TextBlock Text="Cambiar&#x0a;Combinaciones" Style="{StaticResource selectorButtonText}" TextAlignment="center"/>
+                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
+                <TextBlock Text="Cambiar&#x0a;Combinaciones" Style="{StaticResource selectorButtonTextNotAvailable}" TextAlignment="center"/>
             </StackPanel>
         </RadioButton>
 
         <!--Cambiar Cargas-->
-        <RadioButton Style="{StaticResource SelectorButton}" 
-             Tag="{StaticResource Resaltado}"
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+             Tag="{StaticResource Rojo02}"
              Grid.Row="1"
              Grid.Column="2"
                      Click="btnCambiarCargas_Click">
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIcon}"/>
-                <TextBlock Text="Cambiar cargas" Style="{StaticResource selectorButtonText}"/>
+                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
+                <TextBlock Text="Cambiar cargas" Style="{StaticResource selectorButtonTextNotAvailable}"/>
             </StackPanel>
         </RadioButton>
 
@@ -88,14 +88,14 @@
         </RadioButton>
 
         <!--Italia NTC-->
-        <RadioButton Style="{StaticResource SelectorButton}" 
-             Tag="{StaticResource Resaltado}"
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+             Tag="{StaticResource Rojo02}"
              Grid.Row="3"
              Grid.Column="1"
                      Click="btnItalia_Click">
             <StackPanel Orientation="Vertical">
                 <Image Source="https://cdn-icons-png.freepik.com/256/321/321240.png?semt=ais_hybrid" Height="40" Width="40" Margin="5"/>
-                <TextBlock Text="Italia NTC_2018" Style="{StaticResource selectorButtonText}"/>
+                <TextBlock Text="Italia NTC_2018" Style="{StaticResource selectorButtonTextNotAvailable}"/>
             </StackPanel>
         </RadioButton>
 
@@ -147,8 +147,8 @@
         </Border>
 
         <!--Racciones-->
-        <RadioButton Style="{StaticResource SelectorButton}" 
-             Tag="{StaticResource Resaltado}"
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+             Tag="{StaticResource Rojo02}"
              Grid.Row="5"
              Grid.Column="0"
                      Click="btnReacciones_Click">
@@ -169,7 +169,7 @@
                                 -401 36 -199 64 -362 62 -364 -1 -1 -421 240 -933 535 l-932 538 0 1135 0
                                 1135 238 -237 c130 -130 252 -244 271 -253 42 -21 125 -22 171 -3 44 19 89 63
                                 106 105 20 47 17 127 -5 171 -29 55 -867 888 -913 907 -47 19 -112 19 -158 -1z"
-                          Fill="White" RenderTransformOrigin="0.5,0.5">
+                          Fill="{DynamicResource Rojo01}" RenderTransformOrigin="0.5,0.5">
                         <Path.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -180,7 +180,7 @@
                         </Path.RenderTransform>
                     </Path>
                 </Viewbox>
-                <TextBlock Text="Reacciones" Style="{StaticResource selectorButtonText}"/>
+                <TextBlock Text="Reacciones" Style="{StaticResource selectorButtonTextNotAvailable}"/>
             </StackPanel>
         </RadioButton>
 

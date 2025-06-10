@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\comprobacionflechastracker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\comprobacionflechastracker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\dimensionamiento2v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\dimensionamiento2v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\comprobacionuniones1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\comprobacionuniones1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento2vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento2vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\listadosdecalculo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\listadosdecalculo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento2vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento2vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\dimensionamiento1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,21 +26,67 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ComprobacionFlechasTracker.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionFlechasTracker.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\ComprobacionFlechasTracker.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionFlechasTracker.cs",
-              "RelativeToolTip": "Model\\Applications\\ComprobacionFlechasTracker.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T06:34:28.497Z",
+              "DocumentIndex": 2,
+              "Title": "Dimensionamiento2VAPP.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml",
+              "RelativeDocumentMoniker": "APPS\\Dimensionamiento2VAPP.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml",
+              "RelativeToolTip": "APPS\\Dimensionamiento2VAPP.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-10T07:39:36.445Z",
               "EditorCaption": ""
             },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Dimensionamiento2VAPP.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml.cs",
+              "RelativeDocumentMoniker": "APPS\\Dimensionamiento2VAPP.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml.cs",
+              "RelativeToolTip": "APPS\\Dimensionamiento2VAPP.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T07:40:05.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dimensionamiento2V.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento2V.cs",
+              "RelativeDocumentMoniker": "Model\\Applications\\Dimensionamiento2V.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento2V.cs",
+              "RelativeToolTip": "Model\\Applications\\Dimensionamiento2V.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T07:43:07.633Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "bf7984de-3489-46d4-9fe9-26f1d9a929a7",
+        "Display": 1,
+        "X": 641,
+        "Y": 87,
+        "Width": 1432,
+        "Height": 965,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -49,35 +95,9 @@
               "RelativeDocumentMoniker": "Model\\Applications\\Dimensionamiento1V.cs",
               "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento1V.cs",
               "RelativeToolTip": "Model\\Applications\\Dimensionamiento1V.cs",
-              "ViewState": "AgIAAOwAAAAAAAAAAAAqwAoBAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABsBAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T06:32:10.714Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ListadosDeCalculo.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\ListadosDeCalculo.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\ListadosDeCalculo.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\ListadosDeCalculo.cs",
-              "RelativeToolTip": "Model\\Applications\\ListadosDeCalculo.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T06:21:56.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ComprobacionUniones1V.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionUniones1V.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\ComprobacionUniones1V.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionUniones1V.cs",
-              "RelativeToolTip": "Model\\Applications\\ComprobacionUniones1V.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T06:32:08.43Z",
+              "WhenOpened": "2025-06-10T07:42:45.341Z",
               "EditorCaption": ""
             }
           ]

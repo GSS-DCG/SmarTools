@@ -16,6 +16,9 @@
     <Compile Update="APPS\Dimensionamiento1VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="APPS\Dimensionamiento2VAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="APPS\ListadosDeCalculo1VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +55,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\Dimensionamiento1VAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="APPS\Dimensionamiento2VAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\ListadosDeCalculo1VAPP.xaml">
