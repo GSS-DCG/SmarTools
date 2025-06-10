@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\numeropilares.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\numeropilares.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\numeropilaresapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\numeropilaresapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\numeropilaresapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\numeropilaresapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\comprobacionuniones1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\comprobacionuniones1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,44 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "NumeroPilares.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\NumeroPilares.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\NumeroPilares.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\NumeroPilares.cs",
-              "RelativeToolTip": "Model\\Applications\\NumeroPilares.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAAwGEAAAAAAAAAAAAAAA==",
+              "Title": "ComprobacionUniones1V.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionUniones1V.cs",
+              "RelativeDocumentMoniker": "Model\\Applications\\ComprobacionUniones1V.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionUniones1V.cs",
+              "RelativeToolTip": "Model\\Applications\\ComprobacionUniones1V.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T06:56:33.184Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NumeroPilaresAPP.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\NumeroPilaresAPP.xaml.cs",
-              "RelativeDocumentMoniker": "APPS\\NumeroPilaresAPP.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\NumeroPilaresAPP.xaml.cs",
-              "RelativeToolTip": "APPS\\NumeroPilaresAPP.xaml.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAEwEUAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T06:55:25.865Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "NumeroPilaresAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\NumeroPilaresAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\NumeroPilaresAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\NumeroPilaresAPP.xaml",
-              "RelativeToolTip": "APPS\\NumeroPilaresAPP.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-09T06:55:00.365Z",
+              "WhenOpened": "2025-06-10T06:32:08.43Z",
               "EditorCaption": ""
             }
           ]

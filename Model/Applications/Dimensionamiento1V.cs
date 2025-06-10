@@ -121,132 +121,150 @@ namespace SmarTools.Model.Applications
             //Preparamos el modelo 
             vista.Progreso.Items.Clear();
             vista.Resultados.Items.Clear();
-            
 
-            if(vista.Pilar_motor.Items.Count==0)
+            var loadingWindow = new Status();
+
+            if (vista.Pilar_motor.Items.Count==0)
             {
                 MessageBox.Show("Debes filtrar los perfiles antes de dimensionar el modelo","Aviso",MessageBoxButton.OK, MessageBoxImage.Warning);
             }
             else
             {
-                mySapModel.SelectObj.ClearSelection();
+                try
+                {
+                    loadingWindow.Show();
+                    loadingWindow.UpdateLayout();
 
-                //Listas de perfiles
-                string[] perfiles_MP = new string[vista.Pilar_motor.Items.Count];
-                vista.Pilar_motor.Items.CopyTo(perfiles_MP,0);
-                string[] perfiles_GP = new string[vista.Pilar_general.Items.Count];
-                vista.Pilar_general.Items.CopyTo(perfiles_GP, 0);
-                string[] perfiles_vigas = new string[vista.Viga_B1.Items.Count];
-                vista.Viga_B1.Items.CopyTo(perfiles_vigas, 0);
-                string[] perfiles_SB=new string[vista.Viga_secundaria.Items.Count];
-                vista.Viga_secundaria.Items.CopyTo (perfiles_SB, 0);
+                    mySapModel.SelectObj.ClearSelection();
 
-                int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
-                string[] vigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNames(mySapModel,"04 Vigas Principales");
-                int mitad = vigas.Length / 2;
-                string[] vigasNorte=vigas.Take(mitad).ToArray();
-                string[] vigasSur=vigas.Skip(mitad).ToArray();
+                    //Listas de perfiles
+                    string[] perfiles_MP = new string[vista.Pilar_motor.Items.Count];
+                    vista.Pilar_motor.Items.CopyTo(perfiles_MP, 0);
+                    string[] perfiles_GP = new string[vista.Pilar_general.Items.Count];
+                    vista.Pilar_general.Items.CopyTo(perfiles_GP, 0);
+                    string[] perfiles_vigas = new string[vista.Viga_B1.Items.Count];
+                    vista.Viga_B1.Items.CopyTo(perfiles_vigas, 0);
+                    string[] perfiles_SB = new string[vista.Viga_secundaria.Items.Count];
+                    vista.Viga_secundaria.Items.CopyTo(perfiles_SB, 0);
 
-                var secciones = new Dictionary<string, (string barraControl, string[] listaperfiles, eItemType tipo,double ratiomax)>
+                    int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
+                    string[] vigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNames(mySapModel, "04 Vigas Principales");
+                    int mitad = vigas.Length / 2;
+                    string[] vigasNorte = vigas.Take(mitad).ToArray();
+                    string[] vigasSur = vigas.Skip(mitad).ToArray();
+
+                    var secciones = new Dictionary<string, (string barraControl, string[] listaperfiles, eItemType tipo, double ratiomax)>
                 {
                     { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group,0.9) },
                     { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group,0.9) },
                     { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group,1) }
                 };
 
-                for (int i=0;i<vigas.Length;i++)
-                {
-                    secciones[vigas[i]] = (vigas[i], perfiles_vigas, eItemType.Objects, 1);
-                }
-
-                List<double> ratios = new List<double>();
-
-                bool comprobacion=false;
-                int index = 0;
-
-                mySapModel.SetPresentUnits(eUnits.kN_m_C);
-                SAP.AnalysisSubclass.RunModel(mySapModel);
-
-                while (comprobacion==false)
-                {
-                    ratios.Clear();
-
-                    foreach (var propiedad in secciones)
+                    for (int i = 0; i < vigas.Length; i++)
                     {
-                        string grupo = propiedad.Key;
-                        string barraControl = propiedad.Value.barraControl;
-                        string[] listaperfiles = propiedad.Value.listaperfiles;
-                        eItemType tipo = propiedad.Value.tipo;
-                        double ratio = RatioGrupo(vista, grupo, barraControl, listaperfiles, tipo);
-                        ratios.Add(ratio);
+                        secciones[vigas[i]] = (vigas[i], perfiles_vigas, eItemType.Objects, 1);
                     }
 
-                    List<bool> comprobacionPorGrupo = new List<bool>();
+                    List<double> ratios = new List<double>();
 
-                    index = 0;
+                    bool comprobacion = false;
+                    int index = 0;
 
-                    for (int i = 0; i < ratios.Count; i++)
-                    {
-                        double ratiomax = secciones.ElementAt(i).Value.ratiomax;
-                        comprobacionPorGrupo.Add(ratios[i] < ratiomax);
-                    }
-
-                    if(!comprobacionPorGrupo.Contains(false))
-                    {
-                        comprobacion = true;
-                    }
-
-                    index = 0;
-
-                    SAP.AnalysisSubclass.UnlockModel(mySapModel);
-
-                    foreach (var propiedad in secciones)
-                    {
-                        string grupo = propiedad.Key;
-                        string barraControl = propiedad.Value.barraControl;
-                        string[] listaperfiles = propiedad.Value.listaperfiles;
-                        eItemType tipo = propiedad.Value.tipo;
-                        double ratiomax=propiedad.Value.ratiomax;
-                        double ratio = ratios[index];
-                        if (ratio != 0 && ratio > ratiomax)
-                        {
-                            mySapModel.SelectObj.ClearSelection();
-                            RatioSuperior(vista, grupo, barraControl, ratio, listaperfiles, tipo);
-                        }
-                        index++;
-                    }
-
+                    mySapModel.SetPresentUnits(eUnits.kN_m_C);
                     SAP.AnalysisSubclass.RunModel(mySapModel);
-                }
 
-                index = 0;
+                    while (comprobacion == false)
+                    {
+                        ratios.Clear();
 
-                var resumen = new Dictionary<string, (string[] nombreBarras, eItemType tipo)>
+                        foreach (var propiedad in secciones)
+                        {
+                            string grupo = propiedad.Key;
+                            string barraControl = propiedad.Value.barraControl;
+                            string[] listaperfiles = propiedad.Value.listaperfiles;
+                            eItemType tipo = propiedad.Value.tipo;
+                            double ratio = RatioGrupo(vista, grupo, barraControl, listaperfiles, tipo);
+                            ratios.Add(ratio);
+                        }
+
+                        List<bool> comprobacionPorGrupo = new List<bool>();
+
+                        index = 0;
+
+                        for (int i = 0; i < ratios.Count; i++)
+                        {
+                            double ratiomax = secciones.ElementAt(i).Value.ratiomax;
+                            comprobacionPorGrupo.Add(ratios[i] < ratiomax);
+                        }
+
+                        if (!comprobacionPorGrupo.Contains(false))
+                        {
+                            comprobacion = true;
+                        }
+
+                        index = 0;
+
+                        SAP.AnalysisSubclass.UnlockModel(mySapModel);
+
+                        foreach (var propiedad in secciones)
+                        {
+                            string grupo = propiedad.Key;
+                            string barraControl = propiedad.Value.barraControl;
+                            string[] listaperfiles = propiedad.Value.listaperfiles;
+                            eItemType tipo = propiedad.Value.tipo;
+                            double ratiomax = propiedad.Value.ratiomax;
+                            double ratio = ratios[index];
+                            if (ratio != 0 && ratio > ratiomax)
+                            {
+                                mySapModel.SelectObj.ClearSelection();
+                                RatioSuperior(vista, grupo, barraControl, ratio, listaperfiles, tipo);
+                            }
+                            index++;
+                        }
+
+                        SAP.AnalysisSubclass.RunModel(mySapModel);
+                    }
+
+                    index = 0;
+
+                    var resumen = new Dictionary<string, (string[] nombreBarras, eItemType tipo)>
                 {
                     { "Pilar motor",(new []{"Column_0"},eItemType.Group)},
                     {"Pilares generales",(new[]{"Column_1"},eItemType.Group)},
                     {"Vigas Secundarias",(new[]{"SBsN_2"},eItemType.Group)}
                 };
 
-                resumen["Viga motor"] = (new[] { vigasNorte[0], vigasSur[0] },eItemType.Objects);
+                    resumen["Viga motor"] = (new[] { vigasNorte[0], vigasSur[0] }, eItemType.Objects);
 
-                for (int i = 1; i < vigasNorte.Length; i++)
-                {
-                    resumen["Viga B" + (i + 1)] = (new[] { vigasNorte[i], vigasSur[i] },eItemType.Objects);
-                }
-
-                foreach (var propiedad in resumen)
-                {
-                    string elemento = propiedad.Key;
-                    string[] nombreBarras=propiedad.Value.nombreBarras;
-                    eItemType tipo=propiedad.Value.tipo;
-
-                    if (ratios[index]!=0 && ratios[index] < 1)
+                    for (int i = 1; i < vigasNorte.Length; i++)
                     {
-                        Resultados(vista, elemento,nombreBarras, ratios[index]);
+                        resumen["Viga B" + (i + 1)] = (new[] { vigasNorte[i], vigasSur[i] }, eItemType.Objects);
                     }
 
-                    index++;
+                    foreach (var propiedad in resumen)
+                    {
+                        string elemento = propiedad.Key;
+                        string[] nombreBarras = propiedad.Value.nombreBarras;
+                        eItemType tipo = propiedad.Value.tipo;
+
+                        if (ratios[index] != 0 && ratios[index] < 1)
+                        {
+                            Resultados(vista, elemento, nombreBarras, ratios[index]);
+                        }
+
+                        index++;
+                    }
+                }
+                finally
+                {
+                    try
+                    {
+                        loadingWindow.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }

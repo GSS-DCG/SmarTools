@@ -34,27 +34,46 @@ namespace SmarTools.Model.Applications
 
         public static void ListadosDeCalculo1V (ListadosDeCalculo1VAPP vista)
         {
+            var loadingWindow = new Status();
+
             MessageBox.Show("Antes de ejecutar, no olvide cerrar todas las ventanas de excel abiertas", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
 
-            string rutaSAP = vista.RutaSAP.Text;
-            string rutaWord = vista.RutaWord.Text;
-            bool sismo = false;
-
-            if (vista.Sismo.IsChecked == true)
+            try
             {
-                sismo = true;
-            }
+                loadingWindow.Show();
+                loadingWindow.UpdateLayout();
 
-            if (Directory.Exists(rutaSAP))
-            {
-                string[] modelos = Directory.GetFiles(rutaSAP, "*.sdb");
+                string rutaSAP = vista.RutaSAP.Text;
+                string rutaWord = vista.RutaWord.Text;
+                bool sismo = false;
 
-                foreach (string modelo in modelos)
+                if (vista.Sismo.IsChecked == true)
                 {
-                    ObtenerListados(modelo, rutaWord, sismo, vista);
+                    sismo = true;
+                }
+
+                if (Directory.Exists(rutaSAP))
+                {
+                    string[] modelos = Directory.GetFiles(rutaSAP, "*.sdb");
+
+                    foreach (string modelo in modelos)
+                    {
+                        ObtenerListados(modelo, rutaWord, sismo, vista);
+                    }
+                }
+                MessageBox.Show("Proceso terminado", "Finalizado", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+            }
+            finally
+            {
+                try
+                {
+                    loadingWindow.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            MessageBox.Show("Proceso terminado", "Finalizado", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
         }
 
         public static void ObtenerListados(string modelo, string rutaWord, bool sismo, ListadosDeCalculo1VAPP vista)

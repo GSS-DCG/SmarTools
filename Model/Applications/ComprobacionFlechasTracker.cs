@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using SmarTools.Model.Repository;
 using ModernUI.View;
 using SAP2000v1;
@@ -46,7 +45,7 @@ namespace SmarTools.Model.Applications
                 }
                 catch
                 {
-
+                    MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
