@@ -73,5 +73,19 @@ namespace SmarTools.APPS
         {
             Dimensionamiento2V.Dimensionar2V(this);
         }
+
+        private void Laminados_Checked(object sender, RoutedEventArgs e)
+        {
+            Pilares_W8.Visibility = Visibility.Visible;
+            Pilares_W6.Visibility = Visibility.Visible;
+            Serie_laminados.Visibility = Visibility.Visible;
+        }
+
+        private void Laminados_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Pilares_W8.Visibility = Visibility.Hidden;
+            Pilares_W6.Visibility = Visibility.Hidden;
+            Serie_laminados.Visibility= Visibility.Hidden;
+        }
     }
 }

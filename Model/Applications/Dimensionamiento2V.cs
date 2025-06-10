@@ -38,35 +38,46 @@ namespace SmarTools.Model.Applications
             string[] Perfiles = SAP.ElementFinderSubclass.GetFrameSectionsInWeightOrder(mySapModel);
 
             // Variables de entrada
-            string material_MP = vista.Material_MP.Text;
+            string material_MP = "S355JR";
             string material_GP = vista.Material_GP.Text;
             string material_vigas = vista.Material_Vigas.Text;
             string material_SB = vista.Material_Secundarias.Text;
             string ambiente = vista.Ambiente.Text;
 
             // Filtrado
-            string[] PerfilW = Perfiles.Where(s => s.StartsWith("W6")).ToArray();
+            string[] Perfil_Motor=
+                vista.Slew_6in.IsChecked==true?Perfiles.Where(s => s.StartsWith("W6")).ToArray():
+                vista.Slew_8in.IsChecked==true?Perfiles.Where(s => s.StartsWith("W8")|| s.StartsWith("IPE200")|| s.StartsWith("IPEA200")).ToArray():
+                Array.Empty<string>();
 
-            string[] PerfilC = vista.Pilares_laminados.IsChecked == true
-            ? Perfiles.Where(s => s.StartsWith("W6") || s.StartsWith("IPEA180")).ToArray()
-            : Perfiles.Where(s => s.StartsWith("C-150") || s.StartsWith("C-200x100x30") || s.StartsWith("C-175")).ToArray();
+            string[] Perfil_General =
+                vista.Pilares_laminados.IsChecked == true 
+                ? (vista.Pilares_W6.IsChecked == true
+                        ? Perfiles.Where(s => s.StartsWith("W6")).ToArray() 
+                        : vista.Pilares_W8.IsChecked == true
+                            ? Perfiles.Where(s => s.StartsWith("W8")).ToArray()
+                            : Array.Empty<string>())
+                : Perfiles.Where(s => s.StartsWith("C-175x120x30") || s.StartsWith("C-195x120x30")).ToArray();
 
-            string[] PerfilSHS = Perfiles.Where(s => s.StartsWith("SHS-120") && s.EndsWith(material_vigas)).ToArray();
+            string[] PerfilSHS = 
+                vista.Tubo_140.IsChecked==true?Perfiles.Where(s => s.StartsWith("SHS-140") && s.EndsWith(material_vigas)).ToArray():
+                vista.Tubo_150.IsChecked==true?Perfiles.Where(s => s.StartsWith("SHS-150") && s.EndsWith(material_vigas)).ToArray():
+                Array.Empty<string>();
 
-            string[] PerfilOH = Perfiles.Where(s =>
-            (vista.OH_75.IsChecked == true && s.StartsWith("OH-75") && s.EndsWith(material_SB)) ||
-            (vista.OH_90.IsChecked == true && s.StartsWith("OH-90") && s.EndsWith(material_SB))
-            ).ToArray();
+            string[] PerfilOH=
+                vista.OH_75.IsChecked==true?Perfiles.Where(s=>s.StartsWith("OH-75x40x28,8") && s.EndsWith(material_SB)).ToArray():
+                vista.OH_90.IsChecked==true?Perfiles.Where(s=>s.StartsWith("OH-90x40x28,8") && s.EndsWith(material_SB)).ToArray() :
+                Array.Empty<string>();
 
             // Agregar perfiles a controles
-            AgregarPerfilesPorAmbiente2V(vista.Pilar_motor, PerfilW, material_MP, ambiente);
-            SeleccionarPorDefecto2V(vista.Pilar_motor, "W6X9");
+            AgregarPerfilesPorAmbiente2V(vista.Pilar_motor, Perfil_Motor, material_MP, ambiente);
+            vista.Pilar_motor.SelectedIndex = 0;
 
-            AgregarPerfilesPorAmbiente2V(vista.Pilar_general, PerfilC, material_GP, ambiente);
+            AgregarPerfilesPorAmbiente2V(vista.Pilar_general, Perfil_General, material_GP, ambiente);
             vista.Pilar_general.SelectedIndex = 0;
 
             AgregarPerfilesAVigas2V(PerfilSHS, vista.Viga_B1);
-            vista.Viga_B1.SelectedIndex = 1;
+            vista.Viga_B1.SelectedIndex = 0;
 
             foreach (var perfil in PerfilOH)
             {
@@ -80,18 +91,33 @@ namespace SmarTools.Model.Applications
         {
             SAP.AnalysisSubclass.UnlockModel(mySapModel);
 
+            int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
+            string[] vigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNames(mySapModel, "04 Vigas Principales");
+
             //Obtener los nombres de las secciones desde los combobox
             var secciones = new Dictionary<string, (string perfil, eItemType tipo)>
             {
                 { "01 Pilares Centrales",(vista.Pilar_motor.Text,eItemType.Group) },
                 { "02 Pilares Generales",(vista.Pilar_general.Text,eItemType.Group) },
-                { "B-1_Motor",(vista.Viga_B1.Text,eItemType.Objects) },
-                { "B1_Motor",(vista.Viga_B1.Text,eItemType.Objects) },
-                { "B-1",(vista.Viga_B1.Text,eItemType.Objects) },
-                { "B1",(vista.Viga_B1.Text,eItemType.Objects) },
                 { "05 Vigas Secundarias",(vista.Viga_secundaria.Text,eItemType.Group) }
             };
 
+            var comboBoxes=new Dictionary<string, ComboBox>
+            {
+                {"B-1_Motor", vista.Viga_B1},
+                {"B1_Motor", vista.Viga_B1},
+                {"B-1", vista.Viga_B1},
+                {"B1", vista.Viga_B1},
+            };
+
+            for(int i = 0; i < vigas.Length; i++)
+            {
+                if (comboBoxes.TryGetValue(vigas[i], out ComboBox combo))
+                {
+                    secciones[vigas[i]] = (combo.Text, eItemType.Objects);
+                }
+            }
+            
             //Asignar perfiles a cada grupo u objeto
             foreach (var propiedad in secciones)
             {
@@ -135,6 +161,28 @@ namespace SmarTools.Model.Applications
                     vista.Viga_B1.Items.CopyTo(perfiles_vigas, 0);
                     string[] perfiles_SB = new string[vista.Viga_secundaria.Items.Count];
                     vista.Viga_secundaria.Items.CopyTo(perfiles_SB, 0);
+                    
+                    //Añadir grupo de secundarias sin los refuerzos
+                    string[] Sec_sup_norte=SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryBeams(mySapModel,true);
+                    string[] Sec_inf_norte = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryBeams(mySapModel, false);
+                    string[] Sec_sup_sur = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryBeams(mySapModel, true);
+                    string[] Sec_inf_sur = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryBeams(mySapModel, false);
+                    string[] secundarias =(Sec_sup_norte.Concat(Sec_inf_norte).Concat(Sec_sup_sur).Concat(Sec_inf_sur)).ToArray();
+
+                    int NumberNames = 0;
+                    string[] Names = new string[1];
+                    mySapModel.GroupDef.GetNameList(ref NumberNames,ref Names);
+
+                    if(NumberNames==14)
+                    {
+                        mySapModel.GroupDef.SetGroup("20 Vigas Secundarias");
+                    }
+
+                    mySapModel.SelectObj.ClearSelection();
+                    for(int i = 0;i<secundarias.Length;i++)
+                    {
+                        mySapModel.FrameObj.SetGroupAssign(secundarias[i], "20 Vigas Secundarias", false, eItemType.Objects);
+                    }
 
                     int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
                     string[] vigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNames(mySapModel, "04 Vigas Principales");
@@ -143,11 +191,11 @@ namespace SmarTools.Model.Applications
                     string[] vigasSur = vigas.Skip(mitad).ToArray();
 
                     var secciones = new Dictionary<string, (string barraControl, string[] listaperfiles, eItemType tipo, double ratiomax)>
-                {
-                    { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group,0.9) },
-                    { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group,0.9) },
-                    { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group,1) }
-                };
+                    {
+                        { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group,0.9) },
+                        { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group,0.9) },
+                        { "20 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group,1) }
+                    };
 
                     for (int i = 0; i < vigas.Length; i++)
                     {
@@ -217,11 +265,11 @@ namespace SmarTools.Model.Applications
                     index = 0;
 
                     var resumen = new Dictionary<string, (string[] nombreBarras, eItemType tipo)>
-                {
-                    { "Pilar motor",(new []{"Column_0"},eItemType.Group)},
-                    {"Pilares generales",(new[]{"Column_1"},eItemType.Group)},
-                    {"Vigas Secundarias",(new[]{"SBsN_2"},eItemType.Group)}
-                };
+                    {
+                        { "Pilar motor",(new []{"Column_0"},eItemType.Group)},
+                        {"Pilares generales",(new[]{"Column_1"},eItemType.Group)},
+                        {"Vigas Secundarias",(new[]{"SBsN_2"},eItemType.Group)}
+                    };
 
                     resumen["Viga motor"] = (new[] { vigasNorte[0], vigasSur[0] }, eItemType.Objects);
 
@@ -267,18 +315,22 @@ namespace SmarTools.Model.Applications
 
                 int ret = mySapModel.PropMaterial.GetNameList(ref NumberNames, ref Materiales, eMatType.Steel);
                 string[] MSec = Materiales.Where(s => s.Contains("S350GD") || s.Contains("S420GD")).ToArray();
+                string[] Mat_MP = Materiales.Where(s => s.Contains("S355")).ToArray();
+                string[] Mat_GP = Materiales.Where(s => s.Contains("S355") || s.Contains("S350GD")||s.Contains("S420GD")||s.Contains("S420MC")).ToArray();
+                string[] Mat_MB = Materiales.Where(s => s.Contains("S355") || s.Contains("S350GD") || s.Contains("S420GD") || s.Contains("S420MC")).ToArray();
 
                 vista.Ambiente.SelectedIndex = 0;
 
                 if (ret == 0)
                 {
-                    for (int i = 0; i < Materiales.Count(); i++)
+                    for (int i = 0; i < Mat_GP.Count(); i++)
                     {
-                        vista.Material_MP.Items.Add(Materiales[i]);
-                        vista.Material_GP.Items.Add(Materiales[i]);
-                        vista.Material_Vigas.Items.Add(Materiales[i]);
+                        vista.Material_GP.Items.Add(Mat_GP[i]);
                     }
-
+                    for (int i = 0; i < Mat_MB.Count(); i++)
+                    {
+                        vista.Material_Vigas.Items.Add(Mat_MB[i]);
+                    }
                     for (int i = 0; i < MSec.Count(); i++)
                     {
                         vista.Material_Secundarias.Items.Add(MSec[i]);
@@ -289,15 +341,6 @@ namespace SmarTools.Model.Applications
                         if (vista.Material_GP.Items[i].ToString().Contains("S355"))
                         {
                             vista.Material_GP.SelectedIndex = i;
-                            break;
-                        }
-                    }
-
-                    for (int i = 0; i < vista.Material_MP.Items.Count; i++)
-                    {
-                        if (vista.Material_MP.Items[i].ToString().Contains("S355"))
-                        {
-                            vista.Material_MP.SelectedIndex = i;
                             break;
                         }
                     }

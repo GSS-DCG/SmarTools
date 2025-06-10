@@ -85,26 +85,44 @@ namespace SmarTools.Model.Applications
         {
             SAP.AnalysisSubclass.UnlockModel(mySapModel);
 
+            int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
+            string[] vigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNames(mySapModel, "04 Vigas Principales");
+            int mitad = vigas.Length / 2;
+            string[] vigasNorte = vigas.Take(mitad).ToArray();
+            string[] vigasSur = vigas.Skip(mitad).ToArray();
+
             //Obtener los nombres de las secciones desde los combobox
             var secciones = new Dictionary<string, (string perfil, eItemType tipo)>
             {
                 { "01 Pilares Centrales",(vista.Pilar_motor.Text,eItemType.Group) },
                 { "02 Pilares Generales",(vista.Pilar_general.Text,eItemType.Group) },
-                { "B-1_Motor",(vista.Viga_B1.Text,eItemType.Objects) },
-                { "B1_Motor",(vista.Viga_B1.Text,eItemType.Objects) },
-                { "B-1",(vista.Viga_B1.Text,eItemType.Objects) },
-                { "B1",(vista.Viga_B1.Text,eItemType.Objects) },
-                { "B-2",(vista.Viga_B2.Text,eItemType.Objects) },
-                { "B2",(vista.Viga_B2.Text,eItemType.Objects) },
-                { "B-3",(vista.Viga_B3.Text,eItemType.Objects) },
-                { "B3",(vista.Viga_B3.Text,eItemType.Objects) },
-                { "B-4",(vista.Viga_B4.Text,eItemType.Objects) },
-                { "B4",(vista.Viga_B4.Text,eItemType.Objects) },
                 { "05 Vigas Secundarias",(vista.Viga_secundaria.Text,eItemType.Group) }
             };
 
+            var comboBoxes = new Dictionary<string, ComboBox>
+            {
+                 { "B-1", vista.Viga_B1 },
+                 { "B1", vista.Viga_B1 },
+                 { "B-1_Motor", vista.Viga_B1 },
+                 { "B1_Motor", vista.Viga_B1 },
+                 { "B-2", vista.Viga_B2 },
+                 { "B2", vista.Viga_B2 },
+                 { "B-3", vista.Viga_B3 },
+                 { "B3", vista.Viga_B3 },
+                 { "B-4", vista.Viga_B4 },
+                 { "B4", vista.Viga_B4 }
+            };
+
+            for (int i = 0; i < vigas.Length; i++)
+            {
+                if (comboBoxes.TryGetValue(vigas[i], out ComboBox combo))
+                {
+                    secciones[vigas[i]] = (combo.Text, eItemType.Objects);
+                }
+            }
+
             //Asignar perfiles a cada grupo u objeto
-            foreach(var propiedad in secciones)
+            foreach (var propiedad in secciones)
             {
                 string nombre = propiedad.Key;
                 string perfil = propiedad.Value.perfil;
@@ -154,11 +172,11 @@ namespace SmarTools.Model.Applications
                     string[] vigasSur = vigas.Skip(mitad).ToArray();
 
                     var secciones = new Dictionary<string, (string barraControl, string[] listaperfiles, eItemType tipo, double ratiomax)>
-                {
-                    { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group,0.9) },
-                    { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group,0.9) },
-                    { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group,1) }
-                };
+                    {
+                        { "01 Pilares Centrales",("Column_0", perfiles_MP, eItemType.Group,0.9) },
+                        { "02 Pilares Generales",("Column_1", perfiles_GP, eItemType.Group,0.9) },
+                        { "05 Vigas Secundarias",("SBsN_2", perfiles_SB,eItemType.Group,1) }
+                    };
 
                     for (int i = 0; i < vigas.Length; i++)
                     {

@@ -125,6 +125,8 @@
                                         <RowDefinition Height="25"/>
                                         <RowDefinition Height="25"/>
                                         <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -138,7 +140,7 @@
                                         VerticalAlignment="Center"
                                         Foreground="White"
                                         FontSize="12"/>
-                                    <Label  Content="Material de pilar motor"
+                                    <Label  Content="Slew"
                                         Grid.Row="1" Grid.Column="0"
                                         Margin="10,0,0,0"
                                         FontFamily="Neo Tech Std"
@@ -162,15 +164,17 @@
                                         VerticalAlignment="Center"
                                         Foreground="White"
                                         FontSize="12"/>
+                                    <Label  x:Name="Serie_laminados"
+                                            Content="Serie de perfiles"
+                                            Grid.Row="4" Grid.Column="0"
+                                            Margin="10,0,0,0"
+                                            FontFamily="Neo Tech Std"
+                                            FontWeight="Light"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            FontSize="12"
+                                            Visibility="Hidden"/>
                                     <Label  Content="Material de vigas"
-                                        Grid.Row="4" Grid.Column="0"
-                                        Margin="10,0,0,0"
-                                        FontFamily="Neo Tech Std"
-                                        FontWeight="Light"
-                                        VerticalAlignment="Center"
-                                        Foreground="White"
-                                        FontSize="12"/>
-                                    <Label  Content="Material de secundarias"
                                         Grid.Row="5" Grid.Column="0"
                                         Margin="10,0,0,0"
                                         FontFamily="Neo Tech Std"
@@ -178,8 +182,24 @@
                                         VerticalAlignment="Center"
                                         Foreground="White"
                                         FontSize="12"/>
+                                    <Label  Content="Tamaño tubos"
+                                            Grid.Row="6" Grid.Column="0"
+                                            Margin="10,0,0,0"
+                                            FontFamily="Neo Tech Std"
+                                            FontWeight="Light"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            FontSize="12"/>
+                                    <Label  Content="Material de secundarias"
+                                        Grid.Row="7" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
                                     <Label  Content="Altura de secundarias"
-                                        Grid.Row="6" Grid.Column="0"
+                                        Grid.Row="8" Grid.Column="0"
                                         Margin="10,0,0,0"
                                         FontFamily="Neo Tech Std"
                                         FontWeight="Light"
@@ -199,43 +219,70 @@
                                         <ComboBoxItem Content="Ligeramente corrosivo"/>
                                         <ComboBoxItem Content="Altamente corrosivo"/>
                                     </ComboBox>
-                                    <ComboBox x:Name="Material_MP"
-                                          Grid.Row="1" Grid.Column="1"
-                                          Width="150"
-                                          Margin="5,0,5,0"
-                                          VerticalAlignment="Center"
-                                          Foreground="{StaticResource General2}"
-                                          FontFamily="Neo Tech Std"
-                                          FontWeight="Light"
-                                          HorizontalContentAlignment="Center"/>
+                                    <CheckBox x:Name="Slew_6in"
+                                               Content="6in"
+                                               Grid.Row="1" Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Neo Tech Std"
+                                               Foreground="White"
+                                               FontWeight="Light"
+                                               Margin="5,0,100,0"/>
+                                    <CheckBox x:Name="Slew_8in"
+                                               Content="8in"
+                                               Grid.Row="1" Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Neo Tech Std"
+                                               Foreground="White"
+                                               FontWeight="Light"
+                                               Margin="100,0,0,0"/>
                                     <ComboBox x:Name="Material_GP"
-                                          Grid.Row="2" Grid.Column="1"
-                                          Width="150"
-                                          Margin="5,0,5,0"
-                                          VerticalAlignment="Center"
-                                          Foreground="{StaticResource General2}"
-                                          FontFamily="Neo Tech Std"
-                                          FontWeight="Light"
-                                          HorizontalContentAlignment="Center"/>
+                                              Grid.Row="2" Grid.Column="1"
+                                              Width="150"
+                                              Margin="5,0,5,0"
+                                              VerticalAlignment="Center"
+                                              Foreground="{StaticResource General2}"
+                                              FontFamily="Neo Tech Std"
+                                              FontWeight="Light"
+                                              HorizontalContentAlignment="Center"/>
                                     <CheckBox x:Name="Pilares_conformados"
-                                          Content="Conformados"
-                                          Grid.Row="3" Grid.Column="1"
-                                          VerticalAlignment="Center"
-                                          FontFamily="Neo Tech Std"
-                                          Foreground="White"
-                                          FontWeight="Light"
-                                          Margin="5,0,100,0"/>
+                                              Content="Conformados"
+                                              Grid.Row="3" Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              FontFamily="Neo Tech Std"
+                                              Foreground="White"
+                                              FontWeight="Light"
+                                              Margin="5,0,100,0"/>
                                     <CheckBox x:Name="Pilares_laminados"
-                                          Content="Laminados"
-                                          Grid.Row="3" Grid.Column="1"
-                                          VerticalAlignment="Center"
-                                          FontFamily="Neo Tech Std"
-                                          Foreground="White"
-                                          FontWeight="Light"
-                                          Margin="100,0,0,0"/>
+                                              Content="Laminados"
+                                              Grid.Row="3" Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              FontFamily="Neo Tech Std"
+                                              Foreground="White"
+                                              FontWeight="Light"
+                                              Margin="100,0,0,0"
+                                              Checked="Laminados_Checked"
+                                              Unchecked="Laminados_Unchecked"/>
+                                    <CheckBox x:Name="Pilares_W8"
+                                              Content="W8"
+                                              Grid.Row="4" Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              FontFamily="Neo Tech Std"
+                                              Foreground="White"
+                                              FontWeight="Light"
+                                              Margin="5,0,100,0"
+                                              Visibility="Hidden"/>
+                                    <CheckBox x:Name="Pilares_W6"
+                                              Content="W6"
+                                              Grid.Row="4" Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              FontFamily="Neo Tech Std"
+                                              Foreground="White"
+                                              FontWeight="Light"
+                                              Margin="100,0,0,0"
+                                              Visibility="Hidden"/>
 
                                     <ComboBox x:Name="Material_Vigas"
-                                          Grid.Row="4" Grid.Column="1"
+                                          Grid.Row="5" Grid.Column="1"
                                           Width="150"
                                           Margin="5,0,5,0"
                                           VerticalAlignment="Center"
@@ -243,8 +290,24 @@
                                           FontFamily="Neo Tech Std"
                                           FontWeight="Light"
                                           HorizontalContentAlignment="Center"/>
+                                    <CheckBox x:Name="Tubo_140"
+                                              Content="140"
+                                              Grid.Row="6" Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              FontFamily="Neo Tech Std"
+                                              Foreground="White"
+                                              FontWeight="Light"
+                                              Margin="5,0,0,0"/>
+                                    <CheckBox x:Name="Tubo_150"
+                                              Content="150"
+                                              Grid.Row="6" Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              FontFamily="Neo Tech Std"
+                                              Foreground="White"
+                                              FontWeight="Light"
+                                              Margin="100,0,0,0"/>
                                     <ComboBox x:Name="Material_Secundarias"
-                                          Grid.Row="5" Grid.Column="1"
+                                          Grid.Row="7" Grid.Column="1"
                                           Width="150"
                                           Margin="5,0,5,0"
                                           VerticalAlignment="Center"
@@ -254,7 +317,7 @@
                                           HorizontalContentAlignment="Center"/>
                                     <CheckBox x:Name="OH_75"
                                           Content="OH-75"
-                                          Grid.Row="6" Grid.Column="1"
+                                          Grid.Row="8" Grid.Column="1"
                                           VerticalAlignment="Center"
                                           FontFamily="Neo Tech Std"
                                           Foreground="White"
@@ -262,7 +325,7 @@
                                           Margin="5,0,0,0"/>
                                     <CheckBox x:Name="OH_90"
                                           Content="OH-90"
-                                          Grid.Row="6" Grid.Column="1"
+                                          Grid.Row="8" Grid.Column="1"
                                           VerticalAlignment="Center"
                                           FontFamily="Neo Tech Std"
                                           Foreground="White"
@@ -335,7 +398,7 @@
                                         VerticalAlignment="Center"
                                         Foreground="White"
                                         FontSize="12"/>
-                                    <Label  Content="Viga Motor B1"
+                                    <Label  Content="Viga Motor"
                                         Grid.Row="2" Grid.Column="0"
                                         Margin="10,0,0,0"
                                         FontFamily="Neo Tech Std"
