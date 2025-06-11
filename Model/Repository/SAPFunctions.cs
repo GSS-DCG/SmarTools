@@ -1334,7 +1334,7 @@ namespace SmarTools.Model.Repository
                 /// Si sup=true (por defecto) devuelve el nombre de las vigas superiores, sino, 
                 /// el de las inferiores
                 /// </returns>
-                public static string[] NorthSecundaryReinforcedBeams(cSapModel sapModel, bool? sup = true)
+                public static string[] NorthSecundaryReinforcedBeams(cSapModel mySapModel, bool? sup = true)
                 {
                     int nsecundarias = SecundaryBeamNumber(mySapModel, true);
 
@@ -1372,7 +1372,7 @@ namespace SmarTools.Model.Repository
                 /// Si sup=true (por defecto) devuelve el nombre de las vigas superiores, sino, 
                 /// el de las inferiores
                 /// </returns>
-                public static string[] SouthSecundaryReinforcedBeams(cSapModel sapModel, bool? sup = true)
+                public static string[] SouthSecundaryReinforcedBeams(cSapModel mySapModel, bool? sup = true)
                 {
                     int nsecundarias = SecundaryBeamNumber(mySapModel, true);
 

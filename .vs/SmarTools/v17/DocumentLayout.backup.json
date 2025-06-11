@@ -1,108 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\dimensionamiento2v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\dimensionamiento2v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento2vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento2vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento2vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento2vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 2,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SAPFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\SAPFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\SAPFunctions.cs",
-              "ViewState": "AgIAAGEBAAAAAAAAAAAawHMBAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T14:28:40.85Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Dimensionamiento2V.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento2V.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\Dimensionamiento2V.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento2V.cs",
-              "RelativeToolTip": "Model\\Applications\\Dimensionamiento2V.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIUAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T07:43:07.633Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Dimensionamiento2VAPP.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml.cs",
-              "RelativeDocumentMoniker": "APPS\\Dimensionamiento2VAPP.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml.cs",
-              "RelativeToolTip": "APPS\\Dimensionamiento2VAPP.xaml.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAApwFcAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T07:40:05.608Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "1a37da25-b7d9-452e-b263-1a35c892c956",
-        "Display": 1,
-        "X": 471,
-        "Y": 82,
-        "Width": 1457,
-        "Height": 965,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Dimensionamiento2VAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\Dimensionamiento2VAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml",
-              "RelativeToolTip": "APPS\\Dimensionamiento2VAPP.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-10T07:39:36.445Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

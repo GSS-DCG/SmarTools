@@ -43,6 +43,11 @@ namespace SmarTools.ViewModel
             App.Show();
         }
 
+        private void btnRefuerzoSecundaria_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void btnItalia_Click(object sender, RoutedEventArgs e)
         {
 
@@ -50,7 +55,8 @@ namespace SmarTools.ViewModel
 
         private void btnCalcularFlechas_Click(object sender, RoutedEventArgs e)
         {
-
+            ComprobacionFlechasTracker2VAPP App=new ComprobacionFlechasTracker2VAPP();
+            App.Show();
         }
 
         private void btnComprobacionUniones_Click(object sender, RoutedEventArgs e)
@@ -67,5 +73,7 @@ namespace SmarTools.ViewModel
         {
 
         }
+
+        
     }
 }

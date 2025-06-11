@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="APPS\ComprobacionFlechasTracker2VAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="APPS\ComprobacionFlechasTrackerAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -48,6 +51,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="APPS\ComprobacionFlechasTracker2VAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="APPS\ComprobacionFlechasTrackerAPP.xaml">
       <SubType>Designer</SubType>
     </Page>

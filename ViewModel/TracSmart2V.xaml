@@ -69,11 +69,26 @@
             </StackPanel>
         </RadioButton>
 
+        <!--Refuerzo Secundaria-->
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+             Tag="{StaticResource Rojo02}"
+             Grid.Row="3"
+             Grid.Column="1"
+             Click="btnRefuerzoSecundaria_Click">
+            <StackPanel Orientation="Vertical">
+                <Viewbox Width="50" Height="50">
+                    <Path Data="M 0 0 L 0 1 L 5 1 L 5 7 L 4 7 L 4 13 L 10 13 L 10 7 L 9 7 L 9 1 L 14 1 L 14 0 L 8 0 L 8 11 L 6 11 L 6 0 L 0 0"
+                          Fill="{StaticResource Rojo01}"/>
+                </Viewbox>
+                <TextBlock Text="Refuerzo Secundaria" Margin="0,5,0,0" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+            </StackPanel>
+        </RadioButton>
+        
         <!--Italia NTC-->
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
                      Tag="{StaticResource Rojo02}"
                      Grid.Row="3"
-                     Grid.Column="1"
+                     Grid.Column="2"
              Click="btnItalia_Click">
             <StackPanel Orientation="Vertical">
                 <Image Source="https://cdn-icons-png.freepik.com/256/321/321240.png?semt=ais_hybrid" Height="40" Width="40" Margin="5"/>
@@ -82,14 +97,14 @@
         </RadioButton>
 
         <!--Calculo Flechas-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-             Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+             Tag="{StaticResource Resaltado}"
              Grid.Row="3"
-             Grid.Column="2"
+             Grid.Column="3"
              Click="btnCalcularFlechas_Click">
             <StackPanel Orientation="Vertical">
                 <Image Source="https://i.imgur.com/NByziy5.png" Height="40" Width="40" Margin="5"/>
-                <TextBlock Text="Cálculo Flechas" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+                <TextBlock Text="Cálculo Flechas" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
 
@@ -97,7 +112,7 @@
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
              Tag="{StaticResource Rojo02}"
              Grid.Row="3"
-             Grid.Column="3"
+             Grid.Column="4"
              Click="btnComprobacionUniones_Click">
             <StackPanel Orientation="Vertical">
                 <Viewbox Width="40" Height="40">
