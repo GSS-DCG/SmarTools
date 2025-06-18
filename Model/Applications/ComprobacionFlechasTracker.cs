@@ -67,10 +67,10 @@ namespace SmarTools.Model.Applications
             //Desplazamientos de las cabezas de los pilares
             double[] desplazamiento_gp_norte = new double[n_pilares];
             double[] desplazamiento_gp_sur=new double[n_pilares];
-            for (int i = 1; i < n_pilares; i++)
+            for (int i = 0; i < n_pilares; i++)
             {
-                desplazamiento_gp_norte[i-1] = SAP.DesignSubclass.JointDisplacement(mySapModel, gps_n[i-1]);
-                desplazamiento_gp_sur[i-1]=SAP.DesignSubclass.JointDisplacement(mySapModel,gps_s[i-1]);
+                desplazamiento_gp_norte[i] = SAP.DesignSubclass.JointDisplacement(mySapModel, gps_n[i]);
+                desplazamiento_gp_sur[i]=SAP.DesignSubclass.JointDisplacement(mySapModel,gps_s[i]);
             }
             double[] desplomes = new double[1 + 2 * n_pilares];
             desplomes[0] = desplazamiento_motor;
@@ -238,7 +238,7 @@ namespace SmarTools.Model.Applications
             double X = 0, Y = 0, Z = 0;
             //Datos geoméricos
             int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
-            int npilares= SAP.ElementFinderSubclass.TrackerSubclass.PileNumber(mySapModel)-1;
+            int npilares= SAP.ElementFinderSubclass.TrackerSubclass.PileNumber(mySapModel);
             string[] pilares_n=SAP.ElementFinderSubclass.TrackerSubclass.NorthPiles(mySapModel);
             string[] pilares_s = SAP.ElementFinderSubclass.TrackerSubclass.SouthPiles(mySapModel);
             string[] gps_n = SAP.ElementFinderSubclass.TrackerSubclass.GetJoints(mySapModel, pilares_n, 2);
@@ -357,10 +357,10 @@ namespace SmarTools.Model.Applications
             //Desplazamientos de las cabezas de los pilares
             double[] desplazamiento_gp_norte = new double[n_pilares];
             double[] desplazamiento_gp_sur = new double[n_pilares];
-            for (int i = 1; i < n_pilares; i++)
+            for (int i = 0; i < n_pilares; i++)
             {
-                desplazamiento_gp_norte[i - 1] = SAP.DesignSubclass.JointDisplacement(mySapModel, gps_n[i - 1]);
-                desplazamiento_gp_sur[i - 1] = SAP.DesignSubclass.JointDisplacement(mySapModel, gps_s[i - 1]);
+                desplazamiento_gp_norte[i] = SAP.DesignSubclass.JointDisplacement(mySapModel, gps_n[i]);
+                desplazamiento_gp_sur[i] = SAP.DesignSubclass.JointDisplacement(mySapModel, gps_s[i]);
             }
             double[] desplomes = new double[1 + 2 * n_pilares];
             desplomes[0] = desplazamiento_motor;
@@ -528,7 +528,7 @@ namespace SmarTools.Model.Applications
             double X = 0, Y = 0, Z = 0;
             //Datos geoméricos
             int nvigas = SAP.ElementFinderSubclass.TrackerSubclass.BeamNumber(mySapModel);
-            int npilares = SAP.ElementFinderSubclass.TrackerSubclass.PileNumber(mySapModel) - 1;
+            int npilares = SAP.ElementFinderSubclass.TrackerSubclass.PileNumber(mySapModel);
             string[] pilares_n = SAP.ElementFinderSubclass.TrackerSubclass.NorthPiles(mySapModel);
             string[] pilares_s = SAP.ElementFinderSubclass.TrackerSubclass.SouthPiles(mySapModel);
             string[] gps_n = SAP.ElementFinderSubclass.TrackerSubclass.GetJoints(mySapModel, pilares_n, 2);

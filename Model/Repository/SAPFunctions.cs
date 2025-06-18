@@ -866,6 +866,40 @@ namespace SmarTools.Model.Repository
 
                 return vano;
             }
+
+            public static string[] ObtenerSeccionYTipo(cSapModel mySapModel,string barra)
+            {
+                //Variables necesarias para SAP2000
+                int ret = 0;
+                int numberItems = 0;
+                int[] objectType = new int[1];
+                string[] itemName = new string[1];
+                string section = "";
+
+                //Variable de salida
+                string[] seccion_tipo = new string[2];
+
+                //Interacción con SAP
+                ret = mySapModel.FrameObj.SetSelected(barra, true, eItemType.Objects);
+
+                if (ret == 0)
+                {
+                    mySapModel.SelectObj.GetSelected(ref numberItems, ref objectType, ref itemName);
+                    ret = mySapModel.DesignColdFormed.GetDesignSection(barra, ref section);
+                    if (section == "")
+                    {
+                        mySapModel.DesignSteel.GetDesignSection(barra, ref section);
+                        seccion_tipo = new string[] { section, "Laminado" };
+                    }
+                    else
+                    {
+                        seccion_tipo = new string[] { section, "Conformado" };
+                    }
+
+                }
+
+                return seccion_tipo;
+            }
         }
 
         public class ElementFinderSubclass // Clase para las funciones que devuelven nombres de barras y nudos
@@ -1146,7 +1180,7 @@ namespace SmarTools.Model.Repository
 
                     mySapModel.SelectObj.ClearSelection();
 
-                    for (int i = 0; i <= 10; i++)
+                    for (int i = 1; i <= 10; i++)
                     {
                         string pilar = "Column_" + i;
                         int ret = mySapModel.FrameObj.SetSelected(pilar, true, eItemType.Objects);

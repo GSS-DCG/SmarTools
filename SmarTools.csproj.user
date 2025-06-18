@@ -13,6 +13,9 @@
     <Compile Update="APPS\ComprobacionFlechasTrackerAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="APPS\ComprobacionUniones2VAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="APPS\ComprobacionUnionesAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -55,6 +58,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\ComprobacionFlechasTrackerAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="APPS\ComprobacionUniones2VAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\ComprobacionUnionesAPP.xaml">

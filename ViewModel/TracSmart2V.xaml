@@ -109,8 +109,8 @@
         </RadioButton>
 
         <!--Comprobacion Uniones-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-             Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+             Tag="{StaticResource Resaltado}"
              Grid.Row="3"
              Grid.Column="4"
              Click="btnComprobacionUniones_Click">
@@ -133,9 +133,9 @@
                         l-52 -52 -226 150 c-124 83 -230 154 -236 159 -12 12 94 120 109 112 6 -4 111
                         -73 234 -155z m-182 -175 l236 -157 -60 -58 c-33 -32 -68 -58 -78 -58 -20 0
                         -361 334 -370 363 -5 16 19 67 31 67 3 0 111 -71 241 -157z"
-                  Fill="{StaticResource Rojo01}"/>
+                  Fill="White"/>
                 </Viewbox>
-                <TextBlock Text="Comprobacion Uniones" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+                <TextBlock Text="Comprobacion Uniones" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
 

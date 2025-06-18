@@ -83,3 +83,5 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\Dimensionamiento2VAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\Dimensionamiento2VAPP.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionFlechasTracker2VAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionFlechasTracker2VAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUniones2VAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUniones2VAPP.baml

@@ -61,7 +61,8 @@ namespace SmarTools.ViewModel
 
         private void btnComprobacionUniones_Click(object sender, RoutedEventArgs e)
         {
-
+            ComprobacionUniones2VAPP App=new ComprobacionUniones2VAPP();
+            App.Show();
         }
 
         private void btnReacciones_Click(object sender, RoutedEventArgs e)
