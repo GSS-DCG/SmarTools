@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using DocumentFormat.OpenXml.Drawing;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.VisualBasic;
 using SAP2000v1;
@@ -1482,9 +1483,236 @@ namespace SmarTools.Model.Repository
                     _elementFinder = elementFinder;
                 }
 
+                public static int NumeroCorreas(cSapModel mySapModel)
+                {
+                    mySapModel.SelectObj.ClearSelection();
+                    mySapModel.FrameObj.SetSelected("03 Correas", true, eItemType.Group);
 
+                    int NumberItems = 0;
+                    int[] ObjectType = new int[1];
+                    string[] ObjectName = new string[1];
+
+                    mySapModel.SelectObj.GetSelected(ref NumberItems, ref ObjectType, ref ObjectName);
+
+                    int maxCorrea = 0;
+                    Regex regex = new Regex(@"Purlin_(\d+)_");
+
+                    foreach (var nombre in ObjectName)
+                    {
+                        Match match = regex.Match(nombre);
+                        if (match.Success)
+                        {
+                            int i = int.Parse(match.Groups[1].Value);
+                            if (i > maxCorrea)
+                            {
+                                maxCorrea = i;
+                            }
+                        }
+                    }
+
+                    return maxCorrea;
+                }
+
+                public static string[] ObtenerCorreas(cSapModel mySapModel)
+                {
+                    mySapModel.SelectObj.ClearSelection();
+                    mySapModel.FrameObj.SetSelected("03 Correas", true, eItemType.Group);
+
+                    int NumberItems = 0;
+                    int[] ObjectType = new int[1];
+                    string[] ObjectName = new string[1];
+
+                    mySapModel.SelectObj.GetSelected(ref NumberItems, ref ObjectType, ref ObjectName);
+
+                    return ObjectName;
+                }
+
+                public static string[] ListaPilaresDelanteros(cSapModel mySapModel)
+                {
+                    int numberColformedItem = 0;
+                    string[] FrameColdFormedName = new string[10];
+                    int[] objectType = null;
+                    string[] itemName = null;
+                    double[] Ratio = new double[10];
+                    int[] RatioType = new int[10];
+                    double[] Location = new double[10];
+                    string[] ComboName = new string[10];
+                    string[] ErrorSummary = new string[10];
+                    string[] WarningSummary = new string[10];
+                    string[] PropName = new string[10];
+
+                    mySapModel.SelectObj.ClearSelection();
+                    mySapModel.SelectObj.Group("01 Pilares");
+                    mySapModel.SelectObj.GetSelected(ref numberColformedItem, ref objectType, ref itemName);
+
+                    string[] PilaresD = new string[itemName.Length / 2];
+                    string[] PilaresT = new string[itemName.Length / 2];
+                    int indexD = 0;
+                    int indexT = 0;
+
+                    for (int i = 0; i < itemName.Length; i++)
+                    {
+                        if (itemName[i].Contains("Column_d"))
+                        {
+                            PilaresD[indexD++] = itemName[i];
+                        }
+                        else if (itemName[i].Contains("Column_i"))
+                        {
+                            PilaresT[indexT++] = itemName[i];
+                        }
+                    }
+
+                    mySapModel.SelectObj.ClearSelection();
+
+                    string[] pilares = PilaresD
+                            .Where(v => v != null).ToArray();
+
+                    return pilares;
+                }
+
+                public static string[] ListaPilaresTraseros(cSapModel mySapModel)
+                {
+                    int numberColformedItem = 0;
+                    string[] FrameColdFormedName = new string[10];
+                    int[] objectType = null;
+                    string[] itemName = null;
+                    double[] Ratio = new double[10];
+                    int[] RatioType = new int[10];
+                    double[] Location = new double[10];
+                    string[] ComboName = new string[10];
+                    string[] ErrorSummary = new string[10];
+                    string[] WarningSummary = new string[10];
+                    string[] PropName = new string[10];
+
+                    mySapModel.SelectObj.ClearSelection();
+                    mySapModel.SelectObj.Group("01 Pilares");
+                    mySapModel.SelectObj.GetSelected(ref numberColformedItem, ref objectType, ref itemName);
+
+                    string[] PilaresD = new string[itemName.Length / 2];
+                    string[] PilaresT = new string[itemName.Length / 2];
+                    int indexD = 0;
+                    int indexT = 0;
+
+                    for (int i = 0; i < itemName.Length; i++)
+                    {
+                        if (itemName[i].Contains("Column_d"))
+                        {
+                            PilaresD[indexD++] = itemName[i];
+                        }
+                        else if (itemName[i].Contains("Column_i"))
+                        {
+                            PilaresT[indexT++] = itemName[i];
+                        }
+                    }
+
+                    mySapModel.SelectObj.ClearSelection();
+
+                    string[] pilares = PilaresT
+                            .Where(v => v != null).ToArray();
+                    
+                    return pilares;
+                }
+
+                public static string[] ListaPilares(cSapModel mySapModel)
+                {
+                    int npilares = 0;
+                    mySapModel.SelectObj.ClearSelection();
+
+                    for (int i = 0; i < 100; i++)
+                    {
+                        string pilar = "Column_" + i;
+                        int ret = mySapModel.FrameObj.SetSelected(pilar, true, eItemType.Objects);
+                        if (ret == 0)
+                        {
+                            npilares++;
+                        }
+                    }
+                    mySapModel.SelectObj.ClearSelection();
+
+                    string[] Pilares = new string[npilares];
+
+                    for (int i = 1; i <= npilares; i++)
+                    {
+                        int j = i - 1;
+                        Pilares[j] = "Column_" + i;
+                    }
+
+                    string[] pilares = Pilares
+                            .Where(v => v != null).ToArray();
+
+                    return pilares;
+                }
+
+                public static string[] ListaVigas(cSapModel mySapModel)
+                {
+                    int nvigas = 0;
+                    mySapModel.SelectObj.ClearSelection();
+
+                    for (int i = 0; i < 100; i++)
+                    {
+                        string viga = "Beam_" + i;
+                        int ret = mySapModel.FrameObj.SetSelected(viga, true, eItemType.Objects);
+                        if (ret == 0)
+                        {
+                            nvigas++;
+                        }
+                    }
+                    mySapModel.SelectObj.ClearSelection();
+
+                    string[] Vigas = new string[nvigas];
+
+                    for (int i = 1; i <= nvigas; i++)
+                    {
+                        int j = i - 1;
+                        Vigas[j] = "Beam_" + i;
+                    }
+
+                    string[] vigas = Vigas
+                            .Where(v => v != null).ToArray();
+
+                    return vigas;
+                }
+
+                public static (string[], string[]) ListaDiagonales(cSapModel mySapModel)
+                {
+                    int numberColformedItem = 0;
+                    int[] objectType = new int[2];
+                    string[] itemName = new string[2];
+
+                    (string[], string[]) Diagonales = (new string[2], new string[2]);
+
+                    int ret = mySapModel.SelectObj.Group("04 Diagonales");
+                    if (ret == 0)
+                    {
+                        mySapModel.SelectObj.GetSelected(ref numberColformedItem, ref objectType, ref itemName);
+
+                        string[] Diagonales1 = new string[itemName.Length];
+                        string[] Diagonales2 = new string[itemName.Length];
+                        int contador1 = 0;
+                        int contador2 = 0;
+
+                        for (int i = 0; i < itemName.Length; i++)
+                        {
+                            if (itemName[i].Contains("Diag_Dcha"))
+                            {
+                                Diagonales1[contador1++] = itemName[i];
+                            }
+                            else if (itemName[i].Contains("Diag_Izda"))
+                            {
+                                Diagonales2[contador2++] = itemName[i];
+                            }
+                        }
+                        string[] DiagonalesD=Diagonales1
+                            .Where(v=>v!= null).ToArray();
+                        string[] DiagonalesI = Diagonales2
+                            .Where(v => v != null).ToArray();
+
+                        Diagonales = (DiagonalesD, DiagonalesI);
+                    }
+
+                    return Diagonales;
+                }
             }
-
         }
 
         public static string[] GetElements(cSapModel mySapModel, int objectType)

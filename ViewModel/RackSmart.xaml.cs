@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmarTools.APPS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,48 @@ namespace SmarTools.ViewModel
         public RackSmart()
         {
             InitializeComponent();
+        }
+
+        private void btnCambiarCombinaciones_Click(object sender, RoutedEventArgs e)
+        {
+            CambiarCombinacionesRackAPP App=new CambiarCombinacionesRackAPP();
+            App.Show();
+        }
+
+        private void btnCambiarCargas_Click(object sender, RoutedEventArgs e)
+        {
+            CambiarCargasRackAPP App=new CambiarCargasRackAPP();
+            App.Show();
+        }
+
+        private void btnDimensionamiento_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnItalia_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCalcularFlechas_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnComprobacionUniones_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnReacciones_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnListadosCalculo_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

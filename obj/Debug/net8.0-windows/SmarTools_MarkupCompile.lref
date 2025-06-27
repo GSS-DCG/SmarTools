@@ -1,5 +1,7 @@
 ﻿
 FC:\InSync\SmarTools\App.xaml;;
+FC:\InSync\SmarTools\APPS\CambiarCargasRackAPP.xaml;;
+FC:\InSync\SmarTools\APPS\CambiarCombinacionesRackAPP.xaml;;
 FC:\InSync\SmarTools\APPS\ComprobacionFlechasTracker2VAPP.xaml;;
 FC:\InSync\SmarTools\APPS\ComprobacionFlechasTrackerAPP.xaml;;
 FC:\InSync\SmarTools\APPS\ComprobacionUniones2VAPP.xaml;;
@@ -7,6 +9,7 @@ FC:\InSync\SmarTools\APPS\ComprobacionUnionesAPP.xaml;;
 FC:\InSync\SmarTools\APPS\Dimensionamiento1VAPP.xaml;;
 FC:\InSync\SmarTools\APPS\Dimensionamiento2VAPP.xaml;;
 FC:\InSync\SmarTools\APPS\ListadosDeCalculo1VAPP.xaml;;
+FC:\InSync\SmarTools\APPS\ListadosDeCalculo2VAPP.xaml;;
 FC:\InSync\SmarTools\APPS\NumeroPilaresAPP.xaml;;
 FC:\InSync\SmarTools\Styles\ControlBarButton.xaml;;
 FC:\InSync\SmarTools\Styles\Window.xaml;;

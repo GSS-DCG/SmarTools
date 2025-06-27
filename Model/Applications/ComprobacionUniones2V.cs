@@ -39,7 +39,7 @@ namespace SmarTools.Model.Applications
                 UnionBS(vista);
                 UnionMS(vista);
                 UnionSB(vista);
-                //UnionMC(vista);
+                UnionMC(vista);
             }
             finally
             {
@@ -204,10 +204,10 @@ namespace SmarTools.Model.Applications
             {
                 union = "MS-02";
             }
-            if (seccion_tipo[0].Contains("W8X24"))
-            {
-                union = "MS-03";
-            }
+            //if (seccion_tipo[0].Contains("W8X24"))
+            //{
+            //    union = "MS-03";
+            //}
             double[] esfuerzos_MS = uniones[union];
 
             //Obtenemos los esfuerzos en la cabeza del pilar motor
@@ -260,6 +260,47 @@ namespace SmarTools.Model.Applications
             bool cumpleV2 = V2 <= V2max;
             bool cumpleM3 = M3 <= M3max;
 
+            if((union=="MS-02")==true && (cumpleP && cumpleV2 && cumpleM3)==false)
+            {
+                union = "MS-03";
+                esfuerzos_MS = uniones[union];
+
+                //Rellenamos la parte de la tabla de esfuerzos máximos admisibles
+                labels_max = new Label[]
+                {
+                vista.Tipo_MS, vista.Pmax_MS, vista.V2max_MS, vista.V3max_MS, vista.Tmax_MS, vista.M2max_MS, vista.M3max_MS
+                };
+
+                labels_max[0].Content = union;
+                for (int i = 1; i <= 6; i++)
+                {
+                    labels_max[i].Content = esfuerzos_MS[i - 1];
+                }
+                //Rellenamos la parte de la tabla de esfuerzos del modelo
+                labels_esfuerzos = new Label[]
+                {
+                vista.Ang_MS, vista.P_MS, vista.V2_MS, vista.V3_MS, vista.T_MS, vista.M2_MS, vista.M3_MS
+                };
+                labels_esfuerzos[0].Content = "Envolvente";
+                for (int i = 1; i <= 6; i++)
+                {
+                    labels_esfuerzos[i].Content = esfuerzos_MS_modelo[i - 1].ToString("F3");
+                }
+
+                //Cogemos los valores que necesitamos
+                double.TryParse(vista.P_MS.Content?.ToString(), out P);
+                double.TryParse(vista.V2_MS.Content?.ToString(), out V2);
+                double.TryParse(vista.M3_MS.Content?.ToString(), out M3);
+                double.TryParse(vista.Pmax_MS.Content?.ToString(), out Pmax);
+                double.TryParse(vista.V2max_MS.Content?.ToString(), out V2max);
+                double.TryParse(vista.M3max_MS.Content?.ToString(), out M3max);
+
+                // Evaluar condiciones
+                cumpleP = P <= Pmax;
+                cumpleV2 = V2 <= V2max;
+                cumpleM3 = M3 <= M3max;
+            }
+
             vista.RecuadroMS.Background = (cumpleP && cumpleV2 && cumpleM3) ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79)) : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
 
             if (!cumpleP) vista.P_MS.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
@@ -297,7 +338,15 @@ namespace SmarTools.Model.Applications
                     esfuerzos_SB = uniones["2V-75x1,6 S350 (B)"];
                     break;
 
+                case (75, 1.6, "S350GD_R", "B"):
+                    esfuerzos_SB = uniones["2V-75x1,6 S350 (B)"];
+                    break;
+
                 case (75, 1.6, "S420GD", "B"):
+                    esfuerzos_SB = uniones["2V-75x1,6 S420 (B)"];
+                    break;
+
+                case (75, 1.6, "S420GD_R", "B"):
                     esfuerzos_SB = uniones["2V-75x1,6 S420 (B)"];
                     break;
 
@@ -305,7 +354,15 @@ namespace SmarTools.Model.Applications
                     esfuerzos_SB = uniones["2V-90x1,6 S420 (B)"];
                     break;
 
+                case (90, 1.6, "S420GD_R", "B"):
+                    esfuerzos_SB = uniones["2V-90x1,6 S420 (B)"];
+                    break;
+
                 case (90, 1.6, "S420GD", "A"):
+                    esfuerzos_SB = uniones["2V-90x1,6 S420 (A)"];
+                    break;
+
+                case (90, 1.6, "S420GD_R", "A"):
                     esfuerzos_SB = uniones["2V-90x1,6 S420 (A)"];
                     break;
 
@@ -313,8 +370,20 @@ namespace SmarTools.Model.Applications
                     esfuerzos_SB = uniones["2V-90x1,8 S420 (A)"];
                     break;
 
+                case (90, 1.8, "S420GD_R", "A"):
+                    esfuerzos_SB = uniones["2V-90x1,8 S420 (A)"];
+                    break;
+
                 case (90, 2, "S420GD", "A"):
                     esfuerzos_SB = uniones["2V-90x2,0 S420 (A)"];
+                    break;
+
+                case (90, 2, "S420GD_R", "A"):
+                    esfuerzos_SB = uniones["2V-90x2,0 S420 (A)"];
+                    break;
+
+                default:
+                    MessageBox.Show("No se encuentra la combinación de secundaria y refuerzo de secundaria", "Aviso");
                     break;
             }
 
@@ -354,15 +423,16 @@ namespace SmarTools.Model.Applications
             }
 
             //Cogemos los valores que necesitamos
+
             double.TryParse(vista.V2_SB.Content?.ToString(), out double V2);
             double.TryParse(vista.V2inf_SB.Content?.ToString(), out double V2inf);
-            double.TryParse(vista.M2_SB.Content?.ToString(), out double M2);
+            double.TryParse(vista.M3_SB.Content?.ToString(), out double M3);
             double.TryParse(vista.V2max_SB.Content?.ToString(), out double V2max);
             double.TryParse(vista.V2infmax_SB.Content?.ToString(), out double V2infmax);
-            double.TryParse(vista.M2max_SB.Content?.ToString(), out double M2max);
+            double.TryParse(vista.M3max_SB.Content?.ToString(), out double M3max);
 
             //Coloreamos todos los labels en verde por defecto
-            var labelsVerificar = new[] { vista.P_SB, vista.V2_SB, vista.V2inf_SB, vista.T_SB, vista.M2_SB, vista.M3_SB };
+            var labelsVerificar = new[] { vista.P_SB, vista.V2_SB, vista.V2inf_SB, vista.T_SB, vista.M3_SB, vista.M3_SB };
             foreach (var label in labelsVerificar)
             {
                 label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79));
@@ -371,13 +441,13 @@ namespace SmarTools.Model.Applications
             // Evaluar condiciones
             bool cumpleV2 = V2 <= V2max;
             bool cumpleV2inf = V2inf <= V2infmax;
-            bool cumpleM2 = M2 <= M2max;
+            bool cumpleM3 = M3 <= M3max;
 
-            vista.RecuadroSB.Background = (cumpleV2&&cumpleV2inf && cumpleM2) ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79)) : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+            vista.RecuadroSB.Background = (cumpleV2&&cumpleV2inf && cumpleM3) ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79)) : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
 
             if (!cumpleV2) vista.V2_SB.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
             if (!cumpleV2inf) vista.V2inf_SB.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
-            if (!cumpleM2) vista.M2_SB.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+            if (!cumpleM3) vista.M3_SB.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
 
         }
 

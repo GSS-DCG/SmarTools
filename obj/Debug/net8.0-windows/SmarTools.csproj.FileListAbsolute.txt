@@ -85,3 +85,9 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionFlechasTracker2VAP
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionFlechasTracker2VAPP.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUniones2VAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUniones2VAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ListadosDeCalculo2VAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ListadosDeCalculo2VAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCombinacionesRackAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCombinacionesRackAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargasRackAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargasRackAPP.baml

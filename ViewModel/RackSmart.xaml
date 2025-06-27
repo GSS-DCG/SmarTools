@@ -29,13 +29,27 @@
             <TextBlock Text="Propiedades Modelo Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
         </Border>
 
+        <!--Cambiar Combinaciones-->
         <RadioButton Style="{StaticResource SelectorButton}" 
-             Tag="{StaticResource Resaltado}"
-             Grid.Row="1"
-                    Grid.Column="0">
+                     Tag="{StaticResource Resaltado}"
+                     Grid.Row="1"
+                     Grid.Column="0"
+                     Click="btnCambiarCombinaciones_Click">
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="Cancel" Style="{StaticResource SelectorButtonIcon}" />
-                <TextBlock Text="Error" Style="{StaticResource selectorButtonText}"/>
+                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIcon}"/>
+                <TextBlock Text="Cambiar&#x0a;Combinaciones" Style="{StaticResource selectorButtonText}" TextAlignment="center"/>
+            </StackPanel>
+        </RadioButton>
+
+        <!--Cambiar Cargas-->
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Click="btnCambiarCargas_Click">
+            <StackPanel Orientation="Vertical">
+                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIcon}"/>
+                <TextBlock Text="Cambiar cargas" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
 
@@ -43,28 +57,124 @@
             <TextBlock Text="Comprbaciones Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
         </Border>
 
-        <RadioButton Style="{StaticResource SelectorButton}" 
-                     Tag="{StaticResource Resaltado}"
-                     Grid.Row="3"
-                     Grid.Column="0">
+        <!--Dimensionamiento-->
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+              Tag="{StaticResource Rojo02}"
+              Grid.Row="3"
+              Grid.Column="0"
+              Click="btnDimensionamiento_Click">
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="Cancel" Style="{StaticResource SelectorButtonIcon}"/>
-                <TextBlock Text="Error" Style="{StaticResource selectorButtonText}"/>
+                <fa:IconImage Icon="Check" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
+                <TextBlock Text="Dimensionamiento" Style="{StaticResource selectorButtonTextNotAvailable}"/>
             </StackPanel>
         </RadioButton>
 
+        <!--Italia NTC-->
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+     Tag="{StaticResource Rojo02}"
+     Grid.Row="3"
+     Grid.Column="1"
+             Click="btnItalia_Click">
+            <StackPanel Orientation="Vertical">
+                <Image Source="https://cdn-icons-png.freepik.com/256/321/321240.png?semt=ais_hybrid" Height="40" Width="40" Margin="5"/>
+                <TextBlock Text="Italia NTC_2018" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+            </StackPanel>
+        </RadioButton>
+
+        <!--Calculo Flechas-->
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+             Tag="{StaticResource Rojo02}"
+             Grid.Row="3"
+             Grid.Column="2"
+             Click="btnCalcularFlechas_Click">
+            <StackPanel Orientation="Vertical">
+                <Image Source="https://i.imgur.com/NByziy5.png" Height="40" Width="40" Margin="5"/>
+                <TextBlock Text="Cálculo Flechas" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+            </StackPanel>
+        </RadioButton>
+
+        <!--Comprobacion Uniones-->
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+             Tag="{StaticResource Rojo02}"
+             Grid.Row="3"
+             Grid.Column="3"
+             Click="btnComprobacionUniones_Click">
+            <StackPanel Orientation="Vertical">
+                <Viewbox Width="40" Height="40">
+                    <Path Data="M1320 2239 c-31 -12 -236 -214 -256 -251 -17 -32 -18 -91 -3 -121 6
+                        -12 39 -50 72 -85 l62 -62 -592 -593 c-631 -632 -614 -612 -598 -695 5 -31 38
+                        -68 198 -229 161 -160 198 -193 229 -198 83 -16 63 -33 695 598 l593 592 62
+                        -62 c74 -71 94 -83 143 -83 54 0 80 18 202 142 120 122 136 153 114 220 -13
+                        41 -781 812 -824 828 -34 12 -64 12 -97 -1z m452 -466 c214 -214 388 -394 388
+                        -402 0 -23 -211 -231 -234 -231 -29 0 -786 757 -786 786 0 23 208 234 231 234
+                        8 0 188 -174 401 -387z m-312 -318 l195 -195 -137 -137 -137 -137 -237 158
+                        -237 158 174 174 c96 96 176 174 179 174 3 0 93 -88 200 -195z m-382 -376
+                        c125 -84 229 -154 232 -156 2 -2 -21 -29 -52 -59 l-55 -56 -237 158 -237 158
+                        53 53 c29 29 56 53 60 53 5 0 111 -68 236 -151z m-176 -181 c126 -83 228 -154
+                        228 -157 0 -4 -24 -31 -54 -60 l-53 -53 -237 158 -237 158 53 53 c29 29 57 53
+                        62 53 6 0 113 -68 238 -152z m48 -337 c0 -4 -24 -30 -53 -59 l-52 -52 -233
+                        155 c-127 85 -232 158 -232 162 0 4 23 31 51 59 l52 52 233 -155 c129 -86 234
+                        -159 234 -162z m-402 -23 c122 -82 222 -151 222 -155 0 -4 -23 -31 -51 -59
+                        l-52 -52 -226 150 c-124 83 -230 154 -236 159 -12 12 94 120 109 112 6 -4 111
+                        -73 234 -155z m-182 -175 l236 -157 -60 -58 c-33 -32 -68 -58 -78 -58 -20 0
+                        -361 334 -370 363 -5 16 19 67 31 67 3 0 111 -71 241 -157z"
+                  Fill="{StaticResource Rojo01}"/>
+                </Viewbox>
+                <TextBlock Text="Comprobacion Uniones" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+            </StackPanel>
+        </RadioButton>
 
         <Border Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="4">
             <TextBlock Text="Extraccion documentos"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
         </Border>
 
-        <RadioButton Style="{StaticResource SelectorButton}" 
-                     Tag="{StaticResource Resaltado}"
+        <!--Racciones-->
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+                     Tag="{StaticResource Rojo02}"
                      Grid.Row="5"
-                     Grid.Column="0">
+                     Grid.Column="0"
+             Click="btnReacciones_Click">
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="Cancel" Style="{StaticResource SelectorButtonIcon}"/>
-                <TextBlock Text="Error" Style="{StaticResource selectorButtonText}"/>
+                <Viewbox Width="40" Height="40">
+                    <Path Data="M2480 4974 c-44 -19 -883 -854 -911 -906 -23 -44 -25 -124 -5 -171
+                        44 -103 183 -150 286 -98 14 7 134 122 268 255 l242 241 -2 -1139 -3 -1138
+                        -934 -539 c-514 -297 -935 -538 -936 -537 -2 2 26 165 62 363 57 315 64 365
+                        54 401 -15 58 -50 105 -96 132 -34 19 -52 22 -112 20 -79 -4 -104 -17 -156
+                        -80 -27 -34 -34 -65 -133 -614 -119 -655 -121 -684 -68 -751 17 -21 44 -46 60
+                        -55 18 -10 195 -47 449 -93 231 -42 496 -89 590 -106 198 -36 248 -35 307 7
+                        122 86 109 281 -23 349 -15 8 -157 38 -316 66 -158 29 -291 55 -295 58 -3 3
+                        389 234 873 513 l879 508 879 -508 c484 -279 877 -510 873 -513 -4 -4 -137
+                        -30 -296 -58 -158 -29 -301 -58 -316 -66 -40 -21 -87 -79 -99 -122 -16 -58
+                        -13 -93 13 -150 31 -67 86 -105 159 -110 61 -5 1200 198 1245 221 62 33 102
+                        102 102 178 0 30 -47 314 -104 632 -99 549 -106 580 -133 614 -52 63 -77 76
+                        -156 80 -60 2 -78 -1 -112 -20 -46 -27 -81 -74 -96 -131 -9 -36 -2 -88 54
+                        -401 36 -199 64 -362 62 -364 -1 -1 -421 240 -933 535 l-932 538 0 1135 0
+                        1135 238 -237 c130 -130 252 -244 271 -253 42 -21 125 -22 171 -3 44 19 89 63
+                        106 105 20 47 17 127 -5 171 -29 55 -867 888 -913 907 -47 19 -112 19 -158 -1z"
+                  Fill="{DynamicResource Rojo01}" RenderTransformOrigin="0.5,0.5">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180 "/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                </Viewbox>
+                <TextBlock Text="Reacciones" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+            </StackPanel>
+        </RadioButton>
+
+        <!--Listados Calculo-->
+        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
+                     Tag="{StaticResource Rojo02}"
+                     Grid.Row="5"
+                     Grid.Column="1"
+             Click="btnListadosCalculo_Click">
+            <StackPanel Orientation="Vertical">
+                <fa:IconImage Icon="TableList" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
+                <TextBlock Text="Listados Cálculo" Style="{StaticResource selectorButtonTextNotAvailable}"/>
             </StackPanel>
         </RadioButton>
     </Grid>

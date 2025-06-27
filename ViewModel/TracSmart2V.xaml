@@ -182,14 +182,14 @@
         </RadioButton>
 
         <!--Listados Calculo-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-                     Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
                      Grid.Row="5"
                      Grid.Column="1"
                      Click="btnListadosCalculo_Click">
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="TableList" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
-                <TextBlock Text="Listados Cálculo" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+                <fa:IconImage Icon="TableList" Style="{StaticResource SelectorButtonIcon}"/>
+                <TextBlock Text="Listados Cálculo" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
     </Grid>

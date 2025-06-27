@@ -7,6 +7,12 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="APPS\CambiarCargasRackAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="APPS\CambiarCombinacionesRackAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="APPS\ComprobacionFlechasTracker2VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -26,6 +32,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="APPS\ListadosDeCalculo1VAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="APPS\ListadosDeCalculo2VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="APPS\NumeroPilaresAPP.xaml.cs">
@@ -54,6 +63,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="APPS\CambiarCargasRackAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="APPS\ComprobacionFlechasTracker2VAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -73,6 +85,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\ListadosDeCalculo1VAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="APPS\ListadosDeCalculo2VAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\NumeroPilaresAPP.xaml">
