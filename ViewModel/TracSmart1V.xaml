@@ -26,15 +26,43 @@
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="4">
-            <TextBlock Text="Propiedades Modelo Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
+            <TextBlock Text="Propiedades del Modelo de Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
         </Border>
-
+        <Border Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="ℹ" Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0">
+                <TextBlock.ToolTip>
+                    <TextBlock Width="200" TextWrapping="Wrap" Foreground="{StaticResource Blue02}" 
+                               Text="Este módulo contiene aplicaciones para la preparación del modelo antes del cálculo. Una vez obtenios los datos principales del proyecto y configurado la ES_MA, se podrá calcular el número de pilares, cambiar las combinaciones de carga y las cargas del modelo si es necesario."/>
+                </TextBlock.ToolTip>
+            </TextBlock>
+        </Border>
+        
         <!--Numero de Pilares-->
         <RadioButton Style="{StaticResource SelectorButton}" 
              Tag="{StaticResource Resaltado}"
              Grid.Row="1"
                     Grid.Column="0"
                      Click="btnNumeroPilares_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Blue02}"
+                               Text="Aplicación de cálculo de Número de pilares"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="Aplicación para el cálculo del número óptimo de pilares para el producto 1P-R5. Las limitaciones tenidas en cuenta son los esfuerzos en la cabeza de giro (BS) y un vano máximo de 9000 mm"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="Para el uso de esta aplicación es necesario tener previamente rellenos los datos principales de la ES_MA, de forma que esté disponible el par estático para poder calcular la limitación por torsor de las cabezas de los pilares"/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <Viewbox Height="40">
                     <Path Data="M0 0V2H4v8H6V2H19v8h2V2H34v8h2V2h4m0 0V0H0"
@@ -48,10 +76,54 @@
 
         <!--Cambiar Combinaciones-->
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-             Tag="{StaticResource Rojo02}"
-             Grid.Row="1"
-             Grid.Column="1"
+                     Tag="{StaticResource Rojo02}"
+                     Grid.Row="1"
+                     Grid.Column="1"
                      Click="btnCambiarCombinaciones_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Rojo01}"
+                               Text="Aplicación de cambio de combinaciones de cálculo"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Rojo01}"
+                               Text="(En desarrollo. No disponible)"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="   Permite añadir hipótesis de carga como viento lateral y nieve accidental, además de las que ya crea SizeSmart. Se pueden seleccionar de manera automática los coeficientes de:"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="  - Eurocódigo"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="  - NTC-2018"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="  - ASCE7-05"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="  - ASCE7-16"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="   Si se necesita otra normativa, se pueden cambiar los coeficientes a mano."/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
                 <TextBlock Text="Cambiar&#x0a;Combinaciones" Style="{StaticResource selectorButtonTextNotAvailable}" TextAlignment="center"/>
@@ -59,20 +131,54 @@
         </RadioButton>
 
         <!--Cambiar Cargas-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-             Tag="{StaticResource Rojo02}"
-             Grid.Row="1"
-             Grid.Column="2"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
+                     Grid.Row="1"
+                     Grid.Column="2"
                      Click="btnCambiarCargas_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Blue02}"
+                               Text="Aplicación de cambio de cargas"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Permite modificar las cargas de un modelo, tanto de peso propio, como de nieve y viento. Además, permite añadir nieve accidental y cargas de viento lateral"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Si se dispone de una ES_MA, se pueden cargar los datos directamente una vez seleccionado el tipo de tracker y la normativa del mismo. Sino, se pueden introducir directamente a mano."/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Las cargas decimales se introducen con el separador de coma ( , )"/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
-                <TextBlock Text="Cambiar cargas" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIcon}"/>
+                <TextBlock Text="Cambiar cargas" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
 
 
         <Border Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="4">
-            <TextBlock Text="Comprbaciones Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
+            <TextBlock Text="Comprobaciones de Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
+        </Border>
+        <Border Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="ℹ" Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="0,0,85,0">
+                <TextBlock.ToolTip>
+                    <TextBlock Width="200" TextWrapping="Wrap" Foreground="{StaticResource Blue02}" 
+                               Text="Este módulo contiene aplicaciones para el cálculo del modelo. Una vez que el modelo esté listo, se podrá dimensionar tanto con EU y ASCE (Dimensionamiento) como con norma Italiana (Italia NTC-2018). Con el modelo dimensionado, se podrá comprobar tanto las flechas como las uniones del mismo."/>
+                </TextBlock.ToolTip>
+            </TextBlock>
         </Border>
 
         <!--Dimensionamiento-->
@@ -81,6 +187,32 @@
                      Grid.Row="3"
                      Grid.Column="0"
                      Click="btnDimensionamiento_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Blue02}"
+                               Text="Aplicación de dimensionamiento"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Permite dimensionar un modelo de SAP2000 fuera de la aplicación de SizeSmart, con los ratios habituales (pilares al 90% de aprovechamiento máximo y resto de elementos al 100%)"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Para diemnsionar el modelo, se deben filtrar previamente los perfiles a utilizar, tanto por ambiente, material y tipología en el caso de pilares generales y secundarias. Se pueden asignar otros perfiles si se desea, pero no es obligatorio para el correcto funcionamiento de la herramienta."/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   En el apartado de Progreso se podrán ver los diferentes resultados fuera de rango del proceso de dimesionamiento, mientras que en el apartado de Resultados se irán añadiendo los perfiles finales y sus ratios correspondientes de la estructura ya dimensionada."/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <fa:IconImage Icon="Check" Style="{StaticResource SelectorButtonIcon}"/>
                 <TextBlock Text="Dimensionamiento" Style="{StaticResource selectorButtonText}"/>
@@ -89,10 +221,34 @@
 
         <!--Italia NTC-->
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-             Tag="{StaticResource Rojo02}"
-             Grid.Row="3"
-             Grid.Column="1"
+                     Tag="{StaticResource Rojo02}"
+                     Grid.Row="3"
+                     Grid.Column="1"
                      Click="btnItalia_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Rojo01}"
+                               Text="Aplicación de cálculo con normativa NTC-2018"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Rojo01}"
+                               Text="(En desarrollo. No disponible)"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="   Permite dimensionar un modelo según la normativa NTC-2018, ya que realiza las comprobaciones que faltan en SAP2000, como por eemplo la esbeltez"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="   Genera un informe con los apartados de las comprobaciones que faltan para poder añadirlo al listado de cálculo"/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <Image Source="https://cdn-icons-png.freepik.com/256/321/321240.png?semt=ais_hybrid" Height="40" Width="40" Margin="5"/>
                 <TextBlock Text="Italia NTC_2018" Style="{StaticResource selectorButtonTextNotAvailable}"/>
@@ -105,6 +261,35 @@
                      Grid.Row="3"
                      Grid.Column="2"
                      Click="btnCalcularFlechas_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Blue02}"
+                               Text="Aplicación de cálculo de flechas"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Permite calcular y verificar las flechas del modelo según los criterios internos de diseño:"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="  - H/100 para desplome de pilares"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="  - L/200 para flecha de vigas"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="  - 2L/300 para flecha de voladizo vigas principales y secundarias"/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <Image Source="https://i.imgur.com/NByziy5.png" Height="40" Width="40" Margin="5"/>
                 <TextBlock Text="Cálculo Flechas" Style="{StaticResource selectorButtonText}"/>
@@ -117,6 +302,26 @@
                      Grid.Row="3"
                      Grid.Column="3"
                      Click="btnComprobacionUniones_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Blue02}"
+                               Text="Aplicación de comprobación de uniones"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Permite comprobar las uniones del modelo calculado."/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Esta aplicación no dimensiona la unión de la secundaria, solamente la comprueba. Si no cumple, se puede modificar el perfil con la aplicación de dimensionamiento a uno con espesor superior, y volver a comprobar las uniones"/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <Viewbox Width="40" Height="40">
                     <Path Data="M1320 2239 c-31 -12 -236 -214 -256 -251 -17 -32 -18 -91 -3 -121 6
@@ -143,15 +348,41 @@
         </RadioButton>
 
         <Border Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="4">
-            <TextBlock Text="Extraccion documentos"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
+            <TextBlock Text="Extracción de documentos"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="ℹ" Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="0,0,95,0">
+                <TextBlock.ToolTip>
+                    <TextBlock Width="200" TextWrapping="Wrap" Foreground="{StaticResource Blue02}" 
+                       Text="Este módulo contiene aplicaciones para la extracción de documentos a partir de modelos completamente dimensionados. Se podrán obtener tanto las reacciones en la cimentación, como rellenar el excel de cargas POT y obtener los listados de cálculo de los mismos para adjuntarlos a la memoria de cálculo."/>
+                </TextBlock.ToolTip>
+            </TextBlock>
         </Border>
 
         <!--Racciones-->
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-             Tag="{StaticResource Rojo02}"
-             Grid.Row="5"
-             Grid.Column="0"
+                     Tag="{StaticResource Rojo02}"
+                     Grid.Row="5"
+                     Grid.Column="0"
                      Click="btnReacciones_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Rojo01}"
+                               Text="Aplicación de cálculo de reacciones en cimentación"/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Rojo01}"
+                               Text="(En desarrollo. No disponible)"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Rojo02}"
+                               TextWrapping="Wrap"
+                               Text="   Permite obtener los ficheros excel con las reacciones sobre el terreno y rellenar el excel de &quot;CARGAS POT ELU&quot;"/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <Viewbox Width="40" Height="40">
                     <Path Data="M2480 4974 c-44 -19 -883 -854 -911 -906 -23 -44 -25 -124 -5 -171
@@ -186,10 +417,24 @@
 
         <!--Listados Calculo-->
         <RadioButton Style="{StaticResource SelectorButton}" 
-             Tag="{StaticResource Resaltado}"
-             Grid.Row="5"
-             Grid.Column="1"
+                     Tag="{StaticResource Resaltado}"
+                     Grid.Row="5"
+                     Grid.Column="1"
                      Click="btnListadosCalculo_Click">
+            <RadioButton.ToolTip>
+                <StackPanel Width="300">
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource Blue02}"
+                               Text="Aplicación de listados de cálculo"/>
+                    <TextBlock/>
+                    <TextBlock FontFamily="Neo Tech Std"
+                               FontWeight="Light"
+                               Foreground="{StaticResource Blue03}"
+                               TextWrapping="Wrap"
+                               Text="   Permite obtener los listados de cálculo de los modelos que se encuentren en la carpeta seleccionada. Genera un documento word por cada modelo, tanto con sismo como sin sismo, según se seleccione."/>
+                </StackPanel>
+            </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <fa:IconImage Icon="TableList" Style="{StaticResource SelectorButtonIcon}"/>
                 <TextBlock Text="Listados Cálculo" Style="{StaticResource selectorButtonText}"/>

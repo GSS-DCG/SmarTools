@@ -389,7 +389,7 @@ namespace SmarTools.Model.Applications
                 .ToArray();
 
             //Asignamos las cargas al modelo en función de si es PV o PH
-            if (vista.Configuracion_PV.IsChecked == true)
+            if (vista.Configuracion_PV.IsChecked == true || n_cm==3)
             {
                 for (int i = 0; i < correasSup.Length; i++)
                 {
@@ -447,7 +447,7 @@ namespace SmarTools.Model.Applications
                 .ToArray();
 
             //Asignamos las cargas al modelo en función de si es PV o PH
-            if (vista.Configuracion_PV.IsChecked == true)
+            if (vista.Configuracion_PV.IsChecked == true || n_cm == 3)
             {
                 for (int i = 0; i < correasInf.Length; i++)
                 {

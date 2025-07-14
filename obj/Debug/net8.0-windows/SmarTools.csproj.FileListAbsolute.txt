@@ -91,3 +91,5 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCombinacionesRackAPP.g.
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCombinacionesRackAPP.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargasRackAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargasRackAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargas1VAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargas1VAPP.baml

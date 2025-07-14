@@ -65,5 +65,60 @@ namespace SmarTools.APPS
         {
             CambiarCombinacionesRack.AplicarCombinaciones(this);
         }
+
+        private void Normativa_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var seleccion=(Normativa.SelectedItem as ComboBoxItem)?.Content?.ToString();
+            var visibilidad_EU = (seleccion == "Eurocódigo") || (seleccion == "NTC-2018") ? Visibility.Visible : Visibility.Collapsed;
+            var visibilidad_ASCE = (seleccion == "ASCE7-05") || (seleccion == "ASCE7-16") ? Visibility.Visible : Visibility.Collapsed;
+
+            var elementos_ASCE = new UIElement[]
+            {
+                ELU_ASCE,
+                StackPanel_ELU_ASCE,
+                ELS_ASCE,
+                StackPanel_ELS_ASCE
+            };
+
+            var elementos_EU = new UIElement[]
+            {
+                ELU_EU,
+                StackPanel_ELU_EU,
+                CoefSimult_EU,
+                StackPanel_Simult_EU,
+                ELS_EU,
+                StackPanel_ELS_EU
+            };
+
+            foreach (var elemento in elementos_EU)
+            {
+                if (elemento == null)
+                {
+                    continue;
+                }
+
+                elemento.Visibility = visibilidad_EU;
+            }
+
+            foreach (var elemento in elementos_ASCE)
+            {
+                if (elemento == null)
+                {
+                    continue;
+                }
+
+                elemento.Visibility = visibilidad_ASCE;
+            }
+
+            var coeficientes = CambiarCombinacionesRack.Coeficientes(this, seleccion);
+
+            foreach(var (valor,caja) in coeficientes)
+            {
+                if (caja != null)
+                {
+                    caja.Text = valor.ToString("0.00");
+                }
+            }
+        }
     }
 }

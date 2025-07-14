@@ -26,8 +26,16 @@
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Grid.Column="0"  Grid.ColumnSpan="4">
-            <TextBlock Text="Propiedades Modelo Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
+            <TextBlock Text="Propiedades del Modelo de Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
         </Border>
+        <Border Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
+            <TextBlock Text="ℹ" Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0">
+                <TextBlock.ToolTip>
+                    <TextBlock Foreground="{StaticResource Blue02}" Text="Este módulo es para la preparación del modelo antes del cálculo"/>
+                </TextBlock.ToolTip>
+            </TextBlock>
+        </Border>
+
 
         <!--Cambiar Combinaciones-->
         <RadioButton Style="{StaticResource SelectorButton}" 
@@ -54,15 +62,15 @@
         </RadioButton>
 
         <Border Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="4">
-            <TextBlock Text="Comprbaciones Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
+            <TextBlock Text="Comprobaciones de Cálculo"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
         </Border>
 
         <!--Dimensionamiento-->
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-              Tag="{StaticResource Rojo02}"
-              Grid.Row="3"
-              Grid.Column="0"
-              Click="btnDimensionamiento_Click">
+                      Tag="{StaticResource Rojo02}"
+                      Grid.Row="3"
+                      Grid.Column="0"
+                      Click="btnDimensionamiento_Click">
             <StackPanel Orientation="Vertical">
                 <fa:IconImage Icon="Check" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
                 <TextBlock Text="Dimensionamiento" Style="{StaticResource selectorButtonTextNotAvailable}"/>
@@ -71,9 +79,9 @@
 
         <!--Italia NTC-->
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-     Tag="{StaticResource Rojo02}"
-     Grid.Row="3"
-     Grid.Column="1"
+                     Tag="{StaticResource Rojo02}"
+                     Grid.Row="3"
+                     Grid.Column="1"
              Click="btnItalia_Click">
             <StackPanel Orientation="Vertical">
                 <Image Source="https://cdn-icons-png.freepik.com/256/321/321240.png?semt=ais_hybrid" Height="40" Width="40" Margin="5"/>
@@ -83,10 +91,10 @@
 
         <!--Calculo Flechas-->
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-             Tag="{StaticResource Rojo02}"
-             Grid.Row="3"
-             Grid.Column="2"
-             Click="btnCalcularFlechas_Click">
+                     Tag="{StaticResource Rojo02}"
+                     Grid.Row="3"
+                     Grid.Column="2"
+                     Click="btnCalcularFlechas_Click">
             <StackPanel Orientation="Vertical">
                 <Image Source="https://i.imgur.com/NByziy5.png" Height="40" Width="40" Margin="5"/>
                 <TextBlock Text="Cálculo Flechas" Style="{StaticResource selectorButtonTextNotAvailable}"/>
@@ -95,10 +103,10 @@
 
         <!--Comprobacion Uniones-->
         <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-             Tag="{StaticResource Rojo02}"
-             Grid.Row="3"
-             Grid.Column="3"
-             Click="btnComprobacionUniones_Click">
+                     Tag="{StaticResource Rojo02}"
+                     Grid.Row="3"
+                     Grid.Column="3"
+                     Click="btnComprobacionUniones_Click">
             <StackPanel Orientation="Vertical">
                 <Viewbox Width="40" Height="40">
                     <Path Data="M1320 2239 c-31 -12 -236 -214 -256 -251 -17 -32 -18 -91 -3 -121 6
@@ -118,14 +126,14 @@
                         l-52 -52 -226 150 c-124 83 -230 154 -236 159 -12 12 94 120 109 112 6 -4 111
                         -73 234 -155z m-182 -175 l236 -157 -60 -58 c-33 -32 -68 -58 -78 -58 -20 0
                         -361 334 -370 363 -5 16 19 67 31 67 3 0 111 -71 241 -157z"
-                  Fill="{StaticResource Rojo01}"/>
+                        Fill="{StaticResource Rojo01}"/>
                 </Viewbox>
                 <TextBlock Text="Comprobacion Uniones" Style="{StaticResource selectorButtonTextNotAvailable}"/>
             </StackPanel>
         </RadioButton>
 
         <Border Grid.Row="4" Grid.Column="0"  Grid.ColumnSpan="4">
-            <TextBlock Text="Extraccion documentos"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
+            <TextBlock Text="Extracción de documentos"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" Margin="20,0,0,0"></TextBlock>
         </Border>
 
         <!--Racciones-->

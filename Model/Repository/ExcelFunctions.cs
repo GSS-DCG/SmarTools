@@ -12,6 +12,7 @@ using System.Windows;
 using System.Drawing;
 using Excel = Microsoft.Office.Interop.Excel;
 using static SmarTools.Model.Repository.SAP;
+using ClosedXML.Excel;
 
 namespace SmarTools.Model.Repository
 {
@@ -797,6 +798,73 @@ namespace SmarTools.Model.Repository
             {
                 MessageBox.Show("Error al copiar la tabla en Excel: " + ex.Message);
                 return null;
+            }
+        }
+
+        public static Dictionary<string, double[]> CargarDesdeExcel(string rutaArchivo)
+        {
+            var datos = new Dictionary<string, double[]>();
+
+            using (var workbook = new XLWorkbook(rutaArchivo))
+            {
+                var hoja = workbook.Worksheet(1); // Primera hoja
+                var filas = hoja.RangeUsed().RowsUsed();
+
+                foreach (var fila in filas.Skip(1)) // Saltar encabezado
+                {
+                    string nombre = fila.Cell(1).GetString();
+                    double[] valores = new double[6];
+
+                    for (int i = 0; i < 6; i++)
+                    {
+                        valores[i] = fila.Cell(i + 2).GetDouble();
+                    }
+
+                    datos[nombre] = valores;
+                }
+            }
+
+            return datos;
+
+        }
+
+        public static double LeerCelda(string rutaArchivo, string nombreHoja, string direccionCelda)
+        {
+            using (var workbook = new XLWorkbook(rutaArchivo))
+            {
+                var hoja = workbook.Worksheet(nombreHoja);
+                if (hoja == null)
+                {
+                    throw new Exception($"No se encontró la hoja '{nombreHoja}' en el archivo.");
+                }
+
+                var celda = hoja.Cell(direccionCelda);
+                if (celda.IsEmpty())
+                {
+                    throw new Exception($"La celda '{direccionCelda}' está vacía.");
+                }
+
+                return celda.GetDouble();
+            }
+        }
+
+        public static double LeerCeldaPorNombre(string rutaArchivo, string nombreCelda)
+        {
+            using (var workbook = new XLWorkbook(rutaArchivo))
+            {
+                var rangoNombrado = workbook.DefinedName(nombreCelda);
+                if (rangoNombrado == null)
+                {
+                    throw new Exception($"No se encontró un rango con el nombre '{nombreCelda}'.");
+                }
+
+                var celda = rangoNombrado.Ranges.First().FirstCell();
+                if (celda.IsEmpty())
+                {
+                    throw new Exception($"La celda con nombre '{nombreCelda}' está vacía.");
+                }
+
+                return celda.GetDouble();
             }
         }
     }

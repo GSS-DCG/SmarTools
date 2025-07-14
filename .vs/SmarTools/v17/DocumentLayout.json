@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\cambiarcargas1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\cambiarcargas1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcargas1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcargas1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\cambiarcargasrack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\cambiarcargasrack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcargasrackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcargasrackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcargas1vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcargas1vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,53 +26,78 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "App.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\App.xaml",
-              "RelativeDocumentMoniker": "App.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\App.xaml",
-              "RelativeToolTip": "App.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-25T15:16:54.171Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SAPFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\SAPFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\SAPFunctions.cs",
-              "ViewState": "AgIAAMgFAAAAAAAAAAAAAG0GAABHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-25T08:46:13.277Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "CambiarCargasRackAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCargasRackAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\CambiarCargasRackAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCargasRackAPP.xaml",
-              "RelativeToolTip": "APPS\\CambiarCargasRackAPP.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-24T06:51:53.878Z"
+              "Title": "CambiarCargas1VAPP.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCargas1VAPP.xaml.cs",
+              "RelativeDocumentMoniker": "APPS\\CambiarCargas1VAPP.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCargas1VAPP.xaml.cs",
+              "RelativeToolTip": "APPS\\CambiarCargas1VAPP.xaml.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAIAwwHMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-14T06:22:47.465Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "CambiarCargas1V.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCargas1V.cs",
+              "RelativeDocumentMoniker": "Model\\Applications\\CambiarCargas1V.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCargas1V.cs",
+              "RelativeToolTip": "Model\\Applications\\CambiarCargas1V.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAUwPEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-10T05:53:13.614Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "e76c2996-35d1-4aec-9bf3-d3afa9f84267",
+        "Display": 1,
+        "X": 883,
+        "Y": 93,
+        "Width": 1432,
+        "Height": 957,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CambiarCargas1VAPP.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCargas1VAPP.xaml",
+              "RelativeDocumentMoniker": "APPS\\CambiarCargas1VAPP.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCargas1VAPP.xaml",
+              "RelativeToolTip": "APPS\\CambiarCargas1VAPP.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-07-10T06:02:48.127Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "CambiarCargasRack.cs",
               "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCargasRack.cs",
               "RelativeDocumentMoniker": "Model\\Applications\\CambiarCargasRack.cs",
               "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCargasRack.cs",
               "RelativeToolTip": "Model\\Applications\\CambiarCargasRack.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF0AAABEAAAAAAAAAA==",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T06:41:30.623Z",
+              "WhenOpened": "2025-07-14T07:29:19.352Z",
               "EditorCaption": ""
             }
           ]

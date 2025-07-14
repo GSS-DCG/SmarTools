@@ -259,7 +259,16 @@
                                     Foreground="#C72021"
                                     Grid.Row="0"
                                     Grid.Column="1"
-                                              Visibility="Visible"></fa:IconImage>
+                                    Visibility="Visible">
+                                    <ToolTipService.ToolTip>
+                                        <StackPanel Width="200" >
+                                            <TextBlock Foreground="Red" FontWeight="Bold" FontFamily="Neo Tech Std"
+                                                       Text="¡Atención!"/>
+                                            <TextBlock Foreground="{StaticResource Blue02}" FontFamily="Neo Tech Std" TextWrapping="Wrap"
+                                                       Text="Existe una actualización de versión. Por favor actualice la aplicación antes de seguir trabajando"/>
+                                        </StackPanel>
+                                    </ToolTipService.ToolTip>
+                                </fa:IconImage>
                             </Grid>
 
                         </Grid>
