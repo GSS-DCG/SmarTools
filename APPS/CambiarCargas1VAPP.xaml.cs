@@ -89,8 +89,13 @@ namespace SmarTools.APPS
                 Succion_unidades.Visibility = Visibility.Collapsed;
                 Succion_Check.Visibility = Visibility.Collapsed;
 
+                G_text.Visibility = Visibility.Collapsed;
+                G.Visibility = Visibility.Collapsed;
+                G_unidades.Visibility = Visibility.Collapsed;
+                G_Check.Visibility = Visibility.Collapsed;
+
                 //Mostramos según la opción elegida
-                if(normativa=="Eurocódigo"||normativa== "NTC-2018")
+                if (normativa=="Eurocódigo"||normativa== "NTC-2018")
                 {
                     Friccion_text.Visibility = Visibility.Visible;
                     Friccion.Visibility = Visibility.Visible;
@@ -108,6 +113,11 @@ namespace SmarTools.APPS
                     Succion.Visibility = Visibility.Visible;
                     Succion_unidades.Visibility = Visibility.Visible;
                     Succion_Check.Visibility = Visibility.Visible;
+
+                    G_text.Visibility = Visibility.Visible;
+                    G.Visibility = Visibility.Visible;
+                    G_unidades.Visibility = Visibility.Visible;
+                    G_Check.Visibility = Visibility.Visible;
                 }
             }
         }

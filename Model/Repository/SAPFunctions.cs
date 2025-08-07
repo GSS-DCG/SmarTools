@@ -870,6 +870,10 @@ namespace SmarTools.Model.Repository
 
             public static string[] ObtenerSeccionYTipo(cSapModel mySapModel,string barra)
             {
+                SAP.AnalysisSubclass.RunModel(mySapModel);
+                mySapModel.DesignColdFormed.StartDesign();
+                mySapModel.DesignSteel.StartDesign();
+
                 //Variables necesarias para SAP2000
                 int ret = 0;
                 int numberItems = 0;
@@ -881,8 +885,9 @@ namespace SmarTools.Model.Repository
                 string[] seccion_tipo = new string[2];
 
                 //Interacción con SAP
+                mySapModel.SelectObj.ClearSelection();
                 ret = mySapModel.FrameObj.SetSelected(barra, true, eItemType.Objects);
-
+                
                 if (ret == 0)
                 {
                     mySapModel.SelectObj.GetSelected(ref numberItems, ref objectType, ref itemName);
@@ -1258,7 +1263,7 @@ namespace SmarTools.Model.Repository
                     int nsecundarias_n = 0;
                     string sb = "";
 
-                    for (int i = 0; i <= 31; i++)
+                    for (int i = 0; i <= 32; i++)
                     {
                         if (north == true)
                         {
@@ -1333,7 +1338,7 @@ namespace SmarTools.Model.Repository
                 /// </returns>
                 public static string[] SouthSecundaryBeams(cSapModel mySapModel, bool? sup = true)
                 {
-                    int nsecundarias = SecundaryBeamNumber(mySapModel, true);
+                    int nsecundarias = SecundaryBeamNumber(mySapModel, false);
 
                     string[] secundarias = new string[nsecundarias];
 
@@ -1409,7 +1414,7 @@ namespace SmarTools.Model.Repository
                 /// </returns>
                 public static string[] SouthSecundaryReinforcedBeams(cSapModel mySapModel, bool? sup = true)
                 {
-                    int nsecundarias = SecundaryBeamNumber(mySapModel, true);
+                    int nsecundarias = SecundaryBeamNumber(mySapModel, false);
 
                     string[] secundarias = new string[nsecundarias];
 

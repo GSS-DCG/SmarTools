@@ -15,6 +15,8 @@ using System.Reflection.Emit;
 using System.Windows.Controls;
 using DocumentFormat.OpenXml.Drawing;
 using System.Text.RegularExpressions;
+using DocumentFormat.OpenXml.Math;
+using System.Windows.Documents;
 
 namespace SmarTools.Model.Applications
 {
@@ -23,6 +25,8 @@ namespace SmarTools.Model.Applications
         public static cHelper cHelper = MainView.Globales._myHelper;
         public static cOAPI mySapObject = MainView.Globales._mySapObject;
         public static cSapModel mySapModel = MainView.Globales._mySapModel;
+        public static int Ancho = 0;
+        public static int Altura = 0;
 
         public static void CargarDatos(CambiarCargas1VAPP vista)
         {
@@ -45,10 +49,11 @@ namespace SmarTools.Model.Applications
                     vista.Presion_Inf,
                     vista.Succion_Sup,
                     vista.Succion_Inf,
-                    vista.Friccion,
                     vista.Presion_Pico,
+                    vista.Friccion,
                     vista.Presion,
                     vista.Succion,
+                    vista.G,
                 };
                 foreach (var textbox in textboxs)
                 {
@@ -82,6 +87,7 @@ namespace SmarTools.Model.Applications
                             vista.Presion.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_ASCE7_16").ToString("F3");
                             vista.Succion.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Succion_ASCE7_16").ToString("F3");
                         }
+
                         if (vista.Expuesto.IsChecked == true)
                         {
                             if (vista.Defensa.IsChecked == true)
@@ -93,6 +99,10 @@ namespace SmarTools.Model.Applications
                                 vista.Presion_Pico.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_pico_Defensa_Tr1").ToString("F3");
                                 vista.Succion_Sup.Text = "N/A";
                                 vista.Succion_Inf.Text = "N/A";
+                                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                                {
+                                    vista.G.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "G_Expuesto_Defensa_Tr1").ToString("F3");
+                                }
                             }
                             else if (vista.Funcionamiento.IsChecked == true)
                             {
@@ -103,6 +113,10 @@ namespace SmarTools.Model.Applications
                                 vista.Succion_Sup.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Ssup_Expuesto_Func_Tr1").ToString("F3");
                                 vista.Succion_Inf.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Sinf_Expuesto_Func_Tr1").ToString("F3");
                                 vista.Presion_Pico.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_pico_Func_Tr1").ToString("F3");
+                                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                                {
+                                    vista.G.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "G_Expuesto_Func_Tr1").ToString("F3");
+                                }
                             }
                         }
                         else if (vista.Resguardo.IsChecked == true)
@@ -116,6 +130,10 @@ namespace SmarTools.Model.Applications
                                 vista.Presion_Pico.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_pico_Defensa_Tr1").ToString("F3");
                                 vista.Succion_Sup.Text = "N/A";
                                 vista.Succion_Inf.Text = "N/A";
+                                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                                {
+                                    vista.G.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "G_Resguardo_Defensa_Tr1").ToString("F3");
+                                }
                             }
                             else if (vista.Funcionamiento.IsChecked == true)
                             {
@@ -126,6 +144,10 @@ namespace SmarTools.Model.Applications
                                 vista.Succion_Sup.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Ssup_Resguardo_Func_Tr1").ToString("F3");
                                 vista.Succion_Inf.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Sinf_Resguardo_Func_Tr1").ToString("F3");
                                 vista.Presion_Pico.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_pico_Func_Tr1").ToString("F3");
+                                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                                {
+                                    vista.G.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "G_Resguardo_Func_Tr1").ToString("F3");
+                                }
                             }
                         }
                     }
@@ -154,6 +176,7 @@ namespace SmarTools.Model.Applications
                             vista.Presion.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_ASCE7_16").ToString("F3");
                             vista.Succion.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Succion_ASCE7_16").ToString("F3");
                         }
+
                         if (vista.Expuesto.IsChecked == true)
                         {
                             if (vista.Defensa.IsChecked == true)
@@ -165,6 +188,10 @@ namespace SmarTools.Model.Applications
                                 vista.Presion_Pico.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_pico_Defensa_Tr2").ToString("F3");
                                 vista.Succion_Sup.Text = "N/A";
                                 vista.Succion_Inf.Text = "N/A";
+                                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                                {
+                                    vista.G.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "G_Expuesto_Defensa_Tr2").ToString("F3");
+                                }
                             }
                             else if (vista.Funcionamiento.IsChecked == true)
                             {
@@ -175,6 +202,10 @@ namespace SmarTools.Model.Applications
                                 vista.Succion_Sup.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Ssup_Expuesto_Func_Tr2").ToString("F3");
                                 vista.Succion_Inf.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Sinf_Expuesto_Func_Tr2").ToString("F3");
                                 vista.Presion_Pico.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_pico_Func_Tr2").ToString("F3");
+                                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                                {
+                                    vista.G.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "G_Expuesto_Func_Tr2").ToString("F3");
+                                }
                             }
                         }
                         else if (vista.Resguardo.IsChecked == true)
@@ -188,6 +219,10 @@ namespace SmarTools.Model.Applications
                                 vista.Presion_Pico.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_pico_Defensa_Tr2").ToString("F3");
                                 vista.Succion_Sup.Text = "N/A";
                                 vista.Succion_Inf.Text = "N/A";
+                                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                                {
+                                    vista.G.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "G_Resguardo_Defensa_Tr2").ToString("F3");
+                                }
                             }
                             else if (vista.Funcionamiento.IsChecked == true)
                             {
@@ -198,6 +233,10 @@ namespace SmarTools.Model.Applications
                                 vista.Succion_Sup.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Ssup_Resguardo_Func_Tr2").ToString("F3");
                                 vista.Succion_Inf.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Sinf_Resguardo_Func_Tr2").ToString("F3");
                                 vista.Presion_Pico.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "Presion_pico_Func_Tr2").ToString("F3");
+                                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                                {
+                                    vista.G.Text = ExcelFunctions.LeerCeldaPorNombre(rutaArchivo, "G_Resguardo_Func_Tr2").ToString("F3");
+                                }
                             }
                         }
                     }
@@ -227,22 +266,6 @@ namespace SmarTools.Model.Applications
             {
                 loadingWindow.Show();
                 loadingWindow.UpdateLayout();
-
-                var textboxs = new TextBox[]
-                {
-                    //vista.PesoPropio_Panel,
-                    //vista.PesoPropio_Cable,
-                    //vista.Carga_Nieve,
-                    //vista.Carga_NieveAccidental,
-                    //vista.Presion_Sup,
-                    //vista.Presion_Inf,
-                    //vista.Succion_Sup,
-                    //vista.Succion_Inf,
-                    vista.Presion_Pico,
-                    vista.Friccion,
-                    vista.Presion,
-                    vista.Succion,
-                };
                 
                 if(vista.PesoPropio_Check.IsChecked == true && double.TryParse(vista.PesoPropio_Panel.Text, out var PP_Panel))
                     CargaGravitacionalPaneles(PP_Panel,"PP Paneles");
@@ -257,16 +280,58 @@ namespace SmarTools.Model.Applications
                     CargaGravitacionalPaneles(NieveAccidental, "Accidental_Snow");
 
                 if (vista.PresionSup_Check.IsChecked == true && double.TryParse(vista.Presion_Sup.Text, out var PresionSup))
-                    CargaPresionPanelSuperior(PresionSup, "W1_Pos_Cfmin");
+                    CargaPresionPanelSuperior(PresionSup, "W1_Pos_Cfmin", true);
 
                 if (vista.PresionInf_Check.IsChecked == true && double.TryParse(vista.Presion_Inf.Text, out var PresionInf))
-                    CargaPresionPanelInferior(PresionInf, "W1_Pos_Cfmin");
+                    CargaPresionPanelInferior(PresionInf, "W1_Pos_Cfmin", true);
 
                 if (vista.SuccionSup_Check.IsChecked == true && double.TryParse(vista.Succion_Sup.Text, out var SuccionSup))
-                    CargaPresionPanelSuperior(SuccionSup, "W1_Neg_Cfmin");
+                    CargaPresionPanelSuperior(SuccionSup, "W1_Neg_Cfmin", true);
 
                 if (vista.SuccionInf_Check.IsChecked == true && double.TryParse(vista.Succion_Inf.Text, out var SuccionInf))
-                    CargaPresionPanelInferior(SuccionInf, "W1_Neg_Cfmin");
+                    CargaPresionPanelInferior(SuccionInf, "W1_Neg_Cfmin", true);
+
+                if (vista.PresionPico_Check.IsChecked == true && double.TryParse(vista.Presion_Pico.Text, out var PresionPico))
+                {
+                    double carga=0;
+                    
+                    if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                    {
+                        if (vista.G_Check.IsChecked == true && double.TryParse(vista.G.Text, out var G))
+                        {
+                            carga = PresionPico * G * 1.95 / 1000;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Para calcular la carga de viento lateral es necesario el valor de G");
+                        }
+                    }
+                    else
+                    {
+                        carga= PresionPico * 1.8 / 1000;
+                    }
+                    CargaLateralElementos(carga);
+
+                }
+
+                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                {
+                    if (vista.Presion_Check.IsChecked == true && double.TryParse(vista.Presion.Text, out var Presion)&& vista.Succion_Check.IsChecked == true && double.TryParse(vista.Succion.Text, out var Succion))
+                    {
+                        CargaPresionPanelSuperior(Presion, "W1_Pos_Cfmin",false);
+                        CargaPresionPanelInferior(Presion, "W1_Pos_Cfmin", false);
+                        CargaPresionPanelSuperior(Succion, "W1_Neg_Cfmin", false);
+                        CargaPresionPanelInferior(Succion, "W1_Neg_Cfmin", false);
+                    }
+                }
+                else if(vista.Eurocodigo.IsChecked == true || vista.NTC2018.IsChecked == true)
+                {
+                    if (vista.Friccion_Check.IsChecked == true && double.TryParse(vista.Friccion.Text, out var Friccion))
+                    {
+                        CargaPaneles(Friccion);
+                    }
+                }
+                    
 
             }
             finally
@@ -312,7 +377,7 @@ namespace SmarTools.Model.Applications
             }
         }
 
-        public static void CargaPresionPanelSuperior(double carga,string hipotesis)
+        public static void CargaPresionPanelSuperior(double carga,string hipotesis,bool reemplazar)
         {
             //Buscamos la altura del tracker para poder seleccionar solo los paneles superiores
             double x = 0, y = 0, z = 0;
@@ -332,12 +397,12 @@ namespace SmarTools.Model.Applications
             ret = mySapModel.SelectObj.GetSelected(ref NumberItems, ref ObjecType, ref ObjectName);
             for (int i = 0; i < NumberItems; i++)
             {
-                ret = mySapModel.AreaObj.SetLoadUniformToFrame(ObjectName[i], hipotesis, carga, 3, 1);
+                ret = mySapModel.AreaObj.SetLoadUniformToFrame(ObjectName[i], hipotesis, carga, 3, 1,reemplazar);
             }
             mySapModel.SelectObj.ClearSelection();
         }
 
-        public static void CargaPresionPanelInferior(double carga, string hipotesis)
+        public static void CargaPresionPanelInferior(double carga, string hipotesis, bool reemplazar)
         {
             //Buscamos la altura del tracker para poder seleccionar solo los paneles inferiores
             double x = 0, y = 0, z = 0;
@@ -357,9 +422,104 @@ namespace SmarTools.Model.Applications
             ret = mySapModel.SelectObj.GetSelected(ref NumberItems, ref ObjecType, ref ObjectName);
             for (int i = 0; i < NumberItems; i++)
             {
-                ret = mySapModel.AreaObj.SetLoadUniformToFrame(ObjectName[i], hipotesis, carga, 3, 1);
+                ret = mySapModel.AreaObj.SetLoadUniformToFrame(ObjectName[i], hipotesis, carga, 3, 1,reemplazar);
             }
             mySapModel.SelectObj.ClearSelection();
+        }
+
+        public static void CargaLateralElementos(double carga)
+        {
+            double Fw = 0;
+
+            //Seleccionamos los pilares extremos
+            string[] pilares_norte= SAP.ElementFinderSubclass.TrackerSubclass.NorthPiles(mySapModel);
+            string[] pilares_sur=SAP.ElementFinderSubclass.TrackerSubclass.SouthPiles(mySapModel);
+            string[] pilares = { pilares_norte.Last(), pilares_sur.Last() };
+
+            //Obtenemos el tipo de perfil y sección transversal
+            string[] pilar= SAP.DesignSubclass.ObtenerSeccionYTipo(mySapModel, pilares[0]);
+
+            //Seleccionamos las secundarias extremas
+            string[] secundarias_norte_sup = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryBeams(mySapModel);
+            string[] secundarias_norte_inf = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryBeams(mySapModel, false);
+            string[] secundarias_sur_sup = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryBeams(mySapModel);
+            string[] secundarias_sur_inf = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryBeams(mySapModel, false);
+            string[] secundarias = { secundarias_norte_sup.Last(), secundarias_norte_inf.Last(), secundarias_sur_sup.Last(), secundarias_sur_inf.Last() };
+
+            //Obtenemos la altura
+            string[] secundaria = SAP.DesignSubclass.ObtenerSeccionYTipo(mySapModel, secundarias[0]);
+            SAP.AnalysisSubclass.UnlockModel(mySapModel);
+
+            //Asignamos las cargas a los elementos
+            if (pilar[1]=="Conformado")
+            {
+                Match ancho = Regex.Match(pilar[0],@"C-(\d{2,3})x" );
+                Ancho = int.Parse(ancho.Groups[1].Value);
+                Fw = carga * Ancho;
+            }
+            else if(pilar[1]=="Laminado")
+            {
+                string FileName = "", MatProp="", Notes="", GUID="";
+                double T3=0, T2 = 0, Tf=0, Tw=0, T2b=0, Tfb=0, FilletRadius=0;
+                int Color = 0;
+                mySapModel.PropFrame.GetISection_1(pilar[0],ref FileName, ref MatProp, ref T3, ref T2,ref Tf, ref Tw,ref T2b, ref Tfb, ref FilletRadius,ref Color,ref Notes,ref GUID);
+                Fw = carga * T3 * 1000;
+            }
+
+            for (int i = 0; i < pilares.Length; i++)
+            {
+                mySapModel.FrameObj.SetLoadDistributed(pilares[i], "W3_90º", 1, 5, 0, 1, Fw, Fw);
+                mySapModel.FrameObj.SetLoadDistributed(pilares[i], "W4_270º", 1, 5, 0, 1, (-Fw), (-Fw));
+            }
+
+            if(Altura==0)
+            {
+                Match altura = Regex.Match(secundaria[0], @"OH-(\d{2,3})x");
+                Altura = int.Parse(altura.Groups[1].Value);
+            }
+
+            Fw=carga*Altura;
+
+            for (int i = 0; i < secundarias.Length; i++)
+            {
+                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W3_90º", 1, 5, 0, 1, Fw, Fw);
+                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W4_270º", 1, 5, 0, 1, (-Fw), (-Fw));
+            }
+        }
+
+        public static void CargaPaneles(double carga)
+        {
+            //Seleccionamos las secundarias
+            string[] secundarias_norte_sup = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryBeams(mySapModel);
+            string[] secundarias_norte_inf = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryBeams(mySapModel, false);
+            string[] secundarias_sur_sup = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryBeams(mySapModel);
+            string[] secundarias_sur_inf = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryBeams(mySapModel, false);
+            string[] secundarias = secundarias_norte_sup
+                .Concat(secundarias_norte_inf)
+                .Concat(secundarias_sur_sup)
+                .Concat(secundarias_sur_inf)
+                .ToArray();
+
+            //Número de secundarias y ancho del módulo
+            int n_sb=secundarias_norte_sup.Length+secundarias_sur_sup.Length;
+            double ancho_modulo = SAP.AnalysisSubclass.LongitudEntrePuntos(mySapModel, "nps2", "nps3");
+
+            //Obtenemos la altura si no se ha obtenido ya con el código anterior
+            if(Altura==0)
+            {
+                string[] secundaria = SAP.DesignSubclass.ObtenerSeccionYTipo(mySapModel, secundarias[0]);
+                SAP.AnalysisSubclass.UnlockModel(mySapModel);
+                Match altura = Regex.Match(secundaria[0], @"OH-(\d{2,3})x");
+                Altura = int.Parse(altura.Groups[1].Value);
+            }
+            
+            //Calculamos carga y asignamos
+            double Fw=(carga/n_sb)/(ancho_modulo/1000);
+            for (int i = 0; i < secundarias.Length; i++)
+            {
+                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W3_90º", 1, 5, 0, 1, Fw, Fw);
+                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W4_270º", 1, 5, 0, 1, (-Fw), (-Fw));
+            }
         }
     }
 }

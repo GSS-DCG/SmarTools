@@ -204,7 +204,7 @@
                                FontWeight="Light"
                                Foreground="{StaticResource Blue03}"
                                TextWrapping="Wrap"
-                               Text="   Para diemnsionar el modelo, se deben filtrar previamente los perfiles a utilizar, tanto por ambiente, material y tipología en el caso de pilares generales y secundarias. Se pueden asignar otros perfiles si se desea, pero no es obligatorio para el correcto funcionamiento de la herramienta."/>
+                               Text="   Para dimensionar el modelo, se deben filtrar previamente los perfiles a utilizar, tanto por ambiente, material y tipología en el caso de pilares generales y secundarias. Se pueden asignar otros perfiles si se desea, pero no es obligatorio para el correcto funcionamiento de la herramienta."/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"
@@ -240,7 +240,7 @@
                                FontWeight="Light"
                                Foreground="{StaticResource Rojo02}"
                                TextWrapping="Wrap"
-                               Text="   Permite dimensionar un modelo según la normativa NTC-2018, ya que realiza las comprobaciones que faltan en SAP2000, como por eemplo la esbeltez"/>
+                               Text="   Permite dimensionar un modelo según la normativa NTC-2018, ya que realiza las comprobaciones que faltan en SAP2000, como por ejemplo, la esbeltez"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"

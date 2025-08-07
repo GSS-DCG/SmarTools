@@ -53,7 +53,9 @@ namespace ModernUI.View
             if (txtUser.Text != null && txtPassword.Text != null)
             {
 
-                if(txtPassword.Text == HerramientasAuxiliares.login_sizesmart(txtUser.Text))
+                if(txtPassword.Text == (HerramientasAuxiliares.login(txtUser.Text)*3).ToString() 
+                    || txtPassword.Text == (HerramientasAuxiliares.login(txtUser.Text) * 5).ToString() 
+                    || txtPassword.Text == (HerramientasAuxiliares.login(txtUser.Text) * 7).ToString())
                 {
                     MainView mainView = new MainView();
                     mainView.Show();
@@ -76,7 +78,7 @@ namespace ModernUI.View
 
     public class HerramientasAuxiliares
     {
-        public static string login_sizesmart(string usuario)
+        public static double login(string usuario)
         {
             double num = 0.0;
             char[] array = usuario.ToCharArray();
@@ -91,7 +93,7 @@ namespace ModernUI.View
             int year = now.Year;
             num = (int)(num * (double)(month + 10) / (double)(year - 2000));
 
-            return (num * 3).ToString();
+            return num;
         }
     }
 }

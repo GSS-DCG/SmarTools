@@ -10,6 +10,9 @@
     <Compile Update="APPS\CambiarCargas1VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="APPS\CambiarCargas2VAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="APPS\CambiarCargasRackAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -67,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="APPS\CambiarCargas1VAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="APPS\CambiarCargas2VAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\CambiarCargasRackAPP.xaml">

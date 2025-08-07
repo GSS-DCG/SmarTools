@@ -34,7 +34,8 @@ namespace SmarTools.ViewModel
 
         private void btnCambiarCargas_Click(object sender, RoutedEventArgs e)
         {
-
+            CambiarCargas2VAPP App=new CambiarCargas2VAPP();
+            App.Show();
         }
 
         private void btnDimensionamiento_Click(object sender, RoutedEventArgs e)
