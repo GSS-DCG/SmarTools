@@ -18,17 +18,17 @@
                             <ImageBrush ImageSource="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" Stretch="UniformToFill"/>
                         </Border.Background>
 
-                        <Border CornerRadius="10"  BorderThickness="5" Opacity="0.9">
+                        <Border CornerRadius="10"  BorderThickness="2">
                             <Border.BorderBrush>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                                     <GradientStop Color="{DynamicResource windowBorderColor1}" Offset="0"></GradientStop>
-                                    <GradientStop Color="{DynamicResource windowBorderColor2}" Offset="0.5"></GradientStop>
+                                    <GradientStop Color="{DynamicResource windowBorderColor2}" Offset="0.75"></GradientStop>
                                     <GradientStop Color="{DynamicResource windowBorderColor3}" Offset="1"></GradientStop>
                                 </LinearGradientBrush>
                             </Border.BorderBrush>
 
                             <Border.Background>
-                                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0" Opacity="0.9">
                                     <GradientStop Color="{DynamicResource primaryBackColor1}" Offset="0"></GradientStop>
                                     <GradientStop Color="{DynamicResource primaryBackColor2}" Offset="0.75"></GradientStop>
                                 </LinearGradientBrush>

@@ -54,7 +54,8 @@ namespace SmarTools.ViewModel
 
         private void btnItalia_Click(object sender, RoutedEventArgs e)
         {
-
+            ItaliaNTC1VAPP App = new ItaliaNTC1VAPP();
+            App.Show();
         }
 
         private void btnCalcularFlechas_Click(object sender, RoutedEventArgs e)
