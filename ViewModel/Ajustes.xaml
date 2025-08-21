@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="571" d:DesignWidth="996">
     <Grid>
-        <TextBlock Text="ESTO ES EL AJUSTES" Foreground="White" />
-        <Viewbox>
+        <TextBlock Text="WORK IN PROGRESS" Foreground="White" />
+        <!--<Viewbox>
             <Path Data="M -2 2 L -2 23 L 2 23 L 2 2 M 2 2 L 48 2 L 48 23 L 52 23 L 52 2 L 60 2 L 60 -2 L -60 -2 L -60 2 L -52 2 L -52 23 L -48 23 L -48 2 L -2 2" Stretch="Fill" Margin="25" Fill="White"></Path>
-        </Viewbox>
+        </Viewbox>-->
     </Grid>
 </UserControl>

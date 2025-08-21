@@ -55,6 +55,9 @@
     <Compile Update="ViewModel\RackSmart.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ViewModel\Revisiones.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="ViewModel\TracSmart1V.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -118,6 +121,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\RackSmart.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="ViewModel\Revisiones.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\TracSmart1V.xaml">

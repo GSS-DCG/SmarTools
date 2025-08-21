@@ -21,6 +21,9 @@ using SAP2000v1;
 using Microsoft.Win32;
 using Microsoft.VisualBasic;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Xaml;
+using SmarTools.ViewModel;
 
 namespace ModernUI.View
 {
@@ -39,6 +42,7 @@ namespace ModernUI.View
             public static TracSmart2V _TracSmart2V = new TracSmart2V();
             public static RackSmart _RackSmart = new RackSmart();
             public static Ajustes _Ajustes = new Ajustes();
+            public static Revisiones _Revisiones = new Revisiones();
             public static FontAwesome.Sharp.IconImage _BellNotification = new FontAwesome.Sharp.IconImage();
 
             public static cHelper _myHelper;
@@ -46,6 +50,9 @@ namespace ModernUI.View
             public static cSapModel _mySapModel;
 
             public static string _producto;
+            public static string _revisionCoeficientes = _Revisiones.Revision1V_Box?.SelectedItem?.ToString()??"00";
+            public static string _revisionUniones1V = _Revisiones.Revision2V_Box?.SelectedItem?.ToString() ?? "00";
+            public static string _revisionUniones2V = _Revisiones.RevisionCoef_Box?.SelectedItem?.ToString() ?? "00";
 
         }
 
@@ -73,7 +80,6 @@ namespace ModernUI.View
                 Globales._mySapModel = null;
                 StatusInfo.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
             }
-            
         }
 
         public MainView()
@@ -98,12 +104,14 @@ namespace ModernUI.View
 
             //Ejecutamos de manera asincrona el SAP2000
             this.Loaded += MainView_Loaded;
+
         }
 
         public async void MainView_Loaded(object sender, RoutedEventArgs e)
         {
             await Herramientas.ConexionSAP2000Async();
         }
+
 
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
@@ -194,12 +202,20 @@ namespace ModernUI.View
             MainViewContentControl.Children.Clear();
             MainViewContentControl.Children.Add(Globales._Ajustes);
         }
+
+        private void btnRevisiones_Click(object sender, RoutedEventArgs e)
+        {
+            Caption_Text.Text = "Revisiones";
+            Caption_Icon.Icon = FontAwesome.Sharp.IconChar.Table;
+            MainViewContentControl.Children.Clear();
+            MainViewContentControl.Children.Add(Globales._Revisiones);
+        }
     }
     public class Herramientas
     {
         public static void NotificacionCampana()
         {
-            string ruta = @"Z:\300Logos\Version.txt";
+            string ruta = @"Z:\300SmarTools\01 Info\Version.txt";
             string version = File.ReadAllText(ruta);
 
             if (version != ModernUI.View.MainView.Globales._version)

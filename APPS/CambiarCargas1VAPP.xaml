@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SmarTools.APPS"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        Title="CambiarCargas1VAPP" Height="500" Width="600"
+        Title="CambiarCargas1VAPP" Height="550" Width="600"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -108,7 +108,7 @@
 
                         <!--User Control-->
                         <Grid Grid.Row="1"
-                          Margin="10,10,10,0">
+                            Margin="10,10,10,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="170"/>
                                 <ColumnDefinition Width="60"/>
@@ -118,6 +118,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="25"/>
@@ -411,15 +413,26 @@
                                   VerticalAlignment="Center"
                                   HorizontalAlignment="Center"
                                   Foreground="{StaticResource Blue02}"/>
+                            <TextBlock Text="CARGAS DE VIENTO LATERAL"
+                                       Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2"
+                                       VerticalAlignment="Center"
+                                       FontFamily="Neo Tech Std"
+                                       Foreground="White"
+                                       FontWeight="Bold"/>
+                            <CheckBox x:Name="VientoLateral_Check"
+                                      Grid.Row="14" Grid.Column="1"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"
+                                      Foreground="{StaticResource Blue02}"/>
                             <TextBlock Text="Presión pico, qp (viento lateral):"
-                                   Grid.Row="13" Grid.Column="0"
+                                   Grid.Row="15" Grid.Column="0"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    FontFamily="Neo Tech Std"
                                    Foreground="White"
                                    FontWeight="Light"/>
                             <TextBox x:Name="Presion_Pico" 
-                                 Grid.Row="13" Grid.Column="1"
+                                 Grid.Row="15" Grid.Column="1"
                                  Background="Transparent"
                                  Width="40"
                                  Foreground="White"
@@ -431,27 +444,22 @@
                                  BorderBrush="White"
                                  BorderThickness="0,0,0,1"/>
                             <TextBlock Text="kN/m2"
-                                   Grid.Row="13" Grid.Column="2"
+                                   Grid.Row="15" Grid.Column="2"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Left"
                                    FontFamily="Neo Tech Std"
                                    Foreground="White"
                                    FontWeight="Light"/>
-                            <CheckBox x:Name="PresionPico_Check"
-                                  Grid.Row="13" Grid.Column="3"
-                                  VerticalAlignment="Center"
-                                  HorizontalAlignment="Center"
-                                  Foreground="{StaticResource Blue02}"/>
                             <TextBlock x:Name="Friccion_text" 
                                        Text="Fuerza de fricción:"
-                                       Grid.Row="14" Grid.Column="0"
+                                       Grid.Row="16" Grid.Column="0"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
                                        FontFamily="Neo Tech Std"
                                        Foreground="White"
                                        FontWeight="Light"/>
                             <TextBox x:Name="Friccion" 
-                                     Grid.Row="14" Grid.Column="1"
+                                     Grid.Row="16" Grid.Column="1"
                                      Background="Transparent"
                                      Width="40"
                                      Foreground="White"
@@ -464,20 +472,15 @@
                                      BorderThickness="0,0,0,1"/>
                             <TextBlock x:Name="Friccion_unidades" 
                                        Text="kN/m"
-                                       Grid.Row="14" Grid.Column="2"
+                                       Grid.Row="16" Grid.Column="2"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Left"
                                        FontFamily="Neo Tech Std"
                                        Foreground="White"
                                        FontWeight="Light"/>
-                            <CheckBox x:Name="Friccion_Check"
-                                      Grid.Row="14" Grid.Column="3"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Center"
-                                      Foreground="{StaticResource Blue02}"/>
                             <TextBlock x:Name="Presion_text"
                                        Text="Presión:"
-                                       Grid.Row="14" Grid.Column="0"
+                                       Grid.Row="16" Grid.Column="0"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
                                        FontFamily="Neo Tech Std"
@@ -485,7 +488,7 @@
                                        FontWeight="Light"
                                        Visibility="Collapsed"/>
                             <TextBox x:Name="Presion" 
-                                     Grid.Row="14" Grid.Column="1"
+                                     Grid.Row="16" Grid.Column="1"
                                      Background="Transparent"
                                      Width="40"
                                      Foreground="White"
@@ -499,22 +502,16 @@
                                      Visibility="Collapsed"/>
                             <TextBlock x:Name="Presion_unidades" 
                                        Text="kN/m2"
-                                       Grid.Row="14" Grid.Column="2"
+                                       Grid.Row="16" Grid.Column="2"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Left"
                                        FontFamily="Neo Tech Std"
                                        Foreground="White"
                                        FontWeight="Light"
                                        Visibility="Collapsed"/>
-                            <CheckBox x:Name="Presion_Check"
-                                      Grid.Row="14" Grid.Column="3"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Center"
-                                      Foreground="{StaticResource Blue02}"
-                                      Visibility="Collapsed"/>
                             <TextBlock x:Name="Succion_text"
                                        Text="Succión:"
-                                       Grid.Row="15" Grid.Column="0"
+                                       Grid.Row="17" Grid.Column="0"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
                                        FontFamily="Neo Tech Std"
@@ -522,7 +519,7 @@
                                        FontWeight="Light"
                                        Visibility="Collapsed"/>
                             <TextBox x:Name="Succion" 
-                                     Grid.Row="15" Grid.Column="1"
+                                     Grid.Row="17" Grid.Column="1"
                                      Background="Transparent"
                                      Width="40"
                                      Foreground="White"
@@ -536,22 +533,16 @@
                                      Visibility="Collapsed"/>
                             <TextBlock x:Name="Succion_unidades" 
                                        Text="kN/m2"
-                                       Grid.Row="15" Grid.Column="2"
+                                       Grid.Row="17" Grid.Column="2"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Left"
                                        FontFamily="Neo Tech Std"
                                        Foreground="White"
                                        FontWeight="Light"
                                        Visibility="Collapsed"/>
-                            <CheckBox x:Name="Succion_Check"
-                                      Grid.Row="15" Grid.Column="3"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Center"
-                                      Foreground="{StaticResource Blue02}"
-                                      Visibility="Collapsed"/>
                             <TextBlock x:Name="G_text"
                                        Text="Succión:"
-                                       Grid.Row="16" Grid.Column="0"
+                                       Grid.Row="18" Grid.Column="0"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
                                        FontFamily="Neo Tech Std"
@@ -559,7 +550,7 @@
                                        FontWeight="Light"
                                        Visibility="Collapsed"/>
                             <TextBox x:Name="G" 
-                                     Grid.Row="16" Grid.Column="1"
+                                     Grid.Row="18" Grid.Column="1"
                                      Background="Transparent"
                                      Width="40"
                                      Foreground="White"
@@ -573,31 +564,25 @@
                                      Visibility="Collapsed"/>
                             <TextBlock x:Name="G_unidades" 
                                        Text="N/A"
-                                       Grid.Row="16" Grid.Column="2"
+                                       Grid.Row="18" Grid.Column="2"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Left"
                                        FontFamily="Neo Tech Std"
                                        Foreground="White"
                                        FontWeight="Light"
                                        Visibility="Collapsed"/>
-                            <CheckBox x:Name="G_Check"
-                                      Grid.Row="16" Grid.Column="3"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Center"
-                                      Foreground="{StaticResource Blue02}"
-                                      Visibility="Collapsed"/>
                             <Button x:Name="btnAsignarCargas"
-                                BorderThickness="0"
-                                Content="Asignar Cargas"
-                                Foreground="White"
-                                FontSize="14"
-                                FontFamily="Neo Tech Std"
-                                Cursor="Hand"
-                                Grid.Row="10"
-                                Grid.RowSpan="2"
-                                Grid.Column="5"
-                                Margin="20,0,0,0"
-                                Click="btnAsignarCargas_Click">
+                                    BorderThickness="0"
+                                    Content="Asignar Cargas"
+                                    Foreground="White"
+                                    FontSize="14"
+                                    FontFamily="Neo Tech Std"
+                                    Cursor="Hand"
+                                    Grid.Row="10"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="5"
+                                    Margin="20,0,0,0"
+                                    Click="btnAsignarCargas_Click">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Setter Property="Background" Value="#08A0C3"></Setter>

@@ -17,6 +17,7 @@ using DocumentFormat.OpenXml.Drawing;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml.Math;
 using System.Windows.Documents;
+//using System.Windows.Forms;
 
 namespace SmarTools.Model.Applications
 {
@@ -266,6 +267,7 @@ namespace SmarTools.Model.Applications
             {
                 loadingWindow.Show();
                 loadingWindow.UpdateLayout();
+                SAP.AnalysisSubclass.UnlockModel(mySapModel);
 
                 if (vista.PesoPropio_Check.IsChecked == true && double.TryParse(vista.PesoPropio_Panel.Text, out var PP_Panel))
                     CargaGravitacionalPaneles(PP_Panel, "PP Paneles");
@@ -291,48 +293,43 @@ namespace SmarTools.Model.Applications
                 if (vista.SuccionInf_Check.IsChecked == true && double.TryParse(vista.Succion_Inf.Text, out var SuccionInf))
                     CargaPresionPanelInferior(SuccionInf, "W1_Neg_Cfmin", true);
 
-                if (vista.PresionPico_Check.IsChecked == true && double.TryParse(vista.Presion_Pico.Text, out var PresionPico))
+                if (vista.VientoLateral_Check.IsChecked==true)
                 {
-                    double carga = 0;
-
-                    if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
+                    if(vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
                     {
-                        if (vista.G_Check.IsChecked == true && double.TryParse(vista.G.Text, out var G))
+                        if(double.TryParse(vista.Presion_Pico.Text, out var PresionPico)&& 
+                            double.TryParse(vista.Presion.Text, out var Presion)&& 
+                            double.TryParse(vista.Succion.Text, out var Succion)&& 
+                            double.TryParse(vista.G.Text, out var G))
                         {
-                            carga = PresionPico * G * 1.95 / 1000;
+                            LimpiarCargaLateral();
+                            double carga = PresionPico * G * 1.95 / 1000;
+                            CargaLateralElementos(carga);
+                            CargaPresionPanelSuperior(Presion, "W1_Pos_Cfmin", false);
+                            CargaPresionPanelInferior(Presion, "W1_Pos_Cfmin", false);
+                            CargaPresionPanelSuperior(Succion, "W1_Neg_Cfmin", false);
+                            CargaPresionPanelInferior(Succion, "W1_Neg_Cfmin", false);
                         }
                         else
                         {
-                            MessageBox.Show("Para calcular la carga de viento lateral es necesario el valor de G");
+                            MessageBox.Show("Debe introducir la presión pico, presión, succión y el valor de G para el cálculo de la carga de viento lateral", "Aviso", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
-                    else
+                    else if(vista.Eurocodigo.IsChecked == true || vista.NTC2018.IsChecked == true)
                     {
-                        carga = PresionPico * 1.8 / 1000;
-                    }
-                    CargaLateralElementos(carga);
-
-                }
-
-                if (vista.ASCE7_05.IsChecked == true || vista.ASCE7_16.IsChecked == true)
-                {
-                    if (vista.Presion_Check.IsChecked == true && double.TryParse(vista.Presion.Text, out var Presion) && vista.Succion_Check.IsChecked == true && double.TryParse(vista.Succion.Text, out var Succion))
-                    {
-                        CargaPresionPanelSuperior(Presion, "W1_Pos_Cfmin", false);
-                        CargaPresionPanelInferior(Presion, "W1_Pos_Cfmin", false);
-                        CargaPresionPanelSuperior(Succion, "W1_Neg_Cfmin", false);
-                        CargaPresionPanelInferior(Succion, "W1_Neg_Cfmin", false);
+                        if(double.TryParse(vista.Presion_Pico.Text, out var PresionPico)&& double.TryParse(vista.Friccion.Text, out var Friccion))
+                        {
+                            LimpiarCargaLateral();
+                            double carga = PresionPico * 1.8 / 1000;
+                            CargaLateralElementos(carga);
+                            CargaPaneles(Friccion);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Debe introducir tanto la presión pico como la fuerza de fricción para el cálculo de la carga de viento lateral","Aviso",MessageBoxButton.OK,MessageBoxImage.Error);
+                        }
                     }
                 }
-                else if (vista.Eurocodigo.IsChecked == true || vista.NTC2018.IsChecked == true)
-                {
-                    if (vista.Friccion_Check.IsChecked == true && double.TryParse(vista.Friccion.Text, out var Friccion))
-                    {
-                        CargaPaneles(Friccion);
-                    }
-                }
-
-
             }
             finally
             {
@@ -429,6 +426,7 @@ namespace SmarTools.Model.Applications
 
         public static void CargaLateralElementos(double carga)
         {
+            int ret = 0;
             double Fw = 0;
 
             //Seleccionamos los pilares extremos
@@ -469,9 +467,12 @@ namespace SmarTools.Model.Applications
                 string FileName = "", MatProp = "", Notes = "", GUID = "";
                 double T3 = 0, T2 = 0, Tf = 0, Tw = 0, T2b = 0, Tfb = 0, FilletRadius = 0;
                 int Color = 0;
-                int ret=mySapModel.PropFrame.GetISection_1(pilar[0], ref FileName, ref MatProp, ref T3, ref T2, ref Tf, ref Tw, ref T2b, ref Tfb, ref FilletRadius, ref Color, ref Notes, ref GUID);
+                ret=mySapModel.PropFrame.GetISection_1(pilar[0], ref FileName, ref MatProp, ref T3, ref T2, ref Tf, ref Tw, ref T2b, ref Tfb, ref FilletRadius, ref Color, ref Notes, ref GUID);
                 Fw = carga * T3 * 1000;
             }
+
+            ret = mySapModel.LoadPatterns.Add("W3_90º", eLoadPatternType.Wind, 0, true);
+            ret = mySapModel.LoadPatterns.Add("W4_270º", eLoadPatternType.Wind, 0, true);
 
             for (int i = 0; i < pilares.Length; i++)
             {
@@ -511,8 +512,8 @@ namespace SmarTools.Model.Applications
 
             string[] refuerzos_norte_sup = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryReinforcedBeams(mySapModel);
             string[] refuerzos_norte_inf = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryReinforcedBeams(mySapModel, false);
-            string[] refuerzos_sur_sup = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryReinforcedBeams(mySapModel);
-            string[] refuerzos_sur_inf = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryReinforcedBeams(mySapModel, false);
+            string[] refuerzos_sur_sup = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryReinforcedBeams(mySapModel);
+            string[] refuerzos_sur_inf = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryReinforcedBeams(mySapModel, false);
             string[] refuerzos = refuerzos_norte_sup
                 .Concat(refuerzos_norte_inf)
                 .Concat (refuerzos_sur_sup)
@@ -533,13 +534,62 @@ namespace SmarTools.Model.Applications
             }
 
             //Calculamos carga y asignamos
-            double Fw = (carga / n_sb) / (ancho_modulo / 1000);
+            double Fw = (carga / n_sb) / ancho_modulo;
+
+            int ret = mySapModel.LoadPatterns.Add("W3_90º", eLoadPatternType.Wind, 0, true);
+            ret = mySapModel.LoadPatterns.Add("W4_270º", eLoadPatternType.Wind, 0, true);
+
             for (int i = 0; i < secundarias.Length; i++)
             {
-                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W3_90º", 1, 5, 0, 1, Fw, Fw);
-                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W4_270º", 1, 5, 0, 1, (-Fw), (-Fw));
-                mySapModel.FrameObj.SetLoadDistributed(refuerzos[i], "W3_90º", 1, 5, 0, 1, Fw, Fw);
-                mySapModel.FrameObj.SetLoadDistributed(refuerzos[i], "W4_270º", 1, 5, 0, 1, (-Fw), (-Fw));
+                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W3_90º", 1, 5, 0, 1, Fw, Fw, "Global", true, false, eItemType.Objects);
+                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W4_270º", 1, 5, 0, 1, (-Fw), (-Fw), "Global", true, false, eItemType.Objects);
+                mySapModel.FrameObj.SetLoadDistributed(refuerzos[i], "W3_90º", 1, 5, 0, 1, Fw, Fw, "Global", true, false, eItemType.Objects);
+                mySapModel.FrameObj.SetLoadDistributed(refuerzos[i], "W4_270º", 1, 5, 0, 1, (-Fw), (-Fw), "Global", true, false, eItemType.Objects);
+            }
+        }
+
+        public static void LimpiarCargaLateral()
+        {
+            //Seleccionamos los pilares extremos
+            string[] pilares_norte = SAP.ElementFinderSubclass.TrackerSubclass.NorthPiles(mySapModel);
+            string[] pilares_sur = SAP.ElementFinderSubclass.TrackerSubclass.SouthPiles(mySapModel);
+            string[] pilares = { pilares_norte.Last(), pilares_sur.Last() };
+
+            //Seleccionamos las secundarias
+            string[] secundarias_norte_sup = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryBeams(mySapModel);
+            string[] secundarias_norte_inf = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryBeams(mySapModel, false);
+            string[] secundarias_sur_sup = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryBeams(mySapModel);
+            string[] secundarias_sur_inf = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryBeams(mySapModel, false);
+            string[] secundarias = secundarias_norte_sup
+                .Concat(secundarias_norte_inf)
+                .Concat(secundarias_sur_sup)
+                .Concat(secundarias_sur_inf)
+                .ToArray();
+
+            //Obtenemos los refuerzos
+            string[] refuerzos_norte_sup = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryReinforcedBeams(mySapModel);
+            string[] refuerzos_norte_inf = SAP.ElementFinderSubclass.TrackerSubclass.NorthSecundaryReinforcedBeams(mySapModel, false);
+            string[] refuerzos_sur_sup = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryReinforcedBeams(mySapModel);
+            string[] refuerzos_sur_inf = SAP.ElementFinderSubclass.TrackerSubclass.SouthSecundaryReinforcedBeams(mySapModel, false);
+            string[] refuerzos = refuerzos_norte_sup
+                .Concat(refuerzos_norte_inf)
+                .Concat(refuerzos_sur_sup)
+                .Concat(refuerzos_sur_inf)
+                .ToArray();
+
+            //Borramos la carga en todos los elementos
+            for (int i = 0; i < secundarias.Length; i++)
+            {
+                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W3_90º", 1, 5, 0, 1, 0, 0);
+                mySapModel.FrameObj.SetLoadDistributed(secundarias[i], "W4_270º", 1, 5, 0, 1, 0, 0);
+                mySapModel.FrameObj.SetLoadDistributed(refuerzos[i], "W3_90º", 1, 5, 0, 1, 0, 0);
+                mySapModel.FrameObj.SetLoadDistributed(refuerzos[i], "W4_270º", 1, 5, 0, 1, 0, 0);
+            }
+
+            for (int i = 0; i < pilares.Length; i++)
+            {
+                mySapModel.FrameObj.SetLoadDistributed(pilares[i], "W3_90º", 1, 5, 0, 1, 0, 0);
+                mySapModel.FrameObj.SetLoadDistributed(pilares[i], "W4_270º", 1, 5, 0, 1, 0, 0);
             }
         }
     }

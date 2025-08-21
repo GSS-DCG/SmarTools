@@ -28,8 +28,8 @@ namespace SmarTools.Model.Applications
 {
     public class ItaliaNTC2018
     {
-        public static string ruta_base_steel = $@"Z:\300Logos\05 Documentos\SteelSlendernessCheck.rtf";
-        public static string ruta_base_cold = $@"Z:\300Logos\05 Documentos\ColdFormedSlendernessCheck.rtf";
+        public static string ruta_base_steel = $@"Z:\300SmarTools\05 Documentos\SteelSlendernessCheck.rtf";
+        public static string ruta_base_cold = $@"Z:\300SmarTools\05 Documentos\ColdFormedSlendernessCheck.rtf";
         public static string ruta_guardado_steel = $@"{Directory.GetCurrentDirectory()}\Documentos\SteelSlendernessCheckMod.rtf";
         public static string ruta_guardado_cold = $@"{Directory.GetCurrentDirectory()}\Documentos\ColdFormedSlendernessCheckMod.rtf";
 

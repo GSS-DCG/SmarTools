@@ -25,7 +25,7 @@ namespace SmarTools.Model.Applications
         public static cHelper cHelper = MainView.Globales._myHelper;
         public static cOAPI mySapObject = MainView.Globales._mySapObject;
         public static cSapModel mySapModel = MainView.Globales._mySapModel;
-        public static string ruta = @"Z:\300Logos\03 Uniones\Uniones 2VR4.xlsx";
+        public static string ruta = @"Z:\300SmarTools\03 Uniones\Uniones 2VR4_"+MainView.Globales._revisionUniones1V+".xlsx";
 
         public static void ComprobarUniones2V(ComprobacionUniones2VAPP vista)
         {

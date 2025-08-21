@@ -140,12 +140,27 @@ namespace SmarTools.Model.Applications
             double fvigas=Math.Max(fmax_n, fmax_s);
 
             //Determinamos la flecha más crítica y su vano asociado
-            double L_critico = (fvigas == fmax_n) ? L_n : L_s;
+            double L_critico = 0;
+            if (L_n != -1 && L_s != -1)
+            {
+                L_critico = (fvigas == fmax_n) ? L_n : L_s;
+            }
+            else if(L_n!=-1)
+            {
+                L_critico = L_n;
+                fvigas = fmax_n;
+            }
+            else if(L_s!=-1)
+            {
+                L_critico = L_s;
+                fvigas = fmax_s;
+            }
+            
             double fadm_critico=Math.Abs(L_critico / 200);
             double R = Math.Abs(L_critico / fvigas);
 
             //Mostrar resultado en los controles visuales
-            vista.Resultado_vigas.Content = $"{fvigas:F3} (H/{R:F0})";
+            vista.Resultado_vigas.Content = $"{fvigas:F3} (L/{R:F0})";
             vista.Admisible_vigas.Content = $"{fadm_critico:F3}";
             vista.Check_vigas.Content = (fvigas <= fadm_critico).ToString();
 
@@ -430,7 +445,22 @@ namespace SmarTools.Model.Applications
             double fvigas = Math.Max(fmax_n, fmax_s);
 
             //Determinamos la flecha más crítica y su vano asociado
-            double L_critico = (fvigas == fmax_n) ? L_n : L_s;
+            double L_critico = 0;
+            if (L_n != -1 && L_s != -1)
+            {
+                L_critico = (fvigas == fmax_n) ? L_n : L_s;
+            }
+            else if (L_n != -1)
+            {
+                L_critico = L_n;
+                fvigas = fmax_n;
+            }
+            else if (L_s != -1)
+            {
+                L_critico = L_s;
+                fvigas = fmax_s;
+            }
+
             double fadm_critico = Math.Abs(L_critico / 200);
             double R = Math.Abs(L_critico / fvigas);
 

@@ -610,7 +610,7 @@ namespace SmarTools.Model.Repository
             }
         }
 
-        public class ExcelTablesSubclass // Clase para las funciones que hagan análisis (calcular, seleccionar hipótesis...)
+        public class ExcelTablesSubclass // Clase para las funciones que interactúen con las tablas de SAP2000
         {
             private readonly SAP _sap;
 
@@ -855,7 +855,7 @@ namespace SmarTools.Model.Repository
                 Array.Sort(coordPilaresY);
 
                 // Buscar vano: distancia entre los dos pilares más cercanos que rodean al nudo
-                double vano = 0;
+                double vano = -1;
                 for (int i = 0; i < coordPilaresY.Length - 1; i++)
                 {
                     if (coordPilaresY[i] <= coordNudoY && coordNudoY <= coordPilaresY[i + 1])

@@ -3,32 +3,24 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\cambiarcargas1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\cambiarcargas1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\cambiarcargas2v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\cambiarcargas2v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcargas2vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcargas2vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\viewmodel\\ajustes.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:viewmodel\\ajustes.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcargas2vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcargas2vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\windowsfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\windowsfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\excelfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\excelfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\comprobacionflechastrackerapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\comprobacionflechastrackerapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,56 +30,57 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CambiarCargas1V.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCargas1V.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\CambiarCargas1V.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCargas1V.cs",
-              "RelativeToolTip": "Model\\Applications\\CambiarCargas1V.cs",
-              "ViewState": "AgIAAMcBAAAAAAAAAAAuwNABAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-30T08:01:29.378Z",
+              "DocumentIndex": 3,
+              "Title": "Ajustes.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\ViewModel\\Ajustes.xaml",
+              "RelativeDocumentMoniker": "ViewModel\\Ajustes.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\ViewModel\\Ajustes.xaml",
+              "RelativeToolTip": "ViewModel\\Ajustes.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-20T06:29:16.997Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CambiarCargas2VAPP.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCargas2VAPP.xaml.cs",
-              "RelativeDocumentMoniker": "APPS\\CambiarCargas2VAPP.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCargas2VAPP.xaml.cs",
-              "RelativeToolTip": "APPS\\CambiarCargas2VAPP.xaml.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T10:39:10.27Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CambiarCargas2V.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCargas2V.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\CambiarCargas2V.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCargas2V.cs",
-              "RelativeToolTip": "Model\\Applications\\CambiarCargas2V.cs",
-              "ViewState": "AgIAAG4BAAAAAAAAAAA9wN8BAAAMAAAAAAAAAA==",
+              "Title": "LoginWindow.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\LoginWindow.xaml.cs",
+              "RelativeDocumentMoniker": "View\\LoginWindow.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\View\\LoginWindow.xaml.cs",
+              "RelativeToolTip": "View\\LoginWindow.xaml.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-29T10:38:40.263Z",
+              "WhenOpened": "2025-08-20T06:26:11.776Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CambiarCargas2VAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCargas2VAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\CambiarCargas2VAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCargas2VAPP.xaml",
-              "RelativeToolTip": "APPS\\CambiarCargas2VAPP.xaml",
+              "DocumentIndex": 1,
+              "Title": "MainView.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\MainView.xaml.cs",
+              "RelativeDocumentMoniker": "View\\MainView.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\View\\MainView.xaml.cs",
+              "RelativeToolTip": "View\\MainView.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIYAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T12:44:51.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\App.xaml",
+              "RelativeDocumentMoniker": "App.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\App.xaml",
+              "RelativeToolTip": "App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-07-29T09:08:46.719Z"
+              "WhenOpened": "2025-08-18T08:55:42.288Z",
+              "EditorCaption": ""
             }
           ]
         }
@@ -97,13 +90,13 @@
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "FloatingWindowState": {
-        "Id": "c92108d0-f817-4952-80ae-f479597a0553",
+        "Id": "a9346dde-1e9a-474e-91b0-ba11d0869ff2",
         "Display": 1,
-        "X": 468,
-        "Y": 71,
-        "Width": 1457,
+        "X": 307,
+        "Y": 39,
+        "Width": 1597,
         "Height": 957,
-        "WindowState": 0
+        "WindowState": 2
       },
       "DocumentGroups": [
         {
@@ -112,40 +105,15 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SAPFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\SAPFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\SAPFunctions.cs",
-              "ViewState": "AgIAAEQEAAAAAAAAAAAQwOwEAABfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-15T07:13:32.327Z",
+              "DocumentIndex": 4,
+              "Title": "ComprobacionFlechasTrackerAPP.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\ComprobacionFlechasTrackerAPP.xaml",
+              "RelativeDocumentMoniker": "APPS\\ComprobacionFlechasTrackerAPP.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\ComprobacionFlechasTrackerAPP.xaml",
+              "RelativeToolTip": "APPS\\ComprobacionFlechasTrackerAPP.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-20T11:12:21.569Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "WindowsFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\WindowsFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\WindowsFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\WindowsFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\WindowsFunctions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T07:18:26.479Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ExcelFunctions.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Repository\\ExcelFunctions.cs",
-              "RelativeDocumentMoniker": "Model\\Repository\\ExcelFunctions.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\ExcelFunctions.cs",
-              "RelativeToolTip": "Model\\Repository\\ExcelFunctions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcDAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-16T07:15:29.501Z"
             }
           ]
         }

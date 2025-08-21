@@ -95,3 +95,7 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargas1VAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargas1VAPP.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargas2VAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCargas2VAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ItaliaNTC1VAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ItaliaNTC1VAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\Revisiones.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\ViewModel\Revisiones.baml

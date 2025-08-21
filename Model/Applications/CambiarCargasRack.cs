@@ -597,6 +597,9 @@ namespace SmarTools.Model.Applications
             //Obtenemos el nombre de correas del modelo
             string[] correas = SAP.ElementFinderSubclass.FixedSubclass.ObtenerCorreas(mySapModel);
 
+            int ret = mySapModel.LoadPatterns.Add("W3_90º", eLoadPatternType.Wind, 0, true);
+            ret = mySapModel.LoadPatterns.Add("W4_270º", eLoadPatternType.Wind, 0, true);
+
             for (int i = 0;i < correas.Length;i++)
             {
                 mySapModel.FrameObj.SetLoadDistributed(correas[i], "W3_90º", 1, 5, 0, 1, Friccion, Friccion);
@@ -612,7 +615,10 @@ namespace SmarTools.Model.Applications
             string[] vigas=SAP.ElementFinderSubclass.FixedSubclass.ListaVigas(mySapModel);
             (string[], string[]) diagonales=SAP.ElementFinderSubclass.FixedSubclass.ListaDiagonales(mySapModel);
 
-            if(pilares.Length!=0)
+            int ret = mySapModel.LoadPatterns.Add("W3_90º", eLoadPatternType.Wind, 0, true);
+            ret = mySapModel.LoadPatterns.Add("W4_270º", eLoadPatternType.Wind, 0, true);
+
+            if (pilares.Length!=0)
             {
                 string[] seccion = SAP.DesignSubclass.ObtenerSeccionYTipo(mySapModel, pilares[0]);
                 Match ancho = Regex.Match(seccion[0], @"C-(\d{2,3})x");

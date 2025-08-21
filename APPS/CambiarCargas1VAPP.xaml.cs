@@ -77,22 +77,18 @@ namespace SmarTools.APPS
                 Friccion_text.Visibility = Visibility.Collapsed;
                 Friccion.Visibility = Visibility.Collapsed;
                 Friccion_unidades.Visibility = Visibility.Collapsed;
-                Friccion_Check.Visibility = Visibility.Collapsed;
 
                 Presion_text.Visibility = Visibility.Collapsed;
                 Presion.Visibility = Visibility.Collapsed;
                 Presion_unidades.Visibility = Visibility.Collapsed;
-                Presion_Check.Visibility = Visibility.Collapsed;
 
                 Succion_text.Visibility = Visibility.Collapsed;
                 Succion.Visibility = Visibility.Collapsed;
                 Succion_unidades.Visibility = Visibility.Collapsed;
-                Succion_Check.Visibility = Visibility.Collapsed;
 
                 G_text.Visibility = Visibility.Collapsed;
                 G.Visibility = Visibility.Collapsed;
                 G_unidades.Visibility = Visibility.Collapsed;
-                G_Check.Visibility = Visibility.Collapsed;
 
                 //Mostramos según la opción elegida
                 if (normativa=="Eurocódigo"||normativa== "NTC-2018")
@@ -100,24 +96,20 @@ namespace SmarTools.APPS
                     Friccion_text.Visibility = Visibility.Visible;
                     Friccion.Visibility = Visibility.Visible;
                     Friccion_unidades.Visibility = Visibility.Visible;
-                    Friccion_Check.Visibility = Visibility.Visible;
                 }
                 else if(normativa=="ASCE7-05"||normativa=="ASCE7-16")
                 {
                     Presion_text.Visibility = Visibility.Visible;
                     Presion.Visibility = Visibility.Visible;
                     Presion_unidades.Visibility = Visibility.Visible;
-                    Presion_Check.Visibility = Visibility.Visible;
 
                     Succion_text.Visibility = Visibility.Visible;
                     Succion.Visibility = Visibility.Visible;
                     Succion_unidades.Visibility = Visibility.Visible;
-                    Succion_Check.Visibility = Visibility.Visible;
 
                     G_text.Visibility = Visibility.Visible;
                     G.Visibility = Visibility.Visible;
                     G_unidades.Visibility = Visibility.Visible;
-                    G_Check.Visibility = Visibility.Visible;
                 }
             }
         }

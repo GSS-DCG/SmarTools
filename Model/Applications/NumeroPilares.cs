@@ -22,7 +22,7 @@ namespace SmarTools.Model.Applications
         public static cHelper cHelper = MainView.Globales._myHelper;
         public static cOAPI mySapObject = MainView.Globales._mySapObject;
         public static cSapModel mySapModel = MainView.Globales._mySapModel;
-        public static string rutaUniones = @"Z:\300Logos\03 Uniones\Uniones 1VR5.xlsx";
+        public static string rutaUniones = @"Z:\300SmarTools\03 Uniones\Uniones 1VR5_"+MainView.Globales._revisionUniones1V+".xlsx";
 
         public static void NumeroPilares1V(NumeroPilaresAPP vista)
         {
@@ -66,7 +66,17 @@ namespace SmarTools.Model.Applications
 
                     //Cálculos
                     double longSemitracker = Math.Max(longitudNorte, longitudSur);
-                    double npilares_vano = Math.Ceiling((longSemitracker - 1500) / 9000) * 2 + 1;
+                    double valor = (longSemitracker - 1500) / 9000;
+                    double npilares_vano;
+
+                    if(valor-Math.Floor(valor)<0.1)
+                    {
+                        npilares_vano = Math.Floor(valor) * 2 + 1;
+                    }
+                    else
+                    {
+                        npilares_vano = Math.Ceiling(valor) * 2 + 1;
+                    }
 
                     double npilares_torsor_Exp = Math.Ceiling(parEstaticoExp / Mt);
                     double npilares_torsor_Res = Math.Ceiling(parEstaticoRes / Mt);

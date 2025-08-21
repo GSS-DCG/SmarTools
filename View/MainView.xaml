@@ -121,6 +121,15 @@
                         </StackPanel>
                     </RadioButton>
 
+                    <RadioButton Style="{StaticResource menuButton}" 
+                                 Tag="{StaticResource General4}"
+                                 Click="btnRevisiones_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Table" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Revisiones" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+
                 </StackPanel>
                 <!--Main Section-->
                 <Border CornerRadius="0,10,10,0"
