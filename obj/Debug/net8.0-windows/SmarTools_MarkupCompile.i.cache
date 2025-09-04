@@ -16,5 +16,5 @@ C:\InSync\SmarTools\App.xaml
 230-369350313
 APPS\CambiarCargas1VAPP.xaml;APPS\CambiarCargas2VAPP.xaml;APPS\CambiarCargasRackAPP.xaml;APPS\CambiarCombinacionesRackAPP.xaml;APPS\ComprobacionFlechasTracker2VAPP.xaml;APPS\ComprobacionFlechasTrackerAPP.xaml;APPS\ComprobacionUniones2VAPP.xaml;APPS\ComprobacionUnionesAPP.xaml;APPS\Dimensionamiento1VAPP.xaml;APPS\Dimensionamiento2VAPP.xaml;APPS\ItaliaNTC1VAPP.xaml;APPS\ListadosDeCalculo1VAPP.xaml;APPS\ListadosDeCalculo2VAPP.xaml;APPS\NumeroPilaresAPP.xaml;Styles\ButtonStyles.xaml;Styles\ControlBarButton.xaml;Styles\UIColors.xaml;Styles\Window.xaml;ViewModel\Ajustes.xaml;ViewModel\Inicio.xaml;ViewModel\RackSmart.xaml;ViewModel\Revisiones.xaml;ViewModel\TracSmart1V.xaml;ViewModel\TracSmart2V.xaml;View\LoginWindow.xaml;View\MainView.xaml;View\Status.xaml;
 
-True
+False
 

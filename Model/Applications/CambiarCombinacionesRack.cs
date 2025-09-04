@@ -15,6 +15,8 @@ using System.Windows;
 using System.Windows.Controls;
 using SmarTools.Model.Repository;
 using ClosedXML.Excel;
+using System.Collections.ObjectModel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace SmarTools.Model.Applications
 {
@@ -41,817 +43,3610 @@ namespace SmarTools.Model.Applications
 
         public static List<Combination> Combinations = new List<Combination>();
 
+        
+
         public static void GenerarCombinaciones(CambiarCombinacionesRackAPP vista)
         {
             var loadingWindow = new Status();
             try
             {
-                Herramientas.AbrirArchivoSAP2000();
+                //Herramientas.AbrirArchivoSAP2000();
                 loadingWindow.Show();
                 loadingWindow.UpdateLayout();
 
+                //Número de correas
+                int n = 0;
+                if(int.TryParse(vista.Numero_Correas.Text, out int resultado))
+                {
+                    n= resultado;
+                }
+
                 //Obtenemos los casos de carga
-                List<string> LoadPattern = new List<string>()
+                Dictionary<string,string> CasosSeleccionados=new Dictionary<string, string>();
+
+                if (vista.Aplicar_Dead.IsChecked == true)
+                    CasosSeleccionados["DEAD"] = "DEAD";
+
+                if (vista.Aplicar_Dead.IsChecked == true)
+                    CasosSeleccionados["PP Paneles"] = "DEAD";
+
+                if(vista.Aplicar_CM.IsChecked == true)
                 {
-                    "DEAD",
-                    "PP Paneles",
-                    "W1_Press",
-                    "W2_Suct",
-                    "W3_90º",
-                    "W4_270º",
-                    "Snow",
-                    "Accidental_Snow",
-                    "Ex",
-                    "Ey",
-                };
-                List<string> TypeLoad = new List<string>()
-                {
-                    "DEAD",
-                    "DEAD",
-                    "WIND",
-                    "WIND",
-                    "WIND",
-                    "WIND",
-                    "SNOW",
-                    "SNOW",
-                    "QUAKE",
-                    "QUAKE",
-                };
-                List<bool> aplicarCasos = new List<bool>()
-                {
-                    vista.Aplicar_Dead.IsChecked==true,
-                    vista.Aplicar_PPaneles.IsChecked==true,
-                    vista.Aplicar_Presion.IsChecked==true,
-                    vista.Aplicar_Succion.IsChecked==true,
-                    vista.Aplicar_Lateral_90.IsChecked==true,
-                    vista.Aplicar_Lateral_270.IsChecked==true,
-                    vista.Aplicar_Nieve.IsChecked==true,
-                    vista.Aplicar_NieveAccidental.IsChecked==true,
-                    vista.Aplicar_SismoX.IsChecked==true,
-                    vista.Aplicar_SismoY.IsChecked==true,
-                };
-                Dictionary<string, string> CasosSeleccionados = new Dictionary<string, string>();
-                for (int i = 0; i < LoadPattern.Count; i++)
-                {
-                    if (aplicarCasos[i])
+                    for(int i = 1;i<=n;i++)
                     {
-                        CasosSeleccionados[LoadPattern[i]] = TypeLoad[i];
+                        CasosSeleccionados[$"CM{i}"] = "DEAD";
                     }
                 }
+
+                if (vista.Aplicar_Presion.IsChecked == true)
+                    CasosSeleccionados["W1_Press"] = "WIND";
+
+                if (vista.Aplicar_Succion.IsChecked == true)
+                    CasosSeleccionados["W2_Suct"] = "WIND";
+
+                if (vista.Aplicar_Lateral_90.IsChecked == true)
+                    CasosSeleccionados["W3_90º"] = "WIND";
+
+                if (vista.Aplicar_Lateral_270.IsChecked == true)
+                    CasosSeleccionados["W4_270º"] = "WIND";
+
+                if (vista.Aplicar_Nieve.IsChecked == true)
+                    CasosSeleccionados["Snow"] = "SNOW";
+
+                if (vista.Aplicar_NieveAccidental.IsChecked == true)
+                    CasosSeleccionados["Accidental_Snow"] = "SNOW";
+
+                if (vista.Aplicar_SismoX.IsChecked == true)
+                    CasosSeleccionados["Ex"] = "QUAKE";
+
+                if (vista.Aplicar_SismoY.IsChecked == true)
+                    CasosSeleccionados["Ey"] = "QUAKE";
+
 
                 //Obtenemos la normativa
                 var normativa = (vista.Normativa.SelectedItem as ComboBoxItem)?.Content?.ToString();
                 //List<string> coef = Coeficientes(vista, normativa).Select(x => x.Item2.Text).ToList();
 
-                //Eurocódigo
+                //Limpiamos la lista
+                vista.Combinaciones_Carga.Items.Clear();
+
+                //Separamos las cargas: peso propio, carga muerta, viento, nieve, nieve accidental
+                #region
+                var cargasDead = CasosSeleccionados
+                    .Where(c => c.Value == "DEAD" && !c.Key.StartsWith("CM"))
+                    .ToList();
+
+                var cargasCM = CasosSeleccionados
+                    .Where(c => c.Value == "DEAD" && c.Key.StartsWith("CM"))
+                    .ToList();
+
+                var cargasWind = CasosSeleccionados
+                    .Where(c => c.Value == "WIND")
+                    .ToList();
+
+                var cargasSnow = CasosSeleccionados
+                    .Where(c => c.Value == "SNOW" && !c.Key.StartsWith("Accidental"))
+                    .ToList();
+
+                var cargasAccidentalSnow = CasosSeleccionados
+                    .Where(c => c.Value == "SNOW" && c.Key.StartsWith("Accidental"))
+                    .ToList();
+
+                var cargasQuake = CasosSeleccionados
+                    .Where(c => c.Value == "QUAKE")
+                    .ToList();
+
+                string combinacion = "";
+                #endregion
+
+                // Eurocódigo
                 if (normativa=="Eurocódigo")
                 {
                     int cont = 1;
-
+                    
                     #region ESTADOS LÍMITES ÚLTIMOS
                     //Caso 1a: Permanentes. Situación Permanente Favorable
+                    #region
                     Combination.Hipotesis.Clear();
                     Combination.Mayoracion.Clear();
-                    foreach (var item in CasosSeleccionados)
+
+                    foreach (var carga in cargasDead)
                     {
-                        if(item.Value=="DEAD")
-                        {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
-                        }
+                        Combination.Hipotesis.Add(carga.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
                     }
                     Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                    Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                    string comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
                     cont++;
 
-                    //Caso 1b: Permanentes. Situación Permanente Desfavorable
-                    Combination.Hipotesis.Clear();
-                    Combination.Mayoracion.Clear();
-                    foreach (var item in CasosSeleccionados)
-                    {
-                        if (item.Value == "DEAD")
-                        {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
-                        }
-                    }
-                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                    Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                    cont++;
-
-                    //Caso 2a: Permanentes + viento. Situación Permanente Favorable
-                    Combination.Hipotesis.Clear();
-                    Combination.Mayoracion.Clear();
-                    foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
-                    {
-                        if (item.Value == "DEAD")
-                        {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
-                        }
-                    }
-                    foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de viento
-                    {
-                        if (item.Value == "WIND")
-                        {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
-
-                            //Añadimos la combinación
-                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                            Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                            cont++;
-
-                            //Eliminamos la hipótesis de viento añadida a esa lista
-                            Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                            Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                        }
-                    }
-
-                    //Caso 2b: Permanentes + viento. Situación Permanente Desfavorable
-                    Combination.Hipotesis.Clear();
-                    Combination.Mayoracion.Clear();
-                    foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
-                    {
-                        if (item.Value == "DEAD")
-                        {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
-                        }
-                    }
-                    foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de viento
-                    {
-                        if (item.Value == "WIND")
-                        {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
-
-                            //Añadimos la combinación
-                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                            Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                            cont++;
-
-                            //Eliminamos la hipótesis de viento añadida a esa lista
-                            Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                            Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                        }
-                    }
-
-                    //Caso 3a: Permanentes + Nieve. Situación Permanente Favorable
-                    if(vista.Aplicar_Nieve.IsChecked==true)//Si tenemos carga de nieve
+                    foreach (var cm in cargasCM)
                     {
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                        }
+                        Combination.Hipotesis.Add(cm.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    #endregion
+                    //Caso 1b: Permanentes. Situación Permanente Desfavorable
+                    #region
+                    Combination.Hipotesis.Clear();
+                    Combination.Mayoracion.Clear();
+
+                    foreach (var carga in cargasDead)
+                    {
+                        Combination.Hipotesis.Add(carga.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                    }
+                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                    cont++;
+
+                    foreach (var cm in cargasCM)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        }
+                        Combination.Hipotesis.Add(cm.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    #endregion
+                    //Caso 2a: Permanentes + viento. Situación Permanente Favorable
+                    #region
+                    foreach (var wind in cargasWind)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                        }
+                        Combination.Hipotesis.Add(wind.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var wind in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach(var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
                                 Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
                             }
-                        }
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de nieve
-                        {
-                            if (item.Key == "Snow")
-                            {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
 
-                                //Añadimos la combinación
-                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                                cont++;
+                            Combination.Hipotesis.Add(wind.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
 
-                                //Eliminamos la hipótesis de nieve añadida a esa lista
-                                Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                            }
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
                         }
                     }
-
-                    //Caso 3b: Permanentes + Nieve. Situación Permanente Desfavorable
-                    if (vista.Aplicar_Nieve.IsChecked == true)//Si tenemos carga de nieve
+                    #endregion
+                    //Caso 2b: Permanentes + viento. Situación Permanente Desfavorable
+                    #region
+                    foreach (var wind in cargasWind)
                     {
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
-                            {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
-                            }
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
                         }
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de nieve
+                        Combination.Hipotesis.Add(wind.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var wind in cargasWind)
                         {
-                            if (item.Key == "Snow")
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
 
-                                //Añadimos la combinación
+                            Combination.Hipotesis.Add(wind.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    #endregion
+                    //Caso 3a: Permanentes + Nieve. Situación Permanente Favorable
+                    #region
+                    if (vista.Aplicar_Nieve.IsChecked==true)//Si tenemos carga de nieve
+                    {
+                        foreach (var snow in cargasSnow)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                            }
+                            Combination.Hipotesis.Add(snow.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach(var snow in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                }
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                Combination.Hipotesis.Add(snow.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
                                 Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
                                 cont++;
-
-                                //Eliminamos la hipótesis de nieve añadida a esa lista
-                                Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
                             }
                         }
                     }
+                    #endregion
+                    //Caso 3b: Permanentes + Nieve. Situación Permanente Desfavorable
+                    #region
+                    if (vista.Aplicar_Nieve.IsChecked == true)//Si tenemos carga de nieve
+                    {
+                        foreach (var snow in cargasSnow)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            Combination.Hipotesis.Add(snow.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var snow in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                Combination.Hipotesis.Add(snow.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+                    //Caso 4: Permanentes + Viento + Nieve (altitud más-menos de 1000m)
                     if (vista.Aplicar_Nieve.IsChecked == true && vista.Nieve_Menos1000_Check.IsChecked == true) //Altitud de nieve menor o igual a 1000m Psi0; //Coeficiente de Simultaneidad. Nieve. Edificios emplazados en altitud H<=1000 metros. Psi0
                     {
                         //Caso 4a: Permanentes + Viento + Nieve (Altitud menos de 1000 m). Situación Persistente Favorable
-                        Combination.Hipotesis.Clear();
-                        Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        #region
+                        foreach (var viento in cargasWind)
                         {
-                            if (item.Value == "DEAD")
+                            foreach (var nieve in cargasSnow)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
-                            }
-                        }
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de viento
-                        {
-                            if (item.Value == "WIND")
-                            {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
 
-                                //Buscamos cada hipótesis de Nieve
-                                foreach(var item2 in CasosSeleccionados)
+                                foreach (var carga in cargasDead)
                                 {
-                                    if(item2.Value == "SNOW")
-                                    {
-                                        Combination.Hipotesis.Add(item2.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text));
-
-                                        //Añadimos la combinación
-                                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                                        cont++;
-
-                                        //Eliminamos la hipótesis de nieve añadida a esa lista
-                                        Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                        Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                                    }
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
                                 }
-                                //Eliminamos la hipótesis de viento añadida a esa lista
-                                Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text)*double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
                             }
                         }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
 
                         //Caso 4b: Permanentes + Viento + Nieve (Altitud menos de 1000 m). Situación Persistente Desfavorable
-                        Combination.Hipotesis.Clear();
-                        Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        #region
+                        foreach (var viento in cargasWind)
                         {
-                            if (item.Value == "DEAD")
+                            foreach (var nieve in cargasSnow)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
-                            }
-                        }
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de viento
-                        {
-                            if (item.Value == "WIND")
-                            {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
 
-                                //Buscamos cada hipótesis de Nieve
-                                foreach (var item2 in CasosSeleccionados)
+                                foreach (var carga in cargasDead)
                                 {
-                                    if (item2.Value == "SNOW")
-                                    {
-                                        Combination.Hipotesis.Add(item2.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text));
-
-                                        //Añadimos la combinación
-                                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                                        cont++;
-
-                                        //Eliminamos la hipótesis de nieve añadida a esa lista
-                                        Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                        Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                                    }
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
                                 }
-                                //Eliminamos la hipótesis de viento añadida a esa lista
-                                Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
                             }
                         }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
                     }
                     else if (vista.Aplicar_Nieve.IsChecked == true && vista.Nieve_Mas1000_Check.IsChecked == true)//Altitud de nieve mayor a 1000m Psi0; //Coeficiente de Simultaneidad. Nieve. Edificios emplazados en altitud H>1000 metros. Psi0
                     {
                         //Caso 4a: Permanentes + Viento + Nieve (Altitud más de 1000 m). Situación Persistente Favorable
-                        Combination.Hipotesis.Clear();
-                        Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        #region
+                        foreach (var viento in cargasWind)
                         {
-                            if (item.Value == "DEAD")
+                            foreach (var nieve in cargasSnow)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                        //Caso 4b: Permanentes + Viento + Nieve (Altitud más de 1000 m). Situación Persistente Desfavorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    //Caso 5a: Permanentes + Nieve + Viento. Situación Permanente Favorable
+                    #region
+                    foreach (var nieve in cargasSnow)
+                    {
+                        foreach (var viento in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
                                 Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
                             }
-                        }
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de viento
-                        {
-                            if (item.Value == "WIND")
-                            {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
+                            //Nieve
+                            Combination.Hipotesis.Add(nieve.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
 
-                                //Buscamos cada hipótesis de Nieve
-                                foreach (var item2 in CasosSeleccionados)
-                                {
-                                    if (item2.Value == "SNOW")
-                                    {
-                                        Combination.Hipotesis.Add(item2.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text));
+                            //Viento con Psi0
+                            Combination.Hipotesis.Add(viento.Key);
+                            string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                            Combination.Mayoracion.Add(double.Parse(coeficiente));
 
-                                        //Añadimos la combinación
-                                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                                        cont++;
-
-                                        //Eliminamos la hipótesis de nieve añadida a esa lista
-                                        Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                        Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                                    }
-                                }
-                                //Eliminamos la hipótesis de viento añadida a esa lista
-                                Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                            }
-                        }
-
-                        //Caso 4b: Permanentes + Viento + Nieve (Altitud más de 1000 m). Situación Persistente Desfavorable
-                        Combination.Hipotesis.Clear();
-                        Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
-                        {
-                            if (item.Value == "DEAD")
-                            {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
-                            }
-                        }
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de viento
-                        {
-                            if (item.Value == "WIND")
-                            {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
-
-                                //Buscamos cada hipótesis de Nieve
-                                foreach (var item2 in CasosSeleccionados)
-                                {
-                                    if (item2.Value == "SNOW")
-                                    {
-                                        Combination.Hipotesis.Add(item2.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text));
-
-                                        //Añadimos la combinación
-                                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                                        cont++;
-
-                                        //Eliminamos la hipótesis de nieve añadida a esa lista
-                                        Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                        Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                                    }
-                                }
-                                //Eliminamos la hipótesis de viento añadida a esa lista
-                                Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                            }
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
                         }
                     }
-
-                    //Caso 5a: Permanentes + Nieve + Viento. Situación Permanente Favorable
-                    Combination.Hipotesis.Clear();
-                    Combination.Mayoracion.Clear();
-                    foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                    foreach (var cm in cargasCM)
                     {
-                        if (item.Value == "DEAD")
+                        foreach (var nieve in cargasSnow)
                         {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
-                        }
-                    }
-                    foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de nieve
-                    {
-                        if (item.Key == "Snow")
-                        {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
-    
-                            //Buscamos cada hipótesis de viento
-                            foreach (var item2 in CasosSeleccionados)
+                            foreach (var viento in cargasWind)
                             {
-                                if(item2.Value=="WIND")
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
                                 {
-                                    Combination.Hipotesis.Add(item.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text)*double.Parse(vista.Psi0_Viento.Text));
-
-                                    //Añadimos la combinación
-                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                    Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                                    cont++;
-
-                                    //Eliminamos la hipótesis de nieve añadida a esa lista
-                                    Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                    Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
                                 }
+                                //CM
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                //Nieve
+                                Combination.Hipotesis.Add(nieve.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Viento con Psi0
+                                Combination.Hipotesis.Add(viento.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
                             }
-                            Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                            Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
                         }
                     }
-
-                    //Caso 5a: Permanentes + Nieve + Viento. Situación Permanente Desavorable
-                    Combination.Hipotesis.Clear();
-                    Combination.Mayoracion.Clear();
-                    foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                    #endregion
+                    //Caso 5b: Permanentes + Nieve + Viento. Situación Permanente Desavorable
+                    #region
+                    foreach (var nieve in cargasSnow)
                     {
-                        if (item.Value == "DEAD")
+                        foreach (var viento in cargasWind)
                         {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
-                        }
-                    }
-                    foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de nieve
-                    {
-                        if (item.Key == "Snow")
-                        {
-                            Combination.Hipotesis.Add(item.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text));
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
 
-                            //Buscamos cada hipótesis de viento
-                            foreach (var item2 in CasosSeleccionados)
+                            foreach (var carga in cargasDead)
                             {
-                                if (item2.Value == "WIND")
-                                {
-                                    Combination.Hipotesis.Add(item.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text));
-
-                                    //Añadimos la combinación
-                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                    Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                                    cont++;
-
-                                    //Eliminamos la hipótesis de nieve añadida a esa lista
-                                    Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                    Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                                }
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
                             }
-                            Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                            Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
+                            //Nieve
+                            Combination.Hipotesis.Add(nieve.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            //Viento con Psi0
+                            Combination.Hipotesis.Add(viento.Key);
+                            string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                            Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
                         }
                     }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var nieve in cargasSnow)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
 
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //CM
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                //Nieve
+                                Combination.Hipotesis.Add(nieve.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Viento con Psi0
+                                Combination.Hipotesis.Add(viento.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
                     //Sismo
                     if (vista.Aplicar_SismoX.IsChecked == true || vista.Aplicar_SismoY.IsChecked == true)
                     {
-                        bool primerSismo;
+                        bool primerSismo = true;
                         //Caso 6a: Peso propio + Sismo (+Ex, +Ey). Accidentales
+                        #region
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake)
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if(primerSismo)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
                             }
                         }
-                        primerSismo = true;
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de sismo
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
                         {
-                            if(item.Value =="QUAKE")
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        }));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                        
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                if(primerSismo)
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake)
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
                                 {
                                     Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
-                                    primerSismo = false;//Si ya rellenamos el primer sismo
+                                    primerSismo = false;
                                 }
                                 else
                                 {
-                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text)* double.Parse(vista.Porcentaje_sismo.Text)/100);
+                                    string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
                                 }
                             }
+                            
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
                         }
-                        //Añadimos la combinación
-                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                        cont++;
 
+                        #endregion
                         //Caso 6b: Peso propio + Sismo (-Ex, +Ey). Accidentales
+                        #region
+                        primerSismo = true;
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake)
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
                             }
                         }
-                        primerSismo = true;
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de sismo
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
                         {
-                            if (item.Value == "QUAKE")
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        }));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake)
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
                                 if (primerSismo)
                                 {
                                     Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
-                                    primerSismo = false;//Si ya rellenamos el primer sismo
+                                    primerSismo = false;
                                 }
                                 else
                                 {
-                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100);
+                                    string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
                                 }
                             }
-                        }
-                        //Añadimos la combinación
-                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                        cont++;
 
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+
+                        #endregion
                         //Caso 6c: Peso propio + Sismo (+Ex, -Ey). Accidentales
+                        #region
+                        primerSismo = true;
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake)
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
                             }
                         }
-                        primerSismo = true;
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de sismo
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
                         {
-                            if (item.Value == "QUAKE")
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        }));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake)
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
                                 if (primerSismo)
                                 {
                                     Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
-                                    primerSismo = false;//Si ya rellenamos el primer sismo
+                                    primerSismo = false;
                                 }
                                 else
                                 {
-                                    Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100);
+                                    string coeficiente = (-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
                                 }
                             }
-                        }
-                        //Añadimos la combinación
-                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                        cont++;
 
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
                         //Caso 6d: Peso propio + Sismo (-Ex, -Ey). Accidentales
+                        #region
+                        primerSismo = true;
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake)
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
                             }
                         }
-                        primerSismo = true;
-                        foreach (var item in CasosSeleccionados)//Buscamos cada hipótesis de sismo
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
                         {
-                            if (item.Value == "QUAKE")
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        }));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake)
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
                                 if (primerSismo)
                                 {
                                     Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
-                                    primerSismo = false;//Si ya rellenamos el primer sismo
+                                    primerSismo = false;
                                 }
                                 else
                                 {
-                                    Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100);
+                                    string coeficiente = (-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
                                 }
                             }
-                        }
-                        //Añadimos la combinación
-                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                        cont++;
 
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
                         //Caso 6e: Peso propio + Sismo (+Ey, +Ex). Accidentales
+                        #region
+                        primerSismo = true;
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
                             }
                         }
-                        primerSismo = true;
-                        foreach (var item in CasosSeleccionados.AsEnumerable().Reverse())//Buscamos cada hipótesis de sismo
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
                         {
-                            if (item.Value == "QUAKE")
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        })); vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
                                 if (primerSismo)
                                 {
                                     Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
-                                    primerSismo = false;//Si ya rellenamos el primer sismo
+                                    primerSismo = false;
                                 }
                                 else
                                 {
-                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100);
+                                    string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
                                 }
                             }
-                        }
-                        //Añadimos la combinación
-                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                        cont++;
 
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
                         //Caso 6f: Peso propio + Sismo (-Ey,+Ex). Accidentales
+                        #region
+                        primerSismo = true;
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
                             }
                         }
-                        primerSismo = true;
-                        foreach (var item in CasosSeleccionados.AsEnumerable().Reverse())//Buscamos cada hipótesis de sismo
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
                         {
-                            if (item.Value == "QUAKE")
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        })); vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
                                 if (primerSismo)
                                 {
-                                    Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
-                                    primerSismo = false;//Si ya rellenamos el primer sismo
+                                    Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
                                 }
                                 else
                                 {
-                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100);
+                                    string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
                                 }
                             }
-                        }
-                        //Añadimos la combinación
-                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                        cont++;
 
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
                         //Caso 6g: Peso propio + Sismo (+Ey, -Ex). Accidentales
+                        #region
+                        primerSismo = true;
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
                             }
                         }
-                        primerSismo = true;
-                        foreach (var item in CasosSeleccionados.AsEnumerable().Reverse())//Buscamos cada hipótesis de sismo
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
                         {
-                            if (item.Value == "QUAKE")
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        })); vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
                                 if (primerSismo)
                                 {
                                     Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
-                                    primerSismo = false;//Si ya rellenamos el primer sismo
+                                    primerSismo = false;
                                 }
                                 else
                                 {
-                                    Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100);
+                                    string coeficiente = (-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
                                 }
                             }
-                        }
-                        //Añadimos la combinación
-                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                        cont++;
 
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
                         //Caso 6h: Peso propio + Sismo (-Ey, -Ex). Accidentales
+                        #region
+                        primerSismo = true;
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+                        foreach (var carga in cargasDead)
                         {
-                            if (item.Value == "DEAD")
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
                             {
-                                Combination.Hipotesis.Add(item.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
                             }
                         }
-                        primerSismo = true;
-                        foreach (var item in CasosSeleccionados.AsEnumerable().Reverse())//Buscamos cada hipótesis de sismo
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
                         {
-                            if (item.Value == "QUAKE")
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        })); vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
                                 if (primerSismo)
                                 {
-                                    Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
-                                    primerSismo = false;//Si ya rellenamos el primer sismo
+                                    Combination.Mayoracion.Add(-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
                                 }
                                 else
                                 {
-                                    Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100);
+                                    string coeficiente = (-1*double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
                                 }
                             }
-                        }
-                        //Añadimos la combinación
-                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                        cont++;
 
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
                     }
 
                     //Caso 7: Nieve Accidental
-                    if(vista.Aplicar_NieveAccidental.IsChecked == true)
+                    #region
+                    if (vista.Aplicar_NieveAccidental.IsChecked == true)
                     {
                         Combination.Hipotesis.Clear();
                         Combination.Mayoracion.Clear();
-                        foreach (var item in CasosSeleccionados)//Buscamos todas las cargas permanentes
+
+                        foreach (var nieveAcc in cargasAccidentalSnow)
                         {
-                            if (item.Value == "DEAD")
+                            foreach (var carga in cargasDead)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Add(carga.Key);
                                 Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
                             }
-                        }
-                        foreach (var item in CasosSeleccionados)//Buscamos la hipótesis de nieve accidental
-                        {
-                            if (item.Key == "Accidental_Snow")
+                            Combination.Hipotesis.Add(nieveAcc.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                            
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+
+                            foreach (var cm in cargasCM)
                             {
-                                Combination.Hipotesis.Add(item.Key);
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                }
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                // Nieve accidental
+                                Combination.Hipotesis.Add(nieveAcc.Key);
                                 Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
 
-                                //Buscamos cada hipótesis de viento
-                                foreach (var item2 in CasosSeleccionados)
+                                // Generamos combinaciones
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                            foreach(var viento in cargasWind)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
                                 {
-                                    if (item2.Value == "WIND")
-                                    {
-                                        Combination.Hipotesis.Add(item.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_NoCte_Persistente_Desfavorable.Text) * double.Parse(vista.Psi1_Viento.Text));
-
-                                        //Añadimos la combinación
-                                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
-                                        Sap2000CreateCombination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion);
-                                        cont++;
-
-                                        //Eliminamos la hipótesis de nieve añadida a esa lista
-                                        Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                        Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
-                                    }
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
                                 }
-                                Combination.Hipotesis.RemoveAt(Combination.Hipotesis.Count() - 1);
-                                Combination.Mayoracion.RemoveAt(Combination.Mayoracion.Count() - 1);
+                                // Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Psi1_Viento.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                // Nieve Accidental
+                                Combination.Hipotesis.Add(nieveAcc.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+
+                                //Creamos combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+
+                                foreach (var cm in cargasCM)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                    }
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Psi1_Viento.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    // Nieve Accidental
+                                    Combination.Hipotesis.Add(nieveAcc.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+
+                                    //Generamos combinaciones
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
                             }
                         }
                     }
 
                     #endregion
 
-                    //
-                    //ESTADOS LÍMITE DE SERVICIO
-                    //
+                    #endregion
+
+                    #region ESTADOS LÍMITES DE SERVICIO
+                    cont = 1;
+                    // Caso 1: Permanentes. Situación Permanente Desfavorable
+                    #region
+                    Combination.Hipotesis.Clear();
+                    Combination.Mayoracion.Clear();
+
+                    foreach (var carga in cargasDead)
+                    {
+                        Combination.Hipotesis.Add(carga.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                    }
+                    Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                    vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                    //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                    cont++;
+
+                    foreach (var cm in cargasCM)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        }
+                        Combination.Hipotesis.Add(cm.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                        Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    #endregion
+                    // Caso 2: Permanentes + Viento. Situación Permanente Desfavorable
+                    #region
+                    foreach (var viento in cargasWind)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        }
+                        // Viento 
+                        Combination.Hipotesis.Add(viento.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                        Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var viento in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                            // Viento 
+                            Combination.Hipotesis.Add(viento.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                            Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    #endregion
+                    // Caso 3a: Permanentes + Nieve. Situación Permanente Desfavorable
+                    #region
+                    if (vista.Aplicar_Nieve.IsChecked == true)//Si tenemos carga de nieve
+                    {
+                        foreach (var snow in cargasSnow)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            Combination.Hipotesis.Add(snow.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                            Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var snow in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                Combination.Hipotesis.Add(snow.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+                    if (vista.Aplicar_Nieve.IsChecked == true && vista.Nieve_Menos1000_Check.IsChecked == true) //Altitud de nieve menor o igual a 1000m Psi0; //Coeficiente de Simultaneidad. Nieve. Edificios emplazados en altitud H<=1000 metros. Psi0
+                    {
+                        // Caso 4: Permanentes + Viento + Nieve (Altitud Menor de 1000). Situación Permanente Desfavorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    if (vista.Aplicar_Nieve.IsChecked == true && vista.Nieve_Mas1000_Check.IsChecked == true) //Altitud de nieve mayor a 1000m Psi0; //Coeficiente de Simultaneidad. Nieve. Edificios emplazados en altitud H>1000 metros. Psi0
+                    {
+                        // Caso 4: Permanentes + Viento + Nieve (Altitud mayor de 1000). Situación Permanente Desfavorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    // Caso 5: Permanentes + Nieve + Viento. Situación Permanente Desfavorable
+                    #region
+                    foreach (var nieve in cargasSnow)
+                    {
+                        foreach (var viento in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            //Nieve
+                            Combination.Hipotesis.Add(nieve.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                            //Viento con Psi0
+                            Combination.Hipotesis.Add(viento.Key);
+                            string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                            Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var nieve in cargasSnow)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //CM
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                //Nieve
+                                Combination.Hipotesis.Add(nieve.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                //Viento con Psi0
+                                Combination.Hipotesis.Add(viento.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #endregion
                 }
 
+                // Italia NTC-2018
+                if (normativa == "NTC-2018")
+                {
+                    int cont = 1;
+
+                    #region ESTADOS LÍMITES ÚLTIMOS
+                    //Caso 1a: Permanentes. Situación Permanente Favorable
+                    #region
+                    Combination.Hipotesis.Clear();
+                    Combination.Mayoracion.Clear();
+
+                    foreach (var carga in cargasDead)
+                    {
+                        Combination.Hipotesis.Add(carga.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                    }
+                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                    string comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                    cont++;
+
+                    foreach (var cm in cargasCM)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                        }
+                        Combination.Hipotesis.Add(cm.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    #endregion
+                    //Caso 1b: Permanentes. Situación Permanente Desfavorable
+                    #region
+                    Combination.Hipotesis.Clear();
+                    Combination.Mayoracion.Clear();
+
+                    foreach (var carga in cargasDead)
+                    {
+                        Combination.Hipotesis.Add(carga.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                    }
+                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                    cont++;
+
+                    foreach (var cm in cargasCM)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        }
+                        Combination.Hipotesis.Add(cm.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    #endregion
+                    //Caso 2a: Permanentes + viento. Situación Permanente Favorable
+                    #region
+                    foreach (var wind in cargasWind)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                        }
+                        Combination.Hipotesis.Add(wind.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var wind in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                            Combination.Hipotesis.Add(wind.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    #endregion
+                    //Caso 2b: Permanentes + viento. Situación Permanente Desfavorable
+                    #region
+                    foreach (var wind in cargasWind)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        }
+                        Combination.Hipotesis.Add(wind.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var wind in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                            Combination.Hipotesis.Add(wind.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    #endregion
+                    //Caso 3a: Permanentes + Nieve. Situación Permanente Favorable
+                    #region
+                    if (vista.Aplicar_Nieve.IsChecked == true)//Si tenemos carga de nieve
+                    {
+                        foreach (var snow in cargasSnow)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                            }
+                            Combination.Hipotesis.Add(snow.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var snow in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                }
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                Combination.Hipotesis.Add(snow.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+                    //Caso 3b: Permanentes + Nieve. Situación Permanente Desfavorable
+                    #region
+                    if (vista.Aplicar_Nieve.IsChecked == true)//Si tenemos carga de nieve
+                    {
+                        foreach (var snow in cargasSnow)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            Combination.Hipotesis.Add(snow.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var snow in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                Combination.Hipotesis.Add(snow.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+                    //Caso 4: Permanentes + Viento + Nieve (altitud más-menos de 1000m)
+                    if (vista.Aplicar_Nieve.IsChecked == true && vista.Nieve_Menos1000_Check.IsChecked == true) //Altitud de nieve menor o igual a 1000m Psi0; //Coeficiente de Simultaneidad. Nieve. Edificios emplazados en altitud H<=1000 metros. Psi0
+                    {
+                        //Caso 4a: Permanentes + Viento + Nieve (Altitud menos de 1000 m). Situación Persistente Favorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+
+                        //Caso 4b: Permanentes + Viento + Nieve (Altitud menos de 1000 m). Situación Persistente Desfavorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    else if (vista.Aplicar_Nieve.IsChecked == true && vista.Nieve_Mas1000_Check.IsChecked == true)//Altitud de nieve mayor a 1000m Psi0; //Coeficiente de Simultaneidad. Nieve. Edificios emplazados en altitud H>1000 metros. Psi0
+                    {
+                        //Caso 4a: Permanentes + Viento + Nieve (Altitud más de 1000 m). Situación Persistente Favorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                        //Caso 4b: Permanentes + Viento + Nieve (Altitud más de 1000 m). Situación Persistente Desfavorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    //Caso 5a: Permanentes + Nieve + Viento. Situación Permanente Favorable
+                    #region
+                    foreach (var nieve in cargasSnow)
+                    {
+                        foreach (var viento in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                            }
+                            //Nieve
+                            Combination.Hipotesis.Add(nieve.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            //Viento con Psi0
+                            Combination.Hipotesis.Add(viento.Key);
+                            string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                            Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var nieve in cargasSnow)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                }
+                                //CM
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                //Nieve
+                                Combination.Hipotesis.Add(nieve.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Viento con Psi0
+                                Combination.Hipotesis.Add(viento.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+                    //Caso 5b: Permanentes + Nieve + Viento. Situación Permanente Desavorable
+                    #region
+                    foreach (var nieve in cargasSnow)
+                    {
+                        foreach (var viento in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            //Nieve
+                            Combination.Hipotesis.Add(nieve.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                            //Viento con Psi0
+                            Combination.Hipotesis.Add(viento.Key);
+                            string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                            Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var nieve in cargasSnow)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //CM
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                //Nieve
+                                Combination.Hipotesis.Add(nieve.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
+
+                                //Viento con Psi0
+                                Combination.Hipotesis.Add(viento.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Persistente_Desfavorable.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+                    //Sismo
+                    if (vista.Aplicar_SismoX.IsChecked == true || vista.Aplicar_SismoY.IsChecked == true)
+                    {
+                        bool primerSismo = true;
+                        //Caso 6a: Peso propio + Sismo (+Ex, +Ey). Accidentales
+                        #region
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake)
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
+                            {
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+                            }
+                        }
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                        {
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        }));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake)
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
+                                {
+                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
+                                }
+                                else
+                                {
+                                    string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+                                }
+                            }
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+
+                        #endregion
+                        //Caso 6b: Peso propio + Sismo (-Ex, +Ey). Accidentales
+                        #region
+                        primerSismo = true;
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake)
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
+                            {
+                                Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+                            }
+                        }
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                        {
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        }));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake)
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
+                                {
+                                    Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
+                                }
+                                else
+                                {
+                                    string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+                                }
+                            }
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+
+                        #endregion
+                        //Caso 6c: Peso propio + Sismo (+Ex, -Ey). Accidentales
+                        #region
+                        primerSismo = true;
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake)
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
+                            {
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+                            }
+                        }
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                        {
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        }));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake)
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
+                                {
+                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
+                                }
+                                else
+                                {
+                                    string coeficiente = (-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+                                }
+                            }
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
+                        //Caso 6d: Peso propio + Sismo (-Ex, -Ey). Accidentales
+                        #region
+                        primerSismo = true;
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake)
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
+                            {
+                                Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+                            }
+                        }
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                        {
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        }));
+                        vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake)
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
+                                {
+                                    Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
+                                }
+                                else
+                                {
+                                    string coeficiente = (-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+                                }
+                            }
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
+                        //Caso 6e: Peso propio + Sismo (+Ey, +Ex). Accidentales
+                        #region
+                        primerSismo = true;
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
+                            {
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+                            }
+                        }
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                        {
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        })); vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
+                                {
+                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
+                                }
+                                else
+                                {
+                                    string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+                                }
+                            }
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
+                        //Caso 6f: Peso propio + Sismo (-Ey,+Ex). Accidentales
+                        #region
+                        primerSismo = true;
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
+                            {
+                                Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+                            }
+                        }
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                        {
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        })); vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
+                                {
+                                    Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
+                                }
+                                else
+                                {
+                                    string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+                                }
+                            }
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
+                        //Caso 6g: Peso propio + Sismo (+Ey, -Ex). Accidentales
+                        #region
+                        primerSismo = true;
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
+                            {
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+                            }
+                        }
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                        {
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        })); vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
+                                {
+                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
+                                }
+                                else
+                                {
+                                    string coeficiente = (-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+                                }
+                            }
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
+                        //Caso 6h: Peso propio + Sismo (-Ey, -Ex). Accidentales
+                        #region
+                        primerSismo = true;
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                        }
+                        foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                        {
+                            Combination.Hipotesis.Add(sismo.Key);
+                            if (primerSismo)
+                            {
+                                Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                primerSismo = false;
+                            }
+                            else
+                            {
+                                string coeficiente = (-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+                            }
+                        }
+                        //Creamos la combinación
+                        Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                        {
+                            string signo = coef >= 0 ? "+" : "";
+                            return $"{signo}{coef}{hip}";
+                        })); vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+
+                        foreach (var cm in cargasCM)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+                            primerSismo = true;
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            foreach (var sismo in cargasQuake.AsEnumerable().Reverse())
+                            {
+                                Combination.Hipotesis.Add(sismo.Key);
+                                if (primerSismo)
+                                {
+                                    Combination.Mayoracion.Add(-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+                                    primerSismo = false;
+                                }
+                                else
+                                {
+                                    string coeficiente = (-1 * double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Porcentaje_sismo.Text) / 100).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+                                }
+                            }
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) =>
+                            {
+                                string signo = coef >= 0 ? "+" : "";
+                                return $"{signo}{coef}{hip}";
+                            }));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        #endregion
+                    }
+
+                    //Caso 7: Nieve Accidental
+                    #region
+                    if (vista.Aplicar_NieveAccidental.IsChecked == true)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var nieveAcc in cargasAccidentalSnow)
+                        {
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                            }
+                            Combination.Hipotesis.Add(nieveAcc.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+
+                            Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+
+                            foreach (var cm in cargasCM)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                }
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                // Nieve accidental
+                                Combination.Hipotesis.Add(nieveAcc.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+
+                                // Generamos combinaciones
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                            foreach (var viento in cargasWind)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
+                                }
+                                // Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                string coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Psi1_Viento.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                // Nieve Accidental
+                                Combination.Hipotesis.Add(nieveAcc.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+
+                                //Creamos combinación
+                                Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+
+                                foreach (var cm in cargasCM)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                    }
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    coeficiente = (double.Parse(vista.Accidental_Accidental_Desfavorable.Text) * double.Parse(vista.Psi1_Viento.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    // Nieve Accidental
+                                    Combination.Hipotesis.Add(nieveAcc.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Accidental_Accidental_Desfavorable.Text));
+
+                                    //Generamos combinaciones
+                                    Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("ULS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("ULS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                    }
+
+                    #endregion
+
+                    #endregion
+
+                    #region ESTADOS LÍMITES DE SERVICIO
+                    cont = 1;
+                    // Caso 1: Permanentes. Situación Permanente Desfavorable
+                    #region
+                    Combination.Hipotesis.Clear();
+                    Combination.Mayoracion.Clear();
+
+                    foreach (var carga in cargasDead)
+                    {
+                        Combination.Hipotesis.Add(carga.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                    }
+                    Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                    vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                    //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                    cont++;
+
+                    foreach (var cm in cargasCM)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        }
+                        Combination.Hipotesis.Add(cm.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                        Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+                    #endregion
+                    // Caso 2: Permanentes + Viento. Situación Permanente Desfavorable
+                    #region
+                    foreach (var viento in cargasWind)
+                    {
+                        Combination.Hipotesis.Clear();
+                        Combination.Mayoracion.Clear();
+
+                        foreach (var carga in cargasDead)
+                        {
+                            Combination.Hipotesis.Add(carga.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        }
+                        // Viento 
+                        Combination.Hipotesis.Add(viento.Key);
+                        Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                        Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                        comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                        vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                        //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                        cont++;
+                    }
+
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var viento in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            Combination.Hipotesis.Add(cm.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                            // Viento 
+                            Combination.Hipotesis.Add(viento.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                            Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    #endregion
+                    // Caso 3a: Permanentes + Nieve. Situación Permanente Desfavorable
+                    #region
+                    if (vista.Aplicar_Nieve.IsChecked == true)//Si tenemos carga de nieve
+                    {
+                        foreach (var snow in cargasSnow)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            Combination.Hipotesis.Add(snow.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                            Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var snow in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                Combination.Hipotesis.Add(snow.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+                    if (vista.Aplicar_Nieve.IsChecked == true && vista.Nieve_Menos1000_Check.IsChecked == true) //Altitud de nieve menor o igual a 1000m Psi0; //Coeficiente de Simultaneidad. Nieve. Edificios emplazados en altitud H<=1000 metros. Psi0
+                    {
+                        // Caso 4: Permanentes + Viento + Nieve (Altitud Menor de 1000). Situación Permanente Desfavorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Menos1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    if (vista.Aplicar_Nieve.IsChecked == true && vista.Nieve_Mas1000_Check.IsChecked == true) //Altitud de nieve mayor a 1000m Psi0; //Coeficiente de Simultaneidad. Nieve. Edificios emplazados en altitud H>1000 metros. Psi0
+                    {
+                        // Caso 4: Permanentes + Viento + Nieve (Altitud mayor de 1000). Situación Permanente Desfavorable
+                        #region
+                        foreach (var viento in cargasWind)
+                        {
+                            foreach (var nieve in cargasSnow)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //Viento
+                                Combination.Hipotesis.Add(viento.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                //Nieve con Psi0
+                                Combination.Hipotesis.Add(nieve.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                        foreach (var cm in cargasCM)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                foreach (var nieve in cargasSnow)
+                                {
+                                    Combination.Hipotesis.Clear();
+                                    Combination.Mayoracion.Clear();
+
+                                    foreach (var carga in cargasDead)
+                                    {
+                                        Combination.Hipotesis.Add(carga.Key);
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    }
+                                    //Cargas Muertas
+                                    Combination.Hipotesis.Add(cm.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                    //Viento
+                                    Combination.Hipotesis.Add(viento.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                    //Nieve con Psi0
+                                    Combination.Hipotesis.Add(nieve.Key);
+                                    string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Mas1000.Text)).ToString("F2");
+                                    Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                    //Creamos la combinación
+                                    Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                    comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                    vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                    //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                    cont++;
+                                }
+                            }
+                        }
+                        #endregion
+                    }
+                    // Caso 5: Permanentes + Nieve + Viento. Situación Permanente Desfavorable
+                    #region
+                    foreach (var nieve in cargasSnow)
+                    {
+                        foreach (var viento in cargasWind)
+                        {
+                            Combination.Hipotesis.Clear();
+                            Combination.Mayoracion.Clear();
+
+                            foreach (var carga in cargasDead)
+                            {
+                                Combination.Hipotesis.Add(carga.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            }
+                            //Nieve
+                            Combination.Hipotesis.Add(nieve.Key);
+                            Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                            //Viento con Psi0
+                            Combination.Hipotesis.Add(viento.Key);
+                            string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                            Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                            //Creamos la combinación
+                            Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                            comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                            vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                            //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                            cont++;
+                        }
+                    }
+                    foreach (var cm in cargasCM)
+                    {
+                        foreach (var nieve in cargasSnow)
+                        {
+                            foreach (var viento in cargasWind)
+                            {
+                                Combination.Hipotesis.Clear();
+                                Combination.Mayoracion.Clear();
+
+                                foreach (var carga in cargasDead)
+                                {
+                                    Combination.Hipotesis.Add(carga.Key);
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                }
+                                //CM
+                                Combination.Hipotesis.Add(cm.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+
+                                //Nieve
+                                Combination.Hipotesis.Add(nieve.Key);
+                                Combination.Mayoracion.Add(double.Parse(vista.Variable_Desfavorable_SLS.Text));
+
+                                //Viento con Psi0
+                                Combination.Hipotesis.Add(viento.Key);
+                                string coeficiente = (double.Parse(vista.Variable_Desfavorable_SLS.Text) * double.Parse(vista.Psi0_Viento.Text)).ToString("F2");
+                                Combination.Mayoracion.Add(double.Parse(coeficiente));
+
+                                //Creamos la combinación
+                                Combinations.Add(new Combination("SLS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
+                                comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
+                                vista.Combinaciones_Carga.Items.Add("SLS" + cont.ToString() + ": " + comb);
+                                //Sap2000CreateCombination("SLS"+cont.ToString(),Combination.Hipotesis,Combination.Mayoracion);
+                                cont++;
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #endregion
+                }
+
+
+
                 //Creamos la envolvente de ELU
-                Sap2000CreateEnvelopeCombination();
+                //Sap2000CreateEnvelopeCombination();
 
                 //Asignamos las combinaciones a las comprobaciones de acero
-                Sap2000AssingDesignSteelCombos();
+                //Sap2000AssingDesignSteelCombos();
 
                 //Creamos Load Patterns y Load Cases
-                Sap2000CreateLoadPattern(CasosSeleccionados.Keys.ToList(), CasosSeleccionados.Values.ToList());
-                Sap2000CreateLoadCases(CasosSeleccionados.Keys.ToList(), CasosSeleccionados.Values.ToList());
+                //Sap2000CreateLoadPattern(CasosSeleccionados.Keys.ToList(), CasosSeleccionados.Values.ToList());
+                //Sap2000CreateLoadCases(CasosSeleccionados.Keys.ToList(), CasosSeleccionados.Values.ToList());
 
             }
             finally
             {
                 try
                 {
-                    //loadingWindow.Close();
+                    loadingWindow.Close();
                 }
                 catch
                 {
@@ -952,7 +3747,7 @@ namespace SmarTools.Model.Applications
                 var Eurocodigo = new List<(double valor, TextBox caja)>
                 {
                     (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","B2"),vista.Permanente_Persistente_Favorable),
-                    (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","C2"),vista.Permanente_Persistente_Desfavorable),
+                    (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","C2"),vista.Permanente_Desfavorable_SLS),
                     (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","D2"),vista.Permanente_Accidental_Favorable),
                     (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","E2"),vista.Permanente_Accidental_Desfavorable),
 
@@ -997,7 +3792,7 @@ namespace SmarTools.Model.Applications
                 var NTC2018 = new List<(double valor, TextBox caja)>
                 {
                     (ExcelFunctions.LeerCelda(ruta,"NTC-2018","B2"),vista.Permanente_Persistente_Favorable),
-                    (ExcelFunctions.LeerCelda(ruta,"NTC-2018","C2"),vista.Permanente_Persistente_Desfavorable),
+                    (ExcelFunctions.LeerCelda(ruta,"NTC-2018","C2"),vista.Permanente_Desfavorable_SLS),
                     (ExcelFunctions.LeerCelda(ruta,"NTC-2018","D2"),vista.Permanente_Accidental_Favorable),
                     (ExcelFunctions.LeerCelda(ruta,"NTC-2018","E2"),vista.Permanente_Accidental_Desfavorable),
 
