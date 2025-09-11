@@ -359,9 +359,9 @@
             </TextBlock>
         </Border>
 
-        <!--Racciones-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-                     Tag="{StaticResource Rojo02}"
+        <!--Reacciones-->
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
                      Grid.Row="5"
                      Grid.Column="0"
                      Click="btnReacciones_Click">
@@ -369,16 +369,16 @@
                 <StackPanel Width="300">
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Bold"
-                               Foreground="{StaticResource Rojo01}"
+                               Foreground="{StaticResource Blue02}"
                                Text="Aplicación de cálculo de reacciones en cimentación"/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Bold"
-                               Foreground="{StaticResource Rojo01}"
-                               Text="(En desarrollo. No disponible)"/>
+                               Foreground="{StaticResource Blue03}"
+                               Text=" Permite obener reacciones de pilares en el terreno"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"
-                               Foreground="{StaticResource Rojo02}"
+                               Foreground="{StaticResource Blue03}"
                                TextWrapping="Wrap"
                                Text="   Permite obtener los ficheros excel con las reacciones sobre el terreno y rellenar el excel de &quot;CARGAS POT ELU&quot;"/>
                 </StackPanel>
@@ -400,7 +400,7 @@
                                 -401 36 -199 64 -362 62 -364 -1 -1 -421 240 -933 535 l-932 538 0 1135 0
                                 1135 238 -237 c130 -130 252 -244 271 -253 42 -21 125 -22 171 -3 44 19 89 63
                                 106 105 20 47 17 127 -5 171 -29 55 -867 888 -913 907 -47 19 -112 19 -158 -1z"
-                          Fill="{DynamicResource Rojo01}" RenderTransformOrigin="0.5,0.5">
+                          Fill="White" RenderTransformOrigin="0.5,0.5">
                         <Path.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>

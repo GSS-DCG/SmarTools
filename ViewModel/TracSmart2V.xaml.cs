@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SmarTools.APPS;
+using SmarTools.APPS.ReaccionesTrackerAPP;
 
 namespace SmarTools.ViewModel
 {
@@ -68,7 +69,8 @@ namespace SmarTools.ViewModel
 
         private void btnReacciones_Click(object sender, RoutedEventArgs e)
         {
-
+            ReaccionesTrackerAPP App = new ReaccionesTrackerAPP();
+            App.Show();
         }
 
         private void btnListadosCalculo_Click(object sender, RoutedEventArgs e)
