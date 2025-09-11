@@ -3,16 +3,28 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\cambiarcombinacionestracker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\cambiarcombinacionestracker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\cambiarcombinacionesrack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\cambiarcombinacionesrack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcombinacionesrackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcombinacionesrackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcombinacionestrackerapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcombinacionestrackerapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcombinacionesrackapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcombinacionesrackapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcombinacionestrackerapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcombinacionestrackerapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\cambiarcombinacionesrackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\cambiarcombinacionesrackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,27 +39,39 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CambiarCombinacionesRack.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCombinacionesRack.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\CambiarCombinacionesRack.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCombinacionesRack.cs",
-              "RelativeToolTip": "Model\\Applications\\CambiarCombinacionesRack.cs",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAgwC8OAAAAAAAAAAAAAA==",
+              "Title": "CambiarCombinacionesTracker.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCombinacionesTracker.cs",
+              "RelativeDocumentMoniker": "Model\\Applications\\CambiarCombinacionesTracker.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCombinacionesTracker.cs",
+              "RelativeToolTip": "Model\\Applications\\CambiarCombinacionesTracker.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAUwBQHAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-26T12:31:37.399Z",
+              "WhenOpened": "2025-09-10T09:09:50.974Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CambiarCombinacionesTrackerAPP.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesTrackerAPP.xaml",
+              "RelativeDocumentMoniker": "APPS\\CambiarCombinacionesTrackerAPP.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesTrackerAPP.xaml",
+              "RelativeToolTip": "APPS\\CambiarCombinacionesTrackerAPP.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-09-10T09:09:27.052Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CambiarCombinacionesRackAPP.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesRackAPP.xaml.cs",
-              "RelativeDocumentMoniker": "APPS\\CambiarCombinacionesRackAPP.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesRackAPP.xaml.cs",
-              "RelativeToolTip": "APPS\\CambiarCombinacionesRackAPP.xaml.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
+              "Title": "CambiarCombinacionesTrackerAPP.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesTrackerAPP.xaml.cs",
+              "RelativeDocumentMoniker": "APPS\\CambiarCombinacionesTrackerAPP.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesTrackerAPP.xaml.cs",
+              "RelativeToolTip": "APPS\\CambiarCombinacionesTrackerAPP.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-26T10:56:20.03Z",
+              "WhenOpened": "2025-09-10T09:15:53.218Z",
               "EditorCaption": ""
             }
           ]
@@ -58,13 +82,13 @@
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "FloatingWindowState": {
-        "Id": "d8e21efa-a710-4bc8-a52e-534a81ac2e89",
+        "Id": "90c9fd23-4c1f-4500-9201-dd1a610aabef",
         "Display": 1,
-        "X": 148,
-        "Y": 158,
+        "X": 12,
+        "Y": 0,
         "Width": 1597,
-        "Height": 957,
-        "WindowState": 2
+        "Height": 1037,
+        "WindowState": 0
       },
       "DocumentGroups": [
         {
@@ -74,6 +98,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "CambiarCombinacionesRack.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCombinacionesRack.cs",
+              "RelativeDocumentMoniker": "Model\\Applications\\CambiarCombinacionesRack.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\CambiarCombinacionesRack.cs",
+              "RelativeToolTip": "Model\\Applications\\CambiarCombinacionesRack.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkdAABuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T12:31:37.399Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "CambiarCombinacionesRackAPP.xaml",
               "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesRackAPP.xaml",
               "RelativeDocumentMoniker": "APPS\\CambiarCombinacionesRackAPP.xaml",
@@ -81,6 +118,19 @@
               "RelativeToolTip": "APPS\\CambiarCombinacionesRackAPP.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-08-26T10:56:16.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CambiarCombinacionesRackAPP.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesRackAPP.xaml.cs",
+              "RelativeDocumentMoniker": "APPS\\CambiarCombinacionesRackAPP.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\CambiarCombinacionesRackAPP.xaml.cs",
+              "RelativeToolTip": "APPS\\CambiarCombinacionesRackAPP.xaml.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAA5wHYAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T10:56:20.03Z",
               "EditorCaption": ""
             }
           ]

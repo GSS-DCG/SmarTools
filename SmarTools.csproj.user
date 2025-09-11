@@ -19,6 +19,9 @@
     <Compile Update="APPS\CambiarCombinacionesRackAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="APPS\CambiarCombinacionesTrackerAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="APPS\ComprobacionFlechasTracker2VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
