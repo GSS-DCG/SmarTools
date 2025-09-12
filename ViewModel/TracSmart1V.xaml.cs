@@ -38,7 +38,8 @@ namespace SmarTools.ViewModel
 
         private void btnCambiarCombinaciones_Click(object sender, RoutedEventArgs e)
         {
-
+            CambiarCombinacionesTrackerAPP App = new CambiarCombinacionesTrackerAPP();
+            App.Show();
         }
 
         private void btnCambiarCargas_Click(object sender, RoutedEventArgs e)

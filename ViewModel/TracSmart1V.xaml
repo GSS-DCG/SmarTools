@@ -75,8 +75,8 @@
         </RadioButton>
 
         <!--Cambiar Combinaciones-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-                     Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
                      Grid.Row="1"
                      Grid.Column="1"
                      Click="btnCambiarCombinaciones_Click">
@@ -84,49 +84,45 @@
                 <StackPanel Width="300">
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Bold"
-                               Foreground="{StaticResource Rojo01}"
+                               Foreground="{StaticResource Blue02}"
                                Text="Aplicación de cambio de combinaciones de cálculo"/>
-                    <TextBlock FontFamily="Neo Tech Std"
-                               FontWeight="Bold"
-                               Foreground="{StaticResource Rojo01}"
-                               Text="(En desarrollo. No disponible)"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"
-                               Foreground="{StaticResource Rojo02}"
+                               Foreground="{StaticResource Blue03}"
                                TextWrapping="Wrap"
                                Text="   Permite añadir hipótesis de carga como viento lateral y nieve accidental, además de las que ya crea SizeSmart. Se pueden seleccionar de manera automática los coeficientes de:"/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"
-                               Foreground="{StaticResource Rojo02}"
+                               Foreground="{StaticResource Blue03}"
                                TextWrapping="Wrap"
                                Text="  - Eurocódigo"/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"
-                               Foreground="{StaticResource Rojo02}"
+                               Foreground="{StaticResource Blue03}"
                                TextWrapping="Wrap"
                                Text="  - NTC-2018"/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"
-                               Foreground="{StaticResource Rojo02}"
+                               Foreground="{StaticResource Blue03}"
                                TextWrapping="Wrap"
                                Text="  - ASCE7-05"/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"
-                               Foreground="{StaticResource Rojo02}"
+                               Foreground="{StaticResource Blue03}"
                                TextWrapping="Wrap"
                                Text="  - ASCE7-16"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                                FontWeight="Light"
-                               Foreground="{StaticResource Rojo02}"
+                               Foreground="{StaticResource Blue03}"
                                TextWrapping="Wrap"
                                Text="   Si se necesita otra normativa, se pueden cambiar los coeficientes a mano."/>
                 </StackPanel>
             </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
-                <TextBlock Text="Cambiar&#x0a;Combinaciones" Style="{StaticResource selectorButtonTextNotAvailable}" TextAlignment="center"/>
+                <fa:IconImage Icon="Exchange" Style="{StaticResource SelectorButtonIcon}"/>
+                <TextBlock Text="Cambiar&#x0a;Combinaciones" Style="{StaticResource selectorButtonText}" TextAlignment="center"/>
             </StackPanel>
         </RadioButton>
 

@@ -208,3 +208,11 @@ C:\InSync\GitHub\SmarTools\obj\Debug\net8.0-windows\refint\SmarTools.dll
 C:\InSync\GitHub\SmarTools\obj\Debug\net8.0-windows\SmarTools.pdb
 C:\InSync\GitHub\SmarTools\obj\Debug\net8.0-windows\SmarTools.genruntimeconfig.cache
 C:\InSync\GitHub\SmarTools\obj\Debug\net8.0-windows\ref\SmarTools.dll
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCombinacionesTrackerAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ReaccionesTrackerAPP\ObtenerExcels.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ReaccionesTrackerAPP\ReaccionesTrackerAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ReaccionesTrackerAPP\RellenarPOT_Tracker.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\CambiarCombinacionesTrackerAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ReaccionesTrackerAPP\ObtenerExcels.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ReaccionesTrackerAPP\ReaccionesTrackerAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ReaccionesTrackerAPP\RellenarPOT_Tracker.baml

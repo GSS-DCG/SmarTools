@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\InSync\GitHub\SmarTools\obj\Debug\net8.0-windows\
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\
 SmarTools
 none
 false
-TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\InSync\GitHub\SmarTools\App.xaml
+TRACE;DEBUG;NET;NET8_0;NETCOREAPP
+C:\InSync\SmarTools\App.xaml
 31-502982026
 
 52697130629
-230-310577903
+230-369350313
 APPS\CambiarCargas1VAPP.xaml;APPS\CambiarCargas2VAPP.xaml;APPS\CambiarCargasRackAPP.xaml;APPS\CambiarCombinacionesRackAPP.xaml;APPS\CambiarCombinacionesTrackerAPP.xaml;APPS\ComprobacionFlechasTracker2VAPP.xaml;APPS\ComprobacionFlechasTrackerAPP.xaml;APPS\ComprobacionUniones2VAPP.xaml;APPS\ComprobacionUnionesAPP.xaml;APPS\Dimensionamiento1VAPP.xaml;APPS\Dimensionamiento2VAPP.xaml;APPS\ItaliaNTC1VAPP.xaml;APPS\ListadosDeCalculo1VAPP.xaml;APPS\ListadosDeCalculo2VAPP.xaml;APPS\NumeroPilaresAPP.xaml;APPS\ReaccionesTrackerAPP\ObtenerExcels.xaml;APPS\ReaccionesTrackerAPP\ReaccionesTrackerAPP.xaml;APPS\ReaccionesTrackerAPP\RellenarPOT_Tracker.xaml;Styles\ButtonStyles.xaml;Styles\ControlBarButton.xaml;Styles\UIColors.xaml;Styles\Window.xaml;ViewModel\Ajustes.xaml;ViewModel\Inicio.xaml;ViewModel\RackSmart.xaml;ViewModel\Revisiones.xaml;ViewModel\TracSmart1V.xaml;ViewModel\TracSmart2V.xaml;View\LoginWindow.xaml;View\MainView.xaml;View\Status.xaml;
 
-False
+True
 

@@ -183,7 +183,7 @@ namespace SmarTools.Model.Applications
                     foreach (var carga in cargasDead)
                     {
                         Combination.Hipotesis.Add(carga.Key);
-                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                     }
                     Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
                     comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
@@ -198,10 +198,10 @@ namespace SmarTools.Model.Applications
                         foreach (var carga in cargasDead)
                         {
                             Combination.Hipotesis.Add(carga.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                         }
                         Combination.Hipotesis.Add(cm.Key);
-                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                         Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
                         comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
@@ -264,7 +264,7 @@ namespace SmarTools.Model.Applications
                         foreach (var carga in cargasDead)
                         {
                             Combination.Hipotesis.Add(carga.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                         }
                         Combination.Hipotesis.Add(wind.Key);
                         Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
@@ -284,10 +284,10 @@ namespace SmarTools.Model.Applications
                             foreach (var carga in cargasDead)
                             {
                                 Combination.Hipotesis.Add(carga.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                             }
                             Combination.Hipotesis.Add(cm.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                             Combination.Hipotesis.Add(wind.Key);
                             Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
@@ -359,7 +359,7 @@ namespace SmarTools.Model.Applications
                             foreach (var carga in cargasDead)
                             {
                                 Combination.Hipotesis.Add(carga.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                             }
                             Combination.Hipotesis.Add(snow.Key);
                             Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
@@ -379,10 +379,10 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                 }
                                 Combination.Hipotesis.Add(cm.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                                 Combination.Hipotesis.Add(snow.Key);
                                 Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
@@ -477,7 +477,7 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                 }
                                 //Viento
                                 Combination.Hipotesis.Add(viento.Key);
@@ -507,11 +507,11 @@ namespace SmarTools.Model.Applications
                                     foreach (var carga in cargasDead)
                                     {
                                         Combination.Hipotesis.Add(carga.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                     }
                                     //Cargas Muertas
                                     Combination.Hipotesis.Add(cm.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                                     //Viento
                                     Combination.Hipotesis.Add(viento.Key);
@@ -612,7 +612,7 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                 }
                                 //Viento
                                 Combination.Hipotesis.Add(viento.Key);
@@ -642,11 +642,11 @@ namespace SmarTools.Model.Applications
                                     foreach (var carga in cargasDead)
                                     {
                                         Combination.Hipotesis.Add(carga.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                     }
                                     //Cargas Muertas
                                     Combination.Hipotesis.Add(cm.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                                     //Viento
                                     Combination.Hipotesis.Add(viento.Key);
@@ -745,7 +745,7 @@ namespace SmarTools.Model.Applications
                             foreach (var carga in cargasDead)
                             {
                                 Combination.Hipotesis.Add(carga.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                             }
                             //Nieve
                             Combination.Hipotesis.Add(nieve.Key);
@@ -775,11 +775,11 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                 }
                                 //CM
                                 Combination.Hipotesis.Add(cm.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                                 //Nieve
                                 Combination.Hipotesis.Add(nieve.Key);
@@ -1409,10 +1409,10 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
                                 }
                                 Combination.Hipotesis.Add(cm.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
 
                                 // Nieve accidental
                                 Combination.Hipotesis.Add(nieveAcc.Key);
@@ -1457,10 +1457,10 @@ namespace SmarTools.Model.Applications
                                     foreach (var carga in cargasDead)
                                     {
                                         Combination.Hipotesis.Add(carga.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
                                     }
                                     Combination.Hipotesis.Add(cm.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Favorable.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Accidental_Desfavorable.Text));
 
                                     //Viento
                                     Combination.Hipotesis.Add(viento.Key);
@@ -3849,7 +3849,7 @@ namespace SmarTools.Model.Applications
                     foreach (var carga in cargasDead)
                     {
                         Combination.Hipotesis.Add(carga.Key);
-                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                     }
                     Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
                     comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
@@ -3865,10 +3865,10 @@ namespace SmarTools.Model.Applications
                         foreach (var carga in cargasDead)
                         {
                             Combination.Hipotesis.Add(carga.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                         }
                         Combination.Hipotesis.Add(cm.Key);
-                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                         Combinations.Add(new Combination("ULS" + cont.ToString(), Combination.Hipotesis, Combination.Mayoracion));
                         comb = string.Join("+", Combination.Hipotesis.Zip(Combination.Mayoracion, (hip, coef) => $"{coef}{hip}"));
@@ -3934,7 +3934,7 @@ namespace SmarTools.Model.Applications
                         foreach (var carga in cargasDead)
                         {
                             Combination.Hipotesis.Add(carga.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                         }
                         Combination.Hipotesis.Add(wind.Key);
                         Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
@@ -3955,10 +3955,10 @@ namespace SmarTools.Model.Applications
                             foreach (var carga in cargasDead)
                             {
                                 Combination.Hipotesis.Add(carga.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                             }
                             Combination.Hipotesis.Add(cm.Key);
-                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                            Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                             Combination.Hipotesis.Add(wind.Key);
                             Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
@@ -4033,7 +4033,7 @@ namespace SmarTools.Model.Applications
                             foreach (var carga in cargasDead)
                             {
                                 Combination.Hipotesis.Add(carga.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                             }
                             Combination.Hipotesis.Add(snow.Key);
                             Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
@@ -4054,10 +4054,10 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                 }
                                 Combination.Hipotesis.Add(cm.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                                 Combination.Hipotesis.Add(snow.Key);
                                 Combination.Mayoracion.Add(double.Parse(vista.Variable_Persistente_Desfavorable.Text));
@@ -4155,7 +4155,7 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                 }
                                 //Viento
                                 Combination.Hipotesis.Add(viento.Key);
@@ -4186,11 +4186,11 @@ namespace SmarTools.Model.Applications
                                     foreach (var carga in cargasDead)
                                     {
                                         Combination.Hipotesis.Add(carga.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                     }
                                     //Cargas Muertas
                                     Combination.Hipotesis.Add(cm.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                                     //Viento
                                     Combination.Hipotesis.Add(viento.Key);
@@ -4294,7 +4294,7 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                 }
                                 //Viento
                                 Combination.Hipotesis.Add(viento.Key);
@@ -4325,11 +4325,11 @@ namespace SmarTools.Model.Applications
                                     foreach (var carga in cargasDead)
                                     {
                                         Combination.Hipotesis.Add(carga.Key);
-                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                        Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                     }
                                     //Cargas Muertas
                                     Combination.Hipotesis.Add(cm.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                                     //Viento
                                     Combination.Hipotesis.Add(viento.Key);
@@ -4431,7 +4431,7 @@ namespace SmarTools.Model.Applications
                             foreach (var carga in cargasDead)
                             {
                                 Combination.Hipotesis.Add(carga.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                             }
                             //Nieve
                             Combination.Hipotesis.Add(nieve.Key);
@@ -4462,11 +4462,11 @@ namespace SmarTools.Model.Applications
                                 foreach (var carga in cargasDead)
                                 {
                                     Combination.Hipotesis.Add(carga.Key);
-                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                    Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
                                 }
                                 //CM
                                 Combination.Hipotesis.Add(cm.Key);
-                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Desfavorable_SLS.Text));
+                                Combination.Mayoracion.Add(double.Parse(vista.Permanente_Persistente_Desfavorable.Text));
 
                                 //Nieve
                                 Combination.Hipotesis.Add(nieve.Key);
