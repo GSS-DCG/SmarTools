@@ -32,7 +32,7 @@
       <HintPath>..\..\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Word\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Word.dll</HintPath>
     </Reference>
     <Reference Include="SAP2000v1">
-      <HintPath>..\..\Program Files\Computers and Structures\SAP2000 25\SAP2000v1.dll</HintPath>
+      <HintPath>..\..\..\Program Files\Computers and Structures\SAP2000 25\SAP2000v1.dll</HintPath>
     </Reference>
   </ItemGroup>
 

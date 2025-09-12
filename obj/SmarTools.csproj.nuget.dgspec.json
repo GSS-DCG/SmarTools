@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\InSync\\SmarTools\\SmarTools.csproj": {}
+    "C:\\InSync\\GitHub\\SmarTools\\SmarTools.csproj": {}
   },
   "projects": {
-    "C:\\InSync\\SmarTools\\SmarTools.csproj": {
+    "C:\\InSync\\GitHub\\SmarTools\\SmarTools.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\InSync\\SmarTools\\SmarTools.csproj",
+        "projectUniqueName": "C:\\InSync\\GitHub\\SmarTools\\SmarTools.csproj",
         "projectName": "SmarTools",
-        "projectPath": "C:\\InSync\\SmarTools\\SmarTools.csproj",
-        "packagesPath": "C:\\Users\\miriam.roldan\\.nuget\\packages\\",
-        "outputPath": "C:\\InSync\\SmarTools\\obj\\",
+        "projectPath": "C:\\InSync\\GitHub\\SmarTools\\SmarTools.csproj",
+        "packagesPath": "C:\\Users\\david.martin\\.nuget\\packages\\",
+        "outputPath": "C:\\InSync\\GitHub\\SmarTools\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\miriam.roldan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\david.martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,7 +43,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -89,7 +94,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
