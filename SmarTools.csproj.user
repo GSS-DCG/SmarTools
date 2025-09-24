@@ -40,10 +40,10 @@
     <Compile Update="APPS\Dimensionamiento2VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="APPS\ListadosDeCalculo1VAPP.xaml.cs">
+    <Compile Update="APPS\DimensionamientoRackAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="APPS\ListadosDeCalculo2VAPP.xaml.cs">
+    <Compile Update="APPS\ListadosDeCalculoAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="APPS\NumeroPilaresAPP.xaml.cs">
@@ -65,6 +65,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="ViewModel\TracSmart2V.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\Incidencias.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\MainView.xaml.cs">
@@ -102,10 +105,10 @@
     <Page Update="APPS\Dimensionamiento2VAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="APPS\ListadosDeCalculo1VAPP.xaml">
+    <Page Update="APPS\DimensionamientoRackAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="APPS\ListadosDeCalculo2VAPP.xaml">
+    <Page Update="APPS\ListadosDeCalculoAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\NumeroPilaresAPP.xaml">
@@ -133,6 +136,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="ViewModel\TracSmart2V.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\Incidencias.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\LoginWindow.xaml">

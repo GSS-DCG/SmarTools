@@ -40,7 +40,8 @@ namespace SmarTools.ViewModel
 
         private void btnDimensionamiento_Click(object sender, RoutedEventArgs e)
         {
-
+            DimensionamientoRackAPP App= new DimensionamientoRackAPP();
+            App.Show();
         }
 
         private void btnItalia_Click(object sender, RoutedEventArgs e)
@@ -65,7 +66,8 @@ namespace SmarTools.ViewModel
 
         private void btnListadosCalculo_Click(object sender, RoutedEventArgs e)
         {
-
+            ListadosDeCalculoAPP App = new ListadosDeCalculoAPP();
+            App.Show();
         }
     }
 }

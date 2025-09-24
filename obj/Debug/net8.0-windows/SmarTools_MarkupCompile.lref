@@ -1,4 +1,4 @@
-﻿C:\InSync\SmarTools\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+﻿
 FC:\InSync\SmarTools\App.xaml;;
 FC:\InSync\SmarTools\APPS\CambiarCargas1VAPP.xaml;;
 FC:\InSync\SmarTools\APPS\CambiarCargas2VAPP.xaml;;
@@ -12,8 +12,6 @@ FC:\InSync\SmarTools\APPS\ComprobacionUnionesAPP.xaml;;
 FC:\InSync\SmarTools\APPS\Dimensionamiento1VAPP.xaml;;
 FC:\InSync\SmarTools\APPS\Dimensionamiento2VAPP.xaml;;
 FC:\InSync\SmarTools\APPS\ItaliaNTC1VAPP.xaml;;
-FC:\InSync\SmarTools\APPS\ListadosDeCalculo1VAPP.xaml;;
-FC:\InSync\SmarTools\APPS\ListadosDeCalculo2VAPP.xaml;;
 FC:\InSync\SmarTools\APPS\NumeroPilaresAPP.xaml;;
 FC:\InSync\SmarTools\APPS\ReaccionesTrackerAPP\ObtenerExcels.xaml;;
 FC:\InSync\SmarTools\APPS\ReaccionesTrackerAPP\ReaccionesTrackerAPP.xaml;;
@@ -29,4 +27,7 @@ FC:\InSync\SmarTools\ViewModel\TracSmart2V.xaml;;
 FC:\InSync\SmarTools\View\LoginWindow.xaml;;
 FC:\InSync\SmarTools\View\MainView.xaml;;
 FC:\InSync\SmarTools\View\Status.xaml;;
+FC:\InSync\SmarTools\APPS\ListadosDeCalculoAPP.xaml;;
+FC:\InSync\SmarTools\APPS\DimensionamientoRackAPP.xaml;;
+FC:\InSync\SmarTools\View\Incidencias.xaml;;
 

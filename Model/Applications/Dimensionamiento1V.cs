@@ -134,7 +134,7 @@ namespace SmarTools.Model.Applications
             vista.Progreso.Items.Add("Perfiles asignados correctamente");
         }
 
-        public static void Dimensionar1V(Dimensionamiento1VAPP vista)
+        public static void Dimensionar(Dimensionamiento1VAPP vista)
         {
             //Preparamos el modelo 
             vista.Progreso.Items.Clear();

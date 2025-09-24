@@ -167,7 +167,7 @@ namespace SmarTools.APPS {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SmarTools;component/apps/listadosdecalculo2vapp.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SmarTools;V1.0.0.0;component/apps/listadosdecalculo2vapp.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\APPS\ListadosDeCalculo2VAPP.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

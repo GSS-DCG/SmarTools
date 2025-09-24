@@ -782,7 +782,7 @@ namespace SmarTools.Model.Repository
                 {
                     for (int j = 0; j < numColumnas; j++)
                     {
-                        excelData[i,j] = table[i,j];
+                        excelData[i,j] ="'" + table[i,j];
                     }
                 }
 

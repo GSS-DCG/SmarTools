@@ -61,7 +61,7 @@ namespace SmarTools.APPS
 
         private void btnDimensionar_Click(object sender, RoutedEventArgs e)
         {
-            Dimensionamiento1V.Dimensionar1V(this);
+            Dimensionamiento1V.Dimensionar(this);
         }
 
         private void btnFiltrarPerfiles_Click(object sender, RoutedEventArgs e)

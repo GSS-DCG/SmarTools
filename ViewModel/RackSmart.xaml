@@ -140,8 +140,8 @@
         </Border>
 
         <!--Dimensionamiento-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-                      Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                      Tag="{StaticResource Resaltado}"
                       Grid.Row="3"
                       Grid.Column="0"
                       Click="btnDimensionamiento_Click">
@@ -149,35 +149,31 @@
                 <StackPanel Width="300">
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Bold"
-                   Foreground="{StaticResource Rojo01}"
+                   Foreground="{StaticResource Blue02}"
                    Text="Aplicación de dimensionamiento"/>
-                    <TextBlock FontFamily="Neo Tech Std"
-                                FontWeight="Bold"
-                                Foreground="{StaticResource Rojo01}"
-                                Text="(En desarrollo. No disponible)"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   Permite dimensionar un modelo de SAP2000 fuera de la aplicación de SizeSmart, con los ratios habituales (pilares al 90% de aprovechamiento máximo y resto de elementos al 100%)"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   Para dimensionar el modelo, se deben filtrar previamente los perfiles a utilizar, tanto por ambiente, material y tipología. Se pueden asignar otros perfiles si se desea, pero no es obligatorio para el correcto funcionamiento de la herramienta."/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   En el apartado de Progreso se podrán ver los diferentes resultados fuera de rango del proceso de dimesionamiento, mientras que en el apartado de Resultados se irán añadiendo los perfiles finales y sus ratios correspondientes de la estructura ya dimensionada."/>
                 </StackPanel>
             </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="Check" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
-                <TextBlock Text="Dimensionamiento" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+                <fa:IconImage Icon="Check" Style="{StaticResource SelectorButtonIcon}"/>
+                <TextBlock Text="Dimensionamiento" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
 
@@ -386,8 +382,8 @@
         </RadioButton>
 
         <!--Listados Calculo-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-                     Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
                      Grid.Row="5"
                      Grid.Column="1"
              Click="btnListadosCalculo_Click">
@@ -395,23 +391,18 @@
                 <StackPanel Width="300">
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Bold"
-                   Foreground="{StaticResource Rojo01}"
+                   Foreground="{StaticResource Blue02}"
                    Text="Aplicación de listados de cálculo"/>
                     <TextBlock FontFamily="Neo Tech Std"
-                  FontWeight="Bold"
-                  Foreground="{StaticResource Rojo01}"
-                  Text="(En desarrollo. No disponible)"/>
-                    <TextBlock/>
-                    <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   Permite obtener los listados de cálculo de los modelos que se encuentren en la carpeta seleccionada. Genera un documento word por cada modelo, tanto con sismo como sin sismo, según se seleccione."/>
                 </StackPanel>
             </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
-                <fa:IconImage Icon="TableList" Style="{StaticResource SelectorButtonIconNotAvailable}"/>
-                <TextBlock Text="Listados Cálculo" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+                <fa:IconImage Icon="TableList" Style="{StaticResource SelectorButtonIcon}"/>
+                <TextBlock Text="Listados Cálculo" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
     </Grid>

@@ -906,6 +906,97 @@ namespace SmarTools.Model.Repository
 
                 return seccion_tipo;
             }
+
+            public static int ObtenerSeccion (cSapModel mySapModel, string barra)
+            {
+                string[] partes = barra.Split('/');
+                for (int i = 0; i < partes.Length; i++)
+                {
+                    partes[i] = partes[i].Trim();
+                }
+                string espesor1 = partes[0].Substring(partes[0].Length - 3);
+                double espesor = 0;
+                double.TryParse(espesor1, out espesor);
+                string material = partes[1];
+                string[] partes2 = partes[0].Split("x");
+                string[] partes3 = partes2[0].Split("-");
+                int seccion = 0;
+                int.TryParse(partes3[1], out seccion);
+
+                return seccion;
+            }
+
+            public static string ObtenerMaterial (cSapModel mySapModel, string barra)
+            {
+                string[] partes = barra.Split('/');
+                for (int i = 0; i < partes.Length; i++)
+                {
+                    partes[i] = partes[i].Trim();
+                }
+                string espesor1 = partes[0].Substring(partes[0].Length - 3);
+                double espesor = 0;
+                double.TryParse(espesor1, out espesor);
+                string material = partes[1];
+                string[] partes2 = partes[0].Split("x");
+                string[] partes3 = partes2[0].Split("-");
+                int seccion = 0;
+                if (partes3[0].Contains("IPE") || partes3[0].Contains("W"))
+                {
+                    espesor = 2.5;
+                    material = "S350GD";
+                }
+                else
+                {
+                    int.TryParse(partes3[1], out seccion);
+                }
+
+                return material;
+            }
+
+            public static double ObtenerEspesor(cSapModel mySapModel, string barra)
+            {
+                string[] partes = barra.Split('/');
+                for (int i = 0; i < partes.Length; i++)
+                {
+                    partes[i] = partes[i].Trim();
+                }
+                string espesor1 = partes[0].Substring(partes[0].Length - 3);
+                double espesor = 0;
+                double.TryParse(espesor1, out espesor);
+                string material = partes[1];
+                string[] partes2 = partes[0].Split("x");
+                string[] partes3 = partes2[0].Split("-");
+                int seccion = 0;
+                if (partes3[0].Contains("IPE") || partes3[0].Contains("W"))
+                {
+                    espesor = 2.5;
+                    material = "S350GD";
+                }
+                else
+                {
+                    int.TryParse(partes3[1], out seccion);
+                }
+
+                return espesor;
+            }
+
+            public static void CrearYAgregarAGrupo (cSapModel mySapModel,string nombreGrupo, string[] barras)
+            {
+                int NumberNames = 0;
+                string[] MyName = new string[2];
+
+                mySapModel.GroupDef.GetNameList(ref NumberNames, ref MyName);
+
+                if(!MyName.Contains(nombreGrupo))
+                {
+                    mySapModel.GroupDef.SetGroup(nombreGrupo);
+                }
+                mySapModel.SelectObj.ClearSelection();
+                for(int i = 0;i<barras.Length;i++)
+                {
+                    mySapModel.FrameObj.SetGroupAssign(barras[i], nombreGrupo, false, eItemType.Objects);
+                }
+            }
         }
 
         public class ElementFinderSubclass // Clase para las funciones que devuelven nombres de barras y nudos
