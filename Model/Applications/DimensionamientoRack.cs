@@ -229,7 +229,7 @@ namespace SmarTools.Model.Applications
             }
         }
 
-        public static void Dimensionar (DimensionamientoRackAPP vista)
+        public static void Dimensionar(DimensionamientoRackAPP vista)
         {
             //Preparamos el modelo
             vista.Progreso.Items.Clear();
@@ -237,7 +237,7 @@ namespace SmarTools.Model.Applications
 
             var loadingWindow = new Status();
 
-            if(vista.PilaresDelanteros.Items.Count == 0)
+            if (vista.PilaresDelanteros.Items.Count == 0)
             {
                 var ventana = new Incidencias();
                 ventana.ConfigurarIncidencia("Debes filtrar los perfiles antes de dimensionar el modelo", TipoIncidencia.Advertencia);
@@ -263,10 +263,16 @@ namespace SmarTools.Model.Applications
 
                     //Configuramos la lista de elementos a dimensionar
                     #region
+                    double ratioPilares = 0.9;
+                    double ratioVigas = 0.9;
+                    double ratioCorreas = 0.9;
+                    double ratioDiagonales = 0.9;
+                    double ratioEstabilizadores = 0.9;
+
                     var secciones = new Dictionary<string, (string barraControl, string[] listaperfiles, eItemType tipo, double ratiomax)>();
                     if (vista.Monoposte.IsChecked == true)
                     {
-                        secciones["01 Pilares"] = ("Column_1", PilaresDelanteros, eItemType.Group, 0.9);
+                        secciones["01 Pilares"] = ("Column_1", PilaresDelanteros, eItemType.Group, ratioPilares);
                     }
                     else if (vista.Biposte.IsChecked == true)
                     {
@@ -275,26 +281,26 @@ namespace SmarTools.Model.Applications
                         SAP.DesignSubclass.CrearYAgregarAGrupo(mySapModel, "07 Pilares Delanteros", pilaresDelanteros);
                         SAP.DesignSubclass.CrearYAgregarAGrupo(mySapModel, "08 Pilares Traseros", pilaresTraseros);
 
-                        secciones["07 Pilares Delanteros"] = ("Column_d_2", PilaresDelanteros, eItemType.Group, 0.9);
-                        secciones["08 Pilares Traseros"] = ("Column_i_2", PilaresTraseros, eItemType.Group, 0.9);
+                        secciones["07 Pilares Delanteros"] = ("Column_d_2", PilaresDelanteros, eItemType.Group, ratioPilares);
+                        secciones["08 Pilares Traseros"] = ("Column_i_2", PilaresTraseros, eItemType.Group, ratioPilares);
                     }
-                    secciones["02 Vigas"] = ("Beam_1", Vigas, eItemType.Group, 1);
-                    secciones["03 Correas"] = ("Purlin_1_1_CorreaExterior.Inferior", Correas, eItemType.Group, 1);
+                    secciones["02 Vigas"] = ("Beam_1", Vigas, eItemType.Group, ratioVigas);
+                    secciones["03 Correas"] = ("Purlin_1_1_CorreaExterior.Inferior", Correas, eItemType.Group, ratioCorreas);
 
                     if (vista.UnaDiagonal.IsChecked == true)
                     {
-                        secciones["04 Diagonales"] = ("Diag_Dcha_1", DiagonalesDelanteras, eItemType.Group, 1);
+                        secciones["04 Diagonales"] = ("Diag_Dcha_1", DiagonalesDelanteras, eItemType.Group, ratioDiagonales);
                     }
                     if (vista.DosDiagonal.IsChecked == true)
                     {
                         (string[] diagonalesDelanteras, string[] diagonalesTraseras) = SAP.ElementFinderSubclass.FixedSubclass.ListaDiagonales(mySapModel);
-                        SAP.DesignSubclass.CrearYAgregarAGrupo(mySapModel,"09 Diagonales Delanteras",diagonalesDelanteras);
+                        SAP.DesignSubclass.CrearYAgregarAGrupo(mySapModel, "09 Diagonales Delanteras", diagonalesDelanteras);
                         SAP.DesignSubclass.CrearYAgregarAGrupo(mySapModel, "10 Diagonales Traseras", diagonalesTraseras);
 
-                        secciones["09 Diagonales Delanteras"] = ("Diag_Dcha_1", DiagonalesDelanteras, eItemType.Group, 1);
-                        secciones["10 Diagonales Traseras"] = ("Diag_Izda_1", DiagonalesTraseras,eItemType.Group, 1);
+                        secciones["09 Diagonales Delanteras"] = ("Diag_Dcha_1", DiagonalesDelanteras, eItemType.Group, ratioDiagonales);
+                        secciones["10 Diagonales Traseras"] = ("Diag_Izda_1", DiagonalesTraseras, eItemType.Group, ratioDiagonales);
                     }
-                    secciones["05 Arriostramiento Correas"] = ("Arriostr_21", Estabilizadores, eItemType.Group, 1);
+                    secciones["05 Arriostramiento Correas"] = ("Arriostr_21", Estabilizadores, eItemType.Group, ratioEstabilizadores);
                     #endregion
                     //Dimensionamiento
                     #region
@@ -330,14 +336,14 @@ namespace SmarTools.Model.Applications
                             string[] listaperfiles = propiedad.Value.listaperfiles;
                             eItemType tipo = propiedad.Value.tipo;
                             double ratio = 0;
-                            if(vista.Pilares_conformados.IsChecked==true)
+                            if (vista.Pilares_conformados.IsChecked == true)
                             {
                                 mySapModel.DesignColdFormed.StartDesign();
                                 ratio = RatioGrupoConformado(grupo);
                             }
-                            else if (vista.Pilares_laminados.IsChecked==true)
+                            else if (vista.Pilares_laminados.IsChecked == true)
                             {
-                                if (secciontipo[grupo].tipo =="Laminado")
+                                if (secciontipo[grupo].tipo == "Laminado")
                                 {
                                     mySapModel.DesignSteel.StartDesign();
                                     ratio = RatioGrupoLaminado(grupo);
@@ -359,7 +365,7 @@ namespace SmarTools.Model.Applications
                         for (int i = 0; i < ratios.Count; i++)
                         {
                             double ratiomax = secciones.ElementAt(i).Value.ratiomax;
-                            comprobacionPorGrupo.Add(ratios[i]<ratiomax);
+                            comprobacionPorGrupo.Add(ratios[i] < ratiomax);
                         }
 
                         if (!comprobacionPorGrupo.Contains(false))
@@ -367,7 +373,7 @@ namespace SmarTools.Model.Applications
 
                         index = 0;
 
-                        foreach(var propiedad in secciones)
+                        foreach (var propiedad in secciones)
                         {
                             string grupo = propiedad.Key;
                             string barraControl = propiedad.Value.barraControl;
@@ -375,15 +381,15 @@ namespace SmarTools.Model.Applications
                             eItemType tipo = propiedad.Value.tipo;
                             double ratiomax = propiedad.Value.ratiomax;
                             double ratio = ratios[index++];
-                            if(ratio!=0 && ratio>ratiomax)
+                            if (ratio != 0 && ratio > ratiomax)
                             {
-                                vista.Progreso.Items.Add(grupo+": Perfil " + secciontipo[grupo].seccion + " no válido. Ratio: " + ratio.ToString("F2"));
+                                vista.Progreso.Items.Add(grupo + ": Perfil " + secciontipo[grupo].seccion + " no válido. Ratio: " + ratio.ToString("F2"));
                             }
                         }
 
                         index = 0;
 
-                        foreach(var propiedad in secciones)
+                        foreach (var propiedad in secciones)
                         {
                             string grupo = propiedad.Key;
                             string barraControl = propiedad.Value.barraControl;
@@ -411,14 +417,14 @@ namespace SmarTools.Model.Applications
                         resumen["Pilares Delanteros"] = (new[] { "Column_d_2" }, eItemType.Group);
                         resumen["Pilares Traseros"] = (new[] { "Column_i_2" }, eItemType.Group);
                     }
-                    resumen["Vigas"]= (new[] { "Beam_1" },eItemType.Group);
+                    resumen["Vigas"] = (new[] { "Beam_1" }, eItemType.Group);
                     resumen["Correas"] = (new[] { "Purlin_1_1_CorreaExterior.Inferior" }, eItemType.Group);
 
-                    if(vista.UnaDiagonal.IsChecked == true)
+                    if (vista.UnaDiagonal.IsChecked == true)
                     {
                         resumen["Diagonales"] = (new[] { "Diag_Dcha_1" }, eItemType.Group);
                     }
-                    if(vista.DosDiagonal.IsChecked == true)
+                    if (vista.DosDiagonal.IsChecked == true)
                     {
                         resumen["Diagonales Delanteras"] = (new[] { "Diag_Dcha_1" }, eItemType.Group);
                         resumen["Diagonales Traseras"] = (new[] { "Diag_Izda_1" }, eItemType.Group);
@@ -430,7 +436,7 @@ namespace SmarTools.Model.Applications
                         string elemento = propiedad.Key;
                         string[] nombreBarras = propiedad.Value.nombreBarras;
                         eItemType tipo = propiedad.Value.tipo;
-                        if (ratios[index]!=0 && ratios[index]<1)
+                        if (ratios[index] != 0 && ratios[index] < 1)
                         {
                             Resultados(vista, elemento, nombreBarras, ratios[index]);
                         }
@@ -452,7 +458,6 @@ namespace SmarTools.Model.Applications
                     }
                 }
             }
-            
         }
 
         public static void ObtenerMateriales (DimensionamientoRackAPP vista)

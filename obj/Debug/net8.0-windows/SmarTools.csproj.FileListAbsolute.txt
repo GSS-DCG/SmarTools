@@ -218,3 +218,7 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\DimensionamientoRackAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\DimensionamientoRackAPP.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\View\Incidencias.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\View\Incidencias.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionFlechasRackAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionFlechasRackAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUnionesRackAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUnionesRackAPP.baml

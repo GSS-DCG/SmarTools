@@ -51,12 +51,14 @@ namespace SmarTools.ViewModel
 
         private void btnCalcularFlechas_Click(object sender, RoutedEventArgs e)
         {
-
+            ComprobacionFlechasRackAPP App = new ComprobacionFlechasRackAPP();
+            App.Show();
         }
 
         private void btnComprobacionUniones_Click(object sender, RoutedEventArgs e)
         {
-
+            ComprobacionUnionesRackAPP App = new ComprobacionUnionesRackAPP();
+            App.Show();
         }
 
         private void btnReacciones_Click(object sender, RoutedEventArgs e)

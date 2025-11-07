@@ -214,8 +214,8 @@
         </RadioButton>
 
         <!--Calculo Flechas-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-                     Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
                      Grid.Row="3"
                      Grid.Column="2"
                      Click="btnCalcularFlechas_Click">
@@ -223,31 +223,27 @@
                 <StackPanel Width="300">
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Bold"
-                   Foreground="{StaticResource Rojo01}"
+                   Foreground="{StaticResource Blue02}"
                    Text="Aplicación de cálculo de flechas"/>
-                    <TextBlock FontFamily="Neo Tech Std"
-                                FontWeight="Bold"
-                                Foreground="{StaticResource Rojo01}"
-                                Text="(En desarrollo. No disponible)"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   Permite calcular y verificar las flechas del modelo según los criterios internos de diseño:"/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="  - H/100 para desplome de pilares"/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="  - L/200 para flecha de vigas y correas"/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="  - 2L/300 para flecha de voladizo vigas y correas"/>
                 </StackPanel>

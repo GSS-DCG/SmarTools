@@ -22,6 +22,9 @@
     <Compile Update="APPS\CambiarCombinacionesTrackerAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="APPS\ComprobacionFlechasRackAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="APPS\ComprobacionFlechasTracker2VAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -32,6 +35,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="APPS\ComprobacionUnionesAPP.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="APPS\ComprobacionUnionesRackAPP.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="APPS\Dimensionamiento1VAPP.xaml.cs">
@@ -87,6 +93,9 @@
     <Page Update="APPS\CambiarCargasRackAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="APPS\ComprobacionFlechasRackAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="APPS\ComprobacionFlechasTracker2VAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -97,6 +106,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\ComprobacionUnionesAPP.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="APPS\ComprobacionUnionesRackAPP.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="APPS\Dimensionamiento1VAPP.xaml">

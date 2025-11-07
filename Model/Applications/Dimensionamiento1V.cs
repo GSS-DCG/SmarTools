@@ -144,7 +144,9 @@ namespace SmarTools.Model.Applications
 
             if (vista.Pilar_motor.Items.Count==0)
             {
-                MessageBox.Show("Debes filtrar los perfiles antes de dimensionar el modelo","Aviso",MessageBoxButton.OK, MessageBoxImage.Warning);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Debes filtrar los perfiles antes de dimensionar el modelo", TipoIncidencia.Advertencia);
+                ventana.ShowDialog();
             }
             else
             {
@@ -281,7 +283,9 @@ namespace SmarTools.Model.Applications
                     }
                     catch
                     {
-                        MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        var ventana = new Incidencias();
+                        ventana.ConfigurarIncidencia("Se ha producido un error", TipoIncidencia.Error);
+                        ventana.ShowDialog();
                     }
                 }
             }

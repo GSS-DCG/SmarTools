@@ -250,7 +250,9 @@ namespace SmarTools.Model.Applications
                 }
                 catch
                 {
-                    MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Se ha producido un error", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
         }
@@ -310,7 +312,9 @@ namespace SmarTools.Model.Applications
                         }
                         else
                         {
-                            MessageBox.Show("Debe introducir la presión pico, presión, succión y el valor de G para el cálculo de la carga de viento lateral", "Aviso", MessageBoxButton.OK, MessageBoxImage.Error);
+                            var ventana = new Incidencias();
+                            ventana.ConfigurarIncidencia("Debe introducir la presión pico, presión, succión y el valor de G para el cálculo de la carga de viento lateral", TipoIncidencia.Advertencia);
+                            ventana.ShowDialog();
                         }
                     }
                     else if (vista.Eurocodigo.IsChecked == true || vista.NTC2018.IsChecked == true)
@@ -324,7 +328,9 @@ namespace SmarTools.Model.Applications
                         }
                         else
                         {
-                            MessageBox.Show("Debe introducir tanto la presión pico como la fuerza de fricción para el cálculo de la carga de viento lateral", "Aviso", MessageBoxButton.OK, MessageBoxImage.Error);
+                            var ventana = new Incidencias();
+                            ventana.ConfigurarIncidencia("Debe introducir tanto la presión pico como la fuerza de fricción para el cálculo de la carga de viento lateral", TipoIncidencia.Advertencia);
+                            ventana.ShowDialog();
                         }
                     }
                 }
@@ -337,7 +343,9 @@ namespace SmarTools.Model.Applications
                 }
                 catch
                 {
-                    MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Se ha producido un error", TipoIncidencia.Advertencia);
+                    ventana.ShowDialog();
                 }
             }
         }

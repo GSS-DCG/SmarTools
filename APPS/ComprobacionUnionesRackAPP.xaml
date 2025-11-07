@@ -1,0 +1,380 @@
+﻿<Window x:Class="SmarTools.APPS.ComprobacionUnionesRackAPP"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SmarTools.APPS"
+        mc:Ignorable="d"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        Title="ComprobacionUnionesRackAPP" Height="450" Width="1000"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="DataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Height" Value="21"/>
+        </Style>
+        <Style x:Key="EstiloCelda" TargetType="DataGridCell">
+            <Setter Property="Background" Value="{StaticResource Blue03}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="-1"/>
+            <Setter Property="Height" Value="25"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="EstiloFila" TargetType="DataGridRow">
+            <Setter Property="Background" Value="{StaticResource Blue02}"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="https://www.gsolarsteel.com/wp-content/uploads/2024/08/v2-galeria-4-scaled-1-2048x1394.jpg"
+                    Stretch="UniformToFill"/>
+        </Border.Background>
+
+        <Border CornerRadius="10"
+            BorderThickness="2"
+            Opacity="0.95">
+
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="{StaticResource windowBorderColor1}" Offset="0"></GradientStop>
+                    <GradientStop Color="{StaticResource windowBorderColor2}" Offset="0.5"></GradientStop>
+                    <GradientStop Color="{StaticResource windowBorderColor3}" Offset="1"></GradientStop>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Grid>
+                <!--Navigation Menu-->
+                <Border CornerRadius="10,0,0,10"
+                Grid.Column="0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                            <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.75"></GradientStop>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <TextBlock x:Name="VersionInfoText" 
+                   VerticalAlignment="Bottom" 
+                   Text="Error" 
+                   Foreground="White" 
+                   FontFamily="Neo Tech Std" 
+                   FontSize="15" Margin="25,0,0,10"></TextBlock>
+
+                <!--Main Section-->
+                <Border CornerRadius="0,10,10,0"
+                Grid.Column="1">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                            <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                            <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.75"></GradientStop>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <!--Control Bar-->
+                            <RowDefinition Height="25"/>
+                            <!--Content Section-->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Comprobación de Uniones"
+                           VerticalAlignment="Center"
+                           Foreground="White"
+                           FontWeight="Medium"
+                           FontFamily="Neo Tech Std"
+                           Margin="10,0,0,0"
+                           FontSize="13.5"/>
+                        <!--Control Bar-->
+                        <StackPanel x:Name="pnlControlBar"
+                            Grid.Row="0"
+                            Orientation="Horizontal"
+                            FlowDirection="RightToLeft"
+                            Background="Transparent"
+                            Margin="0,0,5,0"
+                            MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
+                            MouseEnter="pnlControlBar_MouseEnter">
+
+                            <Button x:Name="btnClose"
+                            Style="{StaticResource ControlButton}"
+                            Tag="{StaticResource General4}"
+                            Click="btnClose_Click">
+                                <fa:IconImage Icon="Xmark" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+
+                            <Button x:Name="btnMaximize"
+                            Style="{StaticResource ControlButton}"
+                            Tag="{StaticResource General4}"
+                            Click="btnMaximize_Click">
+                                <fa:IconImage Icon="WindowMaximize" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+
+                            <Button x:Name="btnMinimize"
+                            Style="{StaticResource ControlButton}"
+                            Tag="{StaticResource General4}"
+                            Click="btnMinimize_Click">
+                                <fa:IconImage Icon="WindowMinimize" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+                        </StackPanel>
+
+                        <!--User Control-->
+                        <Grid x:Name="MainViewContentControl"
+                          Grid.Row="2"
+                          Margin="20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="90"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="70"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label  Content="Tipología de Mesa"
+                                        Grid.Row="0" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Medium"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                            HorizontalAlignment="Left" Orientation="Horizontal">
+                                        <CheckBox x:Name="Monoposte"
+                                             Content="Monoposte"
+                                              Checked="CheckBox_Checked"
+                                             Grid.Row="0" Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             FontFamily="Neo Tech Std"
+                                             Foreground="White"
+                                             FontWeight="Light"
+                                             Margin="15,0,0,0"/>
+                                        <CheckBox x:Name="Biposte"
+                                             Content="Biposte"
+                                              Checked="CheckBox_Checked"
+                                             Grid.Row="0" Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             FontFamily="Neo Tech Std"
+                                             Foreground="White"
+                                             FontWeight="Light"
+                                             Margin="15,0,0,0"/>
+                                    </StackPanel>
+                                    <Label  Content="Nº Correas"
+                                        Grid.Row="2" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Light"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <TextBox x:Name="NumCorreas" 
+                                         Grid.Row="2" 
+                                         Width="60" 
+                                         HorizontalAlignment="Left" 
+                                         Margin="110,5,0,5" 
+                                         HorizontalContentAlignment="Center" 
+                                         VerticalContentAlignment="Center" 
+                                         Foreground="#FF005783"/>
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label  Content="Nº de Diagonales por pórtico:"
+                                        Grid.Row="0" Grid.Column="0"
+                                        Margin="10,0,0,0"
+                                        FontFamily="Neo Tech Std"
+                                        FontWeight="Medium"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"/>
+                                    <CheckBox x:Name="SinDiagonal"
+                                         Content="Ninguna"
+                                          Checked="CheckBox_Checked"
+                                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                         VerticalAlignment="Center"
+                                         FontFamily="Neo Tech Std"
+                                         Foreground="White"
+                                         FontWeight="Light"
+                                         Margin="15,0,0,0"/>
+                                    <CheckBox x:Name="UnaDiagonal"
+                                         Content="Una"
+                                          Checked="CheckBox_Checked"
+                                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                         VerticalAlignment="Center"
+                                         FontFamily="Neo Tech Std"
+                                         Foreground="White"
+                                         FontWeight="Light"
+                                         Margin="115,0,0,0"
+                                         IsChecked="False"/>
+                                    <CheckBox x:Name="DosDiagonal"
+                                         Content="Dos"
+                                          Checked="CheckBox_Checked"
+                                         Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                         VerticalAlignment="Center"
+                                         FontFamily="Neo Tech Std"
+                                         Foreground="White"
+                                         FontWeight="Light"
+                                         Margin="215,0,0,0"
+                                         IsChecked="False"/>
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel x:Name="TablaResultados"
+                                        Grid.Row="1" Grid.ColumnSpan="2"
+                                        Orientation="Horizontal"
+                                        FlowDirection="LeftToRight"
+                                        Background="Transparent"
+                                        Margin="0,0,5,0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition x:Name="UnionesRow" Height="Auto"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <DataGrid x:Name="TablaUniones"
+                                              AutoGenerateColumns="False"
+                                              CanUserAddRows="False"
+                                              Margin="10,0,10,0"
+                                              RowBackground="White"
+                                              AlternatingRowBackground="White"
+                                              GridLinesVisibility="All"
+                                              HorizontalGridLinesBrush="White"
+                                              VerticalGridLinesBrush="White"
+                                              RowStyle="{StaticResource EstiloFila}"
+                                              ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="UNIÓN" Width="175"
+                                                                Binding="{Binding UNION}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="ELEMENTO" Width="75"
+                                                                Binding="{Binding ELEMENTO}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="ESPESOR" Width="75"
+                                                                Binding="{Binding ESPESOR}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="MATERIAL" Width="75"
+                                                                Binding="{Binding MATERIAL}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="N(kN)" Width="75"
+                                                                Binding="{Binding AXIL}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="Vy(kN)" Width="75"
+                                                                Binding="{Binding Vy}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="Vz(kN)" Width="75"
+                                                                Binding="{Binding Vz}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="RESULT(kN)" Width="100"
+                                                                Binding="{Binding RESULTANTE}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="ESF MAX.(kN)" Width="100"
+                                                                Binding="{Binding MAXADM}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="CHECK" Width="75"
+                                                                Binding="{Binding CHECK}">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="DataGridCell" BasedOn="{StaticResource EstiloCelda}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Check}" Value="Cumple">
+                                                                <Setter Property="Background" Value="Green"/>
+                                                                <Setter Property="Foreground" Value="White"/>
+                                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Check}" Value="No Cumple">
+                                                                <Setter Property="Background" Value="{StaticResource Rojo01}"/>
+                                                                <Setter Property="Foreground" Value="White"/>
+                                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+
+                                    </DataGrid>
+                                </Grid>
+                            </StackPanel>
+                            <Button x:Name="btnCalcularFlecha"
+                                BorderThickness="0"
+                                Content="Calcular"
+                                Foreground="White"
+                                FontSize="16"
+                                FontFamily="Neo Tech Std"
+                                Cursor="Hand"
+                                Grid.Row="2" Grid.ColumnSpan="2"
+                                Margin="0,20,0,0"
+                                Click="btnCalcularFlecha_Click">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Background" Value="#08A0C3"></Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#A8D8FF"></Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Width="150" 
+                                    Height="40"
+                                    CornerRadius="20"
+                                    Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

@@ -3,48 +3,36 @@
   "WorkspaceRootPath": "C:\\InSync\\SmarTools\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\viewmodel\\racksmart.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:viewmodel\\racksmart.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\dimensionamientorack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\dimensionamientorack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\repository\\sapfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\dimensionamiento1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\dimensionamiento1v.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\model\\applications\\comprobacionunionesrack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:model\\applications\\comprobacionunionesrack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamientorackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamientorackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\comprobacionunionesrackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\comprobacionunionesrackapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamientorackapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamientorackapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\comprobacionunionesrackapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\comprobacionunionesrackapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\incidencias.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\incidencias.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\viewmodel\\racksmart.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:viewmodel\\racksmart.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\view\\incidencias.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:view\\incidencias.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento1vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento1vapp.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento2vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento2vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\apps\\dimensionamiento1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:apps\\dimensionamiento1vapp.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|c:\\insync\\smartools\\viewmodel\\racksmart.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{EABECFA1-E9D8-400B-94DE-D11B96D649D7}|SmarTools.csproj|solutionrelative:viewmodel\\racksmart.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,32 +42,91 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Incidencias.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\Incidencias.xaml.cs",
-              "RelativeDocumentMoniker": "View\\Incidencias.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\View\\Incidencias.xaml.cs",
-              "RelativeToolTip": "View\\Incidencias.xaml.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAgwDcAAAA8AAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "MainView.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\MainView.xaml.cs",
+              "RelativeDocumentMoniker": "View\\MainView.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\View\\MainView.xaml.cs",
+              "RelativeToolTip": "View\\MainView.xaml.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAswI4AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-23T14:57:03.333Z",
+              "WhenOpened": "2025-10-23T06:03:22.709Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Incidencias.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\View\\Incidencias.xaml",
-              "RelativeDocumentMoniker": "View\\Incidencias.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\View\\Incidencias.xaml",
-              "RelativeToolTip": "View\\Incidencias.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-09-23T14:18:41.221Z",
+              "DocumentIndex": 0,
+              "Title": "DimensionamientoRack.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\DimensionamientoRack.cs",
+              "RelativeDocumentMoniker": "Model\\Applications\\DimensionamientoRack.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\DimensionamientoRack.cs",
+              "RelativeToolTip": "Model\\Applications\\DimensionamientoRack.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAADwvxEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-22T13:14:44.361Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ComprobacionUnionesRackAPP.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\ComprobacionUnionesRackAPP.xaml",
+              "RelativeDocumentMoniker": "APPS\\ComprobacionUnionesRackAPP.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\ComprobacionUnionesRackAPP.xaml",
+              "RelativeToolTip": "APPS\\ComprobacionUnionesRackAPP.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-21T13:04:57.04Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ComprobacionUnionesRackAPP.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\ComprobacionUnionesRackAPP.xaml.cs",
+              "RelativeDocumentMoniker": "APPS\\ComprobacionUnionesRackAPP.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\ComprobacionUnionesRackAPP.xaml.cs",
+              "RelativeToolTip": "APPS\\ComprobacionUnionesRackAPP.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T14:24:50.269Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ComprobacionUnionesRack.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionUnionesRack.cs",
+              "RelativeDocumentMoniker": "Model\\Applications\\ComprobacionUnionesRack.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\ComprobacionUnionesRack.cs",
+              "RelativeToolTip": "Model\\Applications\\ComprobacionUnionesRack.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAcwEgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T14:24:02.86Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RackSmart.xaml",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\ViewModel\\RackSmart.xaml",
+              "RelativeDocumentMoniker": "ViewModel\\RackSmart.xaml",
+              "ToolTip": "C:\\InSync\\SmarTools\\ViewModel\\RackSmart.xaml",
+              "RelativeToolTip": "ViewModel\\RackSmart.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-09-19T09:30:59.211Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RackSmart.xaml.cs",
+              "DocumentMoniker": "C:\\InSync\\SmarTools\\ViewModel\\RackSmart.xaml.cs",
+              "RelativeDocumentMoniker": "ViewModel\\RackSmart.xaml.cs",
+              "ToolTip": "C:\\InSync\\SmarTools\\ViewModel\\RackSmart.xaml.cs",
+              "RelativeToolTip": "ViewModel\\RackSmart.xaml.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwDwAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T14:45:34.285Z"
             },
             {
               "$type": "Document",
@@ -89,131 +136,9 @@
               "RelativeDocumentMoniker": "Model\\Repository\\SAPFunctions.cs",
               "ToolTip": "C:\\InSync\\SmarTools\\Model\\Repository\\SAPFunctions.cs",
               "RelativeToolTip": "Model\\Repository\\SAPFunctions.cs",
-              "ViewState": "AgIAAEYDAAAAAAAAAAA3wIsDAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAswKMAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T13:47:44.245Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DimensionamientoRack.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\DimensionamientoRack.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\DimensionamientoRack.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\DimensionamientoRack.cs",
-              "RelativeToolTip": "Model\\Applications\\DimensionamientoRack.cs",
-              "ViewState": "AgIAAOsAAAAAAAAAAAAswCsBAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T09:21:05.177Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RackSmart.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\ViewModel\\RackSmart.xaml",
-              "RelativeDocumentMoniker": "ViewModel\\RackSmart.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\ViewModel\\RackSmart.xaml",
-              "RelativeToolTip": "ViewModel\\RackSmart.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-09-19T09:30:59.211Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "e63aa7d0-99c2-4915-af4f-70ac41cf5c64",
-        "Display": 1,
-        "X": 328,
-        "Y": 80,
-        "Width": 1597,
-        "Height": 957,
-        "WindowState": 2
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 3,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Dimensionamiento1VAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\Dimensionamiento1VAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml",
-              "RelativeToolTip": "APPS\\Dimensionamiento1VAPP.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-09-19T09:41:03.231Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Dimensionamiento2VAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\Dimensionamiento2VAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento2VAPP.xaml",
-              "RelativeToolTip": "APPS\\Dimensionamiento2VAPP.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-09-19T09:40:55.849Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Dimensionamiento1VAPP.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml.cs",
-              "RelativeDocumentMoniker": "APPS\\Dimensionamiento1VAPP.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\Dimensionamiento1VAPP.xaml.cs",
-              "RelativeToolTip": "APPS\\Dimensionamiento1VAPP.xaml.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T09:45:14.029Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Dimensionamiento1V.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento1V.cs",
-              "RelativeDocumentMoniker": "Model\\Applications\\Dimensionamiento1V.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\Model\\Applications\\Dimensionamiento1V.cs",
-              "RelativeToolTip": "Model\\Applications\\Dimensionamiento1V.cs",
-              "ViewState": "AgIAAPQAAAAAAAAAAAAwwC8CAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-22T09:20:44.187Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DimensionamientoRackAPP.xaml.cs",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\DimensionamientoRackAPP.xaml.cs",
-              "RelativeDocumentMoniker": "APPS\\DimensionamientoRackAPP.xaml.cs",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\DimensionamientoRackAPP.xaml.cs",
-              "RelativeToolTip": "APPS\\DimensionamientoRackAPP.xaml.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAowCUBAABcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-19T09:45:04.07Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DimensionamientoRackAPP.xaml",
-              "DocumentMoniker": "C:\\InSync\\SmarTools\\APPS\\DimensionamientoRackAPP.xaml",
-              "RelativeDocumentMoniker": "APPS\\DimensionamientoRackAPP.xaml",
-              "ToolTip": "C:\\InSync\\SmarTools\\APPS\\DimensionamientoRackAPP.xaml",
-              "RelativeToolTip": "APPS\\DimensionamientoRackAPP.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-09-24T06:22:21.313Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-17T09:04:56.233Z"
             }
           ]
         }

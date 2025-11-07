@@ -30,7 +30,7 @@ namespace SmarTools.Model.Applications
         public static cSapModel mySapModel = MainView.Globales._mySapModel;
 
         //Variables absolutas
-        public static string rutaPlantillaWord = @"Z:\16 Documentacion\99 Pruebas Extraccion Memoria\Plantilla Advanced report.docx";
+        public static string rutaPlantillaWord = @"Z:\300SmarTools\06 Plantilla excel\Plantilla Advanced report.docx";
 
         public static void ObtenerListadosDeCalculo (ListadosDeCalculoAPP vista)
         {
@@ -199,6 +199,7 @@ namespace SmarTools.Model.Applications
             int ret = mySapModel.DatabaseTables.GetAllTables(ref NumberTables, ref TableKey, ref TableName, ref importType, ref isEmpty);
             ret = mySapModel.DatabaseTables.GetAvailableTables(ref NumberTables, ref TableKey, ref TableName, ref importType);
 
+            //Buscamos la parte común de los nombres de las tablas para diferentes normativas (EU/ASCE/NTC)
             for (int i = 0; i < NumberTables; i++)
             {
                 if (TableName[i].Contains("Joint Coordinates"))
@@ -282,10 +283,10 @@ namespace SmarTools.Model.Applications
         {
             WordFunctions.AddText(titulo, doc);
             Microsoft.Office.Interop.Excel.Workbook libro = ExcelFunctions.PasteTableInExcel(tabla);
-            FormatoCopiarExcelYPegaWord(libro, doc);
+            CopiarExcelYPegaWord(libro, doc);
         }
 
-        public static void FormatoCopiarExcelYPegaWord(Microsoft.Office.Interop.Excel.Workbook libro, Microsoft.Office.Interop.Word.Document doc)
+        public static void CopiarExcelYPegaWord(Microsoft.Office.Interop.Excel.Workbook libro, Microsoft.Office.Interop.Word.Document doc)
         {
             ExcelFunctions.FormatSubclass.ApplyFont(8, "Neo Tech Std", libro, true, true);
             ExcelFunctions.FormatSubclass.ApplyColorToRow(1, System.Drawing.Color.Black, System.Drawing.Color.LightBlue, libro);

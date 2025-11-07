@@ -1067,6 +1067,44 @@ namespace SmarTools.Model.Repository
                  .ToArray();
             }
 
+            /// <summary>
+            /// Obtiene los nodos iniciales o finales de una barra de un modelo SAP2000
+            /// </summary>
+            /// <param name="mySapModel">
+            /// Instancia del modelo SAP2000
+            /// </param>
+            /// <param name="frame">
+            /// Array de nombres de barras de SAP2000
+            /// </param>
+            /// <param name="joint">
+            /// Indicador del nodo a devolver:
+            /// 1 para el nodo inicial (extremo i)
+            /// 2 para el nodo final (extremo j)
+            /// </param>
+            /// <returns>
+            /// Array con los nombres de los nudos correspondientes al extremo especificado
+            /// </returns>
+            public static string GetOneFrameJoints(cSapModel mySapModel, string frame, int joint)
+            {
+                string point1 = "";
+                string point2 = "";
+
+                mySapModel.FrameObj.GetPoints(frame, ref point1, ref point2);
+                
+                if (joint == 1)
+                {
+                    return point1;
+                }
+                else if (joint == 2)
+                {
+                    return point2;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
             public class TrackerSubclass // Funciones para trackers
             {
                 private readonly ElementFinderSubclass _elementFinder;
@@ -1613,6 +1651,20 @@ namespace SmarTools.Model.Repository
                 {
                     mySapModel.SelectObj.ClearSelection();
                     mySapModel.FrameObj.SetSelected("03 Correas", true, eItemType.Group);
+
+                    int NumberItems = 0;
+                    int[] ObjectType = new int[1];
+                    string[] ObjectName = new string[1];
+
+                    mySapModel.SelectObj.GetSelected(ref NumberItems, ref ObjectType, ref ObjectName);
+
+                    return ObjectName;
+                }
+
+                public static string[] ObtenerEstabilizadores(cSapModel mySapModel)
+                {
+                    mySapModel.SelectObj.ClearSelection();
+                    mySapModel.FrameObj.SetSelected("05 Arriostramiento Correas", true, eItemType.Group);
 
                     int NumberItems = 0;
                     int[] ObjectType = new int[1];
