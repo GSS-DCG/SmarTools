@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SmarTools.APPS"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        Title="DimensionamientoRackAPP" Height="680" Width="800"
+        Title="DimensionamientoRackAPP" Height="680" Width="900"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -107,7 +107,7 @@
                                     FlowDirection="LeftToRight"
                                     Background="Transparent">
                             <StackPanel Orientation="Vertical"
-                                        Width="400">
+                                        Width="500">
                                 <TextBlock Text="Materiales"
                                            FontFamily="Neo Tech Std"
                                            FontWeight="Medium"
@@ -126,7 +126,7 @@
                                         <RowDefinition Height="25"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="200"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Content="Ambiente"
@@ -263,54 +263,40 @@
                                               FontWeight="Light"
                                               HorizontalContentAlignment="Center"/>
                                 </Grid>
-                                <Button x:Name="btnFiltrarPerfiles"
-                                        BorderThickness="0"
-                                        Content="Filtrar perfiles"
-                                        Foreground="White"
-                                        FontSize="16"
-                                        FontFamily="Neo Tech Std"
-                                        Cursor="Hand"
-                                        Grid.Column="1"
-                                        Margin="15,10,0,0"
-                                        Click="btnFiltrarPerfiles_Click">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Background" Value="#08A0C3"></Setter>
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#A8D8FF"></Setter>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Width="130" 
-                                                    Height="30"
-                                                    CornerRadius="15"
-                                                    Background="{TemplateBinding Background}">
-                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-                                <TextBlock Text="Modelo"
-                                           FontFamily="Neo Tech Std"
-                                           FontWeight="Medium"
-                                           VerticalAlignment="Center"
-                                           Foreground="White"
-                                           FontSize="12"
-                                           Margin="10,10,0,0"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="240"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Modelo"
+                                               FontFamily="Neo Tech Std"
+                                               FontWeight="Medium"
+                                               VerticalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               Margin="10,10,0,0"/>
+                                    <TextBlock Text="Ratios máximos (%)"
+                                               Grid.Column="1"
+                                               FontFamily="Neo Tech Std"
+                                               FontWeight="Medium"
+                                               VerticalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               Margin="10,10,0,0"/>
+                                </Grid>
+                                
                                 <Grid Margin="10,10,10,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="25"/>
                                         <RowDefinition Height="25"/>
                                         <RowDefinition Height="25"/>
                                         <RowDefinition Height="25"/>
+                                        <RowDefinition Height="40"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="200"/>
                                         <ColumnDefinition/>
-                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="220"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                                                 HorizontalAlignment="Left" Orientation="Horizontal">
@@ -386,6 +372,144 @@
                                                  FontWeight="Light"
                                                  Margin="215,0,0,0"
                                                  IsChecked="False"/>
+                                    <Button x:Name="btnFiltrarPerfiles"
+                                            BorderThickness="0"
+                                            Content="Filtrar perfiles"
+                                            Foreground="White"
+                                            FontSize="16"
+                                            FontFamily="Neo Tech Std"
+                                            Cursor="Hand"
+                                            Grid.Row="5"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            Margin="15,10,0,0"
+                                            Click="btnFiltrarPerfiles_Click">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="#08A0C3"></Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#A8D8FF"></Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Width="130" 
+                                                        Height="30"
+                                                        CornerRadius="15"
+                                                        Background="{TemplateBinding Background}">
+                                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                    <TextBlock Text="Pilares"
+                                               Grid.Column="2"
+                                               FontFamily="Neo Tech Std"
+                                               FontWeight="Light"
+                                               VerticalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               Margin="10,10,0,0"/>
+                                    <TextBox x:Name="Ratio_Pilares"
+                                             Text="90"
+                                             Grid.Row="0"
+                                             Grid.Column="2"
+                                             Width="60" 
+                                             Margin="0,8,50,2"
+                                             FontWeight="Light"
+                                             FontFamily="Neo Tech Std"
+                                             HorizontalAlignment="Right"
+                                             HorizontalContentAlignment="Center" 
+                                             VerticalContentAlignment="Center" 
+                                             Foreground="#FF005783"/>
+                                    <TextBlock Text="Vigas"
+                                               Grid.Row="1"
+                                               Grid.Column="2"
+                                               FontFamily="Neo Tech Std"
+                                               FontWeight="Light"
+                                               VerticalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               Margin="10,10,0,0"/>
+                                    <TextBox x:Name="Ratio_Vigas"
+                                             Text="100"
+                                             Grid.Row="1"
+                                             Grid.Column="2"
+                                             Width="60" 
+                                             Margin="0,8,50,2"
+                                             FontWeight="Light"
+                                             FontFamily="Neo Tech Std"
+                                             HorizontalAlignment="Right"
+                                             HorizontalContentAlignment="Center" 
+                                             VerticalContentAlignment="Center" 
+                                            Foreground="#FF005783"/>
+                                    <TextBlock Text="Correas"
+                                               Grid.Row="2"
+                                               Grid.Column="2"
+                                               FontFamily="Neo Tech Std"
+                                               FontWeight="Light"
+                                               VerticalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               Margin="10,10,0,0"/>
+                                    <TextBox x:Name="Ratio_Correas"
+                                             Text="100"
+                                             Grid.Row="2"
+                                             Grid.Column="2"
+                                             Width="60" 
+                                             Margin="0,8,50,2"
+                                             FontWeight="Light"
+                                             FontFamily="Neo Tech Std"
+                                             HorizontalAlignment="Right"
+                                             HorizontalContentAlignment="Center" 
+                                             VerticalContentAlignment="Center" 
+                                            Foreground="#FF005783"/>
+                                    <TextBlock Text="Diagonales"
+                                               Grid.Row="3"
+                                               Grid.Column="2"
+                                               FontFamily="Neo Tech Std"
+                                               FontWeight="Light"
+                                               VerticalAlignment="Center"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               Margin="10,10,0,0"/>
+                                    <TextBox x:Name="Ratio_Diagonales"
+                                             Text="100"
+                                             Grid.Row="3"
+                                             Grid.Column="2"
+                                             Width="60" 
+                                             Margin="0,8,50,2"
+                                             FontWeight="Light"
+                                             FontFamily="Neo Tech Std"
+                                             HorizontalAlignment="Right"
+                                             HorizontalContentAlignment="Center" 
+                                             VerticalContentAlignment="Center" 
+                                            Foreground="#FF005783"/>
+                                    <TextBlock Text="Estabilizadores"
+                                               Grid.Row="4"
+                                               Grid.Column="2"
+                                               FontFamily="Neo Tech Std"
+                                               FontWeight="Light"
+                                               VerticalAlignment="Top"
+                                               Foreground="White"
+                                               FontSize="12"
+                                               Margin="10,10,0,0"/>
+                                    <TextBox x:Name="Ratio_Estabilizadores"
+                                             Text="100"
+                                             Grid.Row="4"
+                                             Grid.Column="2"
+                                             Width="60" 
+                                             Margin="0,8,50,2"
+                                             FontWeight="Light"
+                                             FontFamily="Neo Tech Std"
+                                             HorizontalAlignment="Right"
+                                             VerticalAlignment="Top"
+                                             HorizontalContentAlignment="Center" 
+                                             VerticalContentAlignment="Center" 
+                                            Foreground="#FF005783"/>
                                 </Grid>
                                 <TextBlock Text="Perfiles"
                                            FontFamily="Neo Tech Std"
@@ -421,7 +545,7 @@
                                     <ComboBox x:Name="PilaresDelanteros"
                                               Grid.Row="0" Grid.Column="1"
                                               Visibility="Visible"
-                                              Width="150"
+                                              Width="180"
                                               Margin="5,0,5,0"
                                               VerticalAlignment="Center"
                                               Foreground="{StaticResource General2}"
@@ -441,7 +565,7 @@
                                     <ComboBox x:Name="PilaresTraseros"
                                               Grid.Row="1" Grid.Column="1"
                                               Visibility="Visible"
-                                              Width="150"
+                                              Width="180"
                                               Margin="5,0,5,0"
                                               VerticalAlignment="Center"
                                               Foreground="{StaticResource General2}"
@@ -459,7 +583,7 @@
                                             FontSize="12"/>
                                     <ComboBox x:Name="Vigas"
                                               Grid.Row="2" Grid.Column="1"
-                                              Width="150"
+                                              Width="180"
                                               Margin="5,0,5,0"
                                               VerticalAlignment="Center"
                                               Foreground="{StaticResource General2}"
@@ -477,7 +601,7 @@
                                             FontSize="12"/>
                                     <ComboBox x:Name="Correas"
                                               Grid.Row="3" Grid.Column="1"
-                                              Width="150"
+                                              Width="180"
                                               Margin="5,0,5,0"
                                               VerticalAlignment="Center"
                                               Foreground="{StaticResource General2}"
@@ -497,7 +621,7 @@
                                     <ComboBox x:Name="DiagonalesDelanteras"
                                               Grid.Row="4" Grid.Column="1"
                                               Visibility="Visible"
-                                              Width="150"
+                                              Width="180"
                                               Margin="5,0,5,0"
                                               VerticalAlignment="Center"
                                               Foreground="{StaticResource General2}"
@@ -517,7 +641,7 @@
                                     <ComboBox x:Name="DiagonalesTraseras"
                                               Grid.Row="5" Grid.Column="1"
                                               Visibility="Visible"
-                                              Width="150"
+                                              Width="180"
                                               Margin="5,0,5,0"
                                               VerticalAlignment="Center"
                                               Foreground="{StaticResource General2}"
@@ -535,7 +659,7 @@
                                             FontSize="12"/>
                                     <ComboBox x:Name="Estabilizador"
                                               Grid.Row="6" Grid.Column="1"
-                                              Width="150"
+                                              Width="180"
                                               Margin="5,0,5,0"
                                               VerticalAlignment="Center"
                                               Foreground="{StaticResource General2}"

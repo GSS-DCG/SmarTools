@@ -41,13 +41,13 @@ namespace SmarTools.Model.Applications
                     CasosSeleccionados["DEAD"] = "DEAD";
 
                 if (vista.Aplicar_Dead.IsChecked == true)
-                    CasosSeleccionados["PP Paneles"] = "DEAD";
+                    CasosSeleccionados["PP PANELES"] = "DEAD";
 
                 if (vista.Aplicar_Presion.IsChecked == true)
-                    CasosSeleccionados["W1_Press"] = "WIND";
+                    CasosSeleccionados["W1_Pos_Cfmin"] = "WIND";
 
                 if (vista.Aplicar_Succion.IsChecked == true)
-                    CasosSeleccionados["W2_Suct"] = "WIND";
+                    CasosSeleccionados["W1_Neg_Cfmin"] = "WIND";
 
                 if (vista.Aplicar_Lateral_90.IsChecked == true)
                     CasosSeleccionados["W3_90º"] = "WIND";
@@ -1871,10 +1871,10 @@ namespace SmarTools.Model.Applications
                     CasosSeleccionados["PP Paneles"] = "DEAD";
 
                 if (vista.Aplicar_Presion.IsChecked == true)
-                    CasosSeleccionados["W1_Press"] = "WIND";
+                    CasosSeleccionados["W1_Pos_Cfmin"] = "WIND";
 
                 if (vista.Aplicar_Succion.IsChecked == true)
-                    CasosSeleccionados["W2_Suct"] = "WIND";
+                    CasosSeleccionados["W1_Neg_Cfmin"] = "WIND";
 
                 if (vista.Aplicar_Lateral_90.IsChecked == true)
                     CasosSeleccionados["W3_90º"] = "WIND";

@@ -270,7 +270,7 @@ namespace SmarTools.Model.Applications
                 loadingWindow.UpdateLayout();
                 
                 if(vista.PesoPropio_Check.IsChecked == true && double.TryParse(vista.PesoPropio_Panel.Text, out var PP_Panel))
-                    CargaGravitacionalPaneles(PP_Panel,"PP Paneles");
+                    CargaGravitacionalPaneles(PP_Panel,"PP PANELES");
 
                 if(vista.PesoCable_Check.IsChecked==true && double.TryParse(vista.PesoPropio_Cable.Text,out var PP_Cable))
                     PesoPropioCable(PP_Cable);
@@ -376,7 +376,7 @@ namespace SmarTools.Model.Applications
             //Asignamos las cargas
             for (int i=0; i < nudos.Length; i++)
             {
-                int ret = mySapModel.PointObj.SetLoadForce(nudos[i], "PP Paneles",ref carga);
+                int ret = mySapModel.PointObj.SetLoadForce(nudos[i], "PP PANELES",ref carga);
             }
         }
 
