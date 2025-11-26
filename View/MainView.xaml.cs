@@ -53,7 +53,7 @@ namespace ModernUI.View
             public static string _revisionCoeficientes = _Revisiones.Revision1V_Box?.SelectedItem?.ToString()??"00";
             public static string _revisionUniones1V = _Revisiones.Revision2V_Box?.SelectedItem?.ToString() ?? "00";
             public static string _revisionUniones2V = _Revisiones.RevisionCoef_Box?.SelectedItem?.ToString() ?? "00";
-
+            public static string _revisionUnionesRack = _Revisiones.RevisionFija_Box?.SelectedItem?.ToString() ?? "00";
         }
 
         private void EstadoConexion(Object sender, EventArgs e)

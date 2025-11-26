@@ -462,8 +462,8 @@ namespace SmarTools.Model.Applications
             mySapModel.SetPresentUnits(eUnits.kN_m_C);
             string[] vigas_n = SAP.ElementFinderSubclass.TrackerSubclass.NorthBeams(mySapModel);
             string[] vigas_s = SAP.ElementFinderSubclass.TrackerSubclass.SouthBeams(mySapModel);
-            double[] maximosNorte = SAP.AnalysisSubclass.ObtenerEsfuerzosEnExtremo(mySapModel, vigas_n[0], 0);
-            double[] maximosSur = SAP.AnalysisSubclass.ObtenerEsfuerzosEnExtremo(mySapModel, vigas_s[0], 0);
+            double[] maximosNorte = SAP.AnalysisSubclass.ObtenerEsfuerzosEnExtremo(mySapModel, vigas_n[0], 0, "ULS");
+            double[] maximosSur = SAP.AnalysisSubclass.ObtenerEsfuerzosEnExtremo(mySapModel, vigas_s[0], 0, "ULS");
 
             double[] esfuerzos_MC_modelo = maximosNorte
              .Zip(maximosSur, (n, s) => Math.Max(Math.Abs(n), Math.Abs(s)))

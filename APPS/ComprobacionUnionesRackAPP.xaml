@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SmarTools.APPS"
         mc:Ignorable="d"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        Title="ComprobacionUnionesRackAPP" Height="450" Width="1000"
+        Title="ComprobacionUnionesRackAPP" Height="1000" Width="1200"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -30,6 +30,7 @@
             <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="TextBlock.VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="-1"/>
             <Setter Property="Height" Value="25"/>
@@ -147,8 +148,8 @@
 
                         <!--User Control-->
                         <Grid x:Name="MainViewContentControl"
-                          Grid.Row="2"
-                          Margin="20">
+                              Grid.Row="2"
+                              Margin="20">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="90"/>
                                 <RowDefinition Height="*"/>
@@ -170,13 +171,13 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Label  Content="Tipología de Mesa"
-                                        Grid.Row="0" Grid.Column="0"
-                                        Margin="10,0,0,0"
-                                        FontFamily="Neo Tech Std"
-                                        FontWeight="Medium"
-                                        VerticalAlignment="Center"
-                                        Foreground="White"
-                                        FontSize="12"/>
+                                            Grid.Row="0" Grid.Column="0"
+                                            Margin="10,0,0,0"
+                                            FontFamily="Neo Tech Std"
+                                            FontWeight="Medium"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            FontSize="12"/>
                                     <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                             HorizontalAlignment="Left" Orientation="Horizontal">
                                         <CheckBox x:Name="Monoposte"
@@ -199,21 +200,21 @@
                                              Margin="15,0,0,0"/>
                                     </StackPanel>
                                     <Label  Content="Nº Correas"
-                                        Grid.Row="2" Grid.Column="0"
-                                        Margin="10,0,0,0"
-                                        FontFamily="Neo Tech Std"
-                                        FontWeight="Light"
-                                        VerticalAlignment="Center"
-                                        Foreground="White"
-                                        FontSize="12"/>
+                                            Grid.Row="2" Grid.Column="0"
+                                            Margin="13,3,0,-3"
+                                            FontFamily="Neo Tech Std"
+                                            FontWeight="Light"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            FontSize="12"/>
                                     <TextBox x:Name="NumCorreas" 
-                                         Grid.Row="2" 
-                                         Width="60" 
-                                         HorizontalAlignment="Left" 
-                                         Margin="110,5,0,5" 
-                                         HorizontalContentAlignment="Center" 
-                                         VerticalContentAlignment="Center" 
-                                         Foreground="#FF005783"/>
+                                             Grid.Row="2" 
+                                             Width="60" Height="30"
+                                             HorizontalAlignment="Left" 
+                                             Margin="110,5,0,2" 
+                                             HorizontalContentAlignment="Center" 
+                                             VerticalContentAlignment="Top" 
+                                             Foreground="#FF005783"/>
                                 </Grid>
                             </StackPanel>
                             <StackPanel Grid.Row="0" Grid.Column="1">
@@ -273,14 +274,28 @@
                                         Margin="0,0,5,0">
                                 <Grid>
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
                                         <RowDefinition x:Name="UnionesRow" Height="Auto"/>
-                                        <RowDefinition Height="25"/>
-                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition x:Name="EjionesRow" Height="Auto"/>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition x:Name="PlacasRow" Height="Auto"/>
                                     </Grid.RowDefinitions>
+                                    <Label  Content="Comprobación de aplastamiento :"
+                                            Grid.Row="0"
+                                            Margin="10,0,0,0"
+                                            FontFamily="Neo Tech Std"
+                                            FontWeight="Bold"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            FontSize="14"/>
                                     <DataGrid x:Name="TablaUniones"
+                                              Grid.Row="1"
                                               AutoGenerateColumns="False"
                                               CanUserAddRows="False"
-                                              Margin="10,0,10,0"
+                                              HorizontalAlignment="Center"
                                               RowBackground="White"
                                               AlternatingRowBackground="White"
                                               GridLinesVisibility="All"
@@ -289,25 +304,25 @@
                                               RowStyle="{StaticResource EstiloFila}"
                                               ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="UNIÓN" Width="175"
+                                            <DataGridTextColumn Header="UNIÓN" Width="150"
                                                                 Binding="{Binding UNION}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="ELEMENTO" Width="75"
+                                            <DataGridTextColumn Header="ELEMENTO" Width="150"
                                                                 Binding="{Binding ELEMENTO}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="ESPESOR" Width="75"
+                                            <DataGridTextColumn Header="ESPESOR" Width="100"
                                                                 Binding="{Binding ESPESOR}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="MATERIAL" Width="75"
+                                            <DataGridTextColumn Header="MATERIAL" Width="100"
                                                                 Binding="{Binding MATERIAL}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="N(kN)" Width="75"
+                                            <DataGridTextColumn Header="N(kN)" Width="100"
                                                                 Binding="{Binding AXIL}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="Vy(kN)" Width="75"
+                                            <DataGridTextColumn Header="Vy(kN)" Width="100"
                                                                 Binding="{Binding Vy}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="Vz(kN)" Width="75"
+                                            <DataGridTextColumn Header="Vz(kN)" Width="100"
                                                                 Binding="{Binding Vz}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
                                             <DataGridTextColumn Header="RESULT(kN)" Width="100"
@@ -316,17 +331,17 @@
                                             <DataGridTextColumn Header="ESF MAX.(kN)" Width="100"
                                                                 Binding="{Binding MAXADM}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="CHECK" Width="75"
+                                            <DataGridTextColumn Header="CHECK" Width="100"
                                                                 Binding="{Binding CHECK}">
                                                 <DataGridTextColumn.CellStyle>
                                                     <Style TargetType="DataGridCell" BasedOn="{StaticResource EstiloCelda}">
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Check}" Value="Cumple">
+                                                            <DataTrigger Binding="{Binding CHECK}" Value="Cumple">
                                                                 <Setter Property="Background" Value="Green"/>
                                                                 <Setter Property="Foreground" Value="White"/>
                                                                 <Setter Property="FontWeight" Value="Bold"/>
                                                             </DataTrigger>
-                                                            <DataTrigger Binding="{Binding Check}" Value="No Cumple">
+                                                            <DataTrigger Binding="{Binding CHECK}" Value="No Cumple">
                                                                 <Setter Property="Background" Value="{StaticResource Rojo01}"/>
                                                                 <Setter Property="Foreground" Value="White"/>
                                                                 <Setter Property="FontWeight" Value="Bold"/>
@@ -336,20 +351,120 @@
                                                 </DataGridTextColumn.CellStyle>
                                             </DataGridTextColumn>
                                         </DataGrid.Columns>
-
+                                    </DataGrid>
+                                    <Label  Content="Cálculo de Ejiones :"
+                                            Grid.Row="3"
+                                            Margin="10,0,0,0"
+                                            FontFamily="Neo Tech Std"
+                                            FontWeight="Bold"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            FontSize="14"/>
+                                    <Label   x:Name="CodigoEjion" 
+                                             Grid.Row="3" 
+                                             Width="150" Height="30"
+                                             HorizontalAlignment="Left" 
+                                             Margin="150,2,0,5" 
+                                             HorizontalContentAlignment="Center" 
+                                             VerticalContentAlignment="Top" 
+                                             Foreground="White"/>
+                                    <DataGrid x:Name="TablaEjion"
+                                                Grid.Row="4"
+                                                AutoGenerateColumns="False"
+                                                CanUserAddRows="False"
+                                                HorizontalAlignment="Center"
+                                                RowBackground="White"
+                                                AlternatingRowBackground="White"
+                                                GridLinesVisibility="All"
+                                                HorizontalGridLinesBrush="White"
+                                                VerticalGridLinesBrush="White"
+                                                RowStyle="{StaticResource EstiloFila}"
+                                                ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="CASO" Width="125"
+                                                                Binding="{Binding CASO}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="Vz Correa (kN)" Width="125"
+                                                                Binding="{Binding VzCorrea}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="EJIÓN" Width="125"
+                                                                Binding="{Binding Ejion}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="ESPESOR" Width="125"
+                                                                Binding="{Binding Espesor}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="MATERIAL" Width="125"
+                                                                Binding="{Binding Material}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="ESF MAX(kN)" Width="125"
+                                                                Binding="{Binding MaxAdm}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="RATIO" Width="125"
+                                                                Binding="{Binding RATIO}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>  
+                                            
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <Label  Content="Cálculo de Placas :"
+                                            Grid.Row="6"
+                                            Margin="10,0,0,0"
+                                            FontFamily="Neo Tech Std"
+                                            FontWeight="Bold"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            FontSize="14"/>
+                                    
+                                    <DataGrid x:Name="TablaPlacas"
+                                                Grid.Row="7"
+                                                AutoGenerateColumns="False"
+                                                CanUserAddRows="False"
+                                                HorizontalAlignment="Center"
+                                                RowBackground="White"
+                                                AlternatingRowBackground="White"
+                                                GridLinesVisibility="All"
+                                                HorizontalGridLinesBrush="White"
+                                                VerticalGridLinesBrush="White"
+                                                RowStyle="{StaticResource EstiloFila}"
+                                                ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="UNIÓN" Width="125"
+                                                                Binding="{Binding UNION}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="ELEMENTO" Width="125"
+                                                                Binding="{Binding ELEMENTO}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="ESPESOR" Width="125"
+                                                                Binding="{Binding Espesor}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="MATERIAL" Width="125"
+                                                                Binding="{Binding Material}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="CÓDIGO" Width="125"
+                                                                Binding="{Binding CODIGO}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="RESULT(kN)" Width="125"
+                                                                Binding="{Binding R}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="ESF MAX.(kN)" Width="125"
+                                                                Binding="{Binding MaxAdm}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                            <DataGridTextColumn Header="RATIO" Width="125"
+                                                                Binding="{Binding RATIO}"
+                                                                CellStyle="{StaticResource EstiloCelda}"/>
+                                        </DataGrid.Columns>
                                     </DataGrid>
                                 </Grid>
                             </StackPanel>
                             <Button x:Name="btnCalcularFlecha"
-                                BorderThickness="0"
-                                Content="Calcular"
-                                Foreground="White"
-                                FontSize="16"
-                                FontFamily="Neo Tech Std"
-                                Cursor="Hand"
-                                Grid.Row="2" Grid.ColumnSpan="2"
-                                Margin="0,20,0,0"
-                                Click="btnCalcularFlecha_Click">
+                                    BorderThickness="0"
+                                    Content="Comprobar"
+                                    Foreground="White"
+                                    FontSize="16"
+                                    FontFamily="Neo Tech Std"
+                                    Cursor="Hand"
+                                    Grid.Row="2" Grid.ColumnSpan="2"
+                                    Margin="0,20,0,0"
+                                    Click="btnCalcularFlecha_Click">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Setter Property="Background" Value="#08A0C3"></Setter>
@@ -363,9 +478,9 @@
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border Width="150" 
-                                    Height="40"
-                                    CornerRadius="20"
-                                    Background="{TemplateBinding Background}">
+                                                Height="40"
+                                                CornerRadius="20"
+                                                Background="{TemplateBinding Background}">
                                             <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                         </Border>
                                     </ControlTemplate>

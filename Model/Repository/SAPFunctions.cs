@@ -173,7 +173,7 @@ namespace SmarTools.Model.Repository
             /// </param>
             public static void UnlockModel(cSapModel SapModel)
             {
-                if(SapModel.GetModelIsLocked() == true)
+                if (SapModel.GetModelIsLocked() == true)
                 {
                     SapModel.SetModelIsLocked(false);
                 }
@@ -393,7 +393,7 @@ namespace SmarTools.Model.Repository
             /// <returns>
             /// Devuelve un array con la envolvente de esfuerzos del conjunto de barras
             /// </returns>
-            public static double[] GetFrameForces(cSapModel mySapModel,string combo, string[] frames, double point)
+            public static double[] GetFrameForces(cSapModel mySapModel, string combo, string[] frames, double point)
             {
                 //Cambiar unidades, seleccionar hipótesis y analizar el modelo
                 mySapModel.SetPresentUnits(eUnits.kN_m_C);
@@ -472,7 +472,7 @@ namespace SmarTools.Model.Repository
             /// <returns>
             /// Devuelve un array con la envolvente de esfuerzos de la barra
             /// </returns>
-            public static double[] GetOneFrameForces(cSapModel mySapModel,string combo, string frame)
+            public static double[] GetOneFrameForces(cSapModel mySapModel, string combo, string frame)
             {
                 mySapModel.SetPresentUnits(eUnits.kN_m_C);
 
@@ -484,7 +484,7 @@ namespace SmarTools.Model.Repository
                 SelectHypotesis(mySapModel, combo, true);
 
                 int ret = mySapModel.FrameObj.SetSelected(frame, true, eItemType.Objects);
-                ret= mySapModel.Results.FrameForce(frame, eItemTypeElm.ObjectElm, ref NumberResults, ref Obj, ref ObjSta, ref Elm, ref ElmSta, ref LoadCase, ref StepType, ref StepNum, ref P, ref V2, ref V3, ref T, ref M2, ref M3);
+                ret = mySapModel.Results.FrameForce(frame, eItemTypeElm.ObjectElm, ref NumberResults, ref Obj, ref ObjSta, ref Elm, ref ElmSta, ref LoadCase, ref StepType, ref StepNum, ref P, ref V2, ref V3, ref T, ref M2, ref M3);
 
                 double N = Math.Max(Math.Abs(P.Max()), Math.Abs(P.Min()));
                 double Vy = Math.Max(Math.Abs(V2.Max()), Math.Abs(V2.Min()));
@@ -493,10 +493,32 @@ namespace SmarTools.Model.Repository
                 double My = Math.Max(Math.Abs(M2.Max()), Math.Abs(M2.Min()));
                 double Mz = Math.Max(Math.Abs(M3.Max()), Math.Abs(M3.Min()));
 
-                return new double[] {N,Vy,Vz,Mt,My,Mz };
+                return new double[] { N, Vy, Vz, Mt, My, Mz };
             }
 
-            public static double[] ObtenerMaximosEsfuerzos(cSapModel mySapModel, string[] vigas)
+            public static void FrameForces (cSapModel mySapModel, string combo, string frame, out double[]P, out double[]V2, out double[]V3, out double[]T, out double[]M2, out double[]M3, out double[] ObjSta, out string[] StepType)
+            {
+                P = new double[6];
+                V2 = new double[6];
+                V3 = new double[6];
+                T = new double[6];
+                M2 = new double[6];
+                M3 = new double[6];
+                ObjSta = new double[6];
+                StepType = new string[1];
+
+                int NumberResults = 5000;
+                string[] Obj = new string[1], Elm = new string[1], LoadCase = new string[1];
+                double[] ElmSta = new double[1], StepNum = new double[1];
+
+                RunModel(mySapModel);
+                SelectHypotesis(mySapModel, combo, true);
+
+                int ret = mySapModel.FrameObj.SetSelected(frame, true, eItemType.Objects);
+                ret = mySapModel.Results.FrameForce(frame, eItemTypeElm.ObjectElm, ref NumberResults, ref Obj, ref ObjSta, ref Elm, ref ElmSta, ref LoadCase, ref StepType, ref StepNum, ref P, ref V2, ref V3, ref T, ref M2, ref M3);
+            }
+
+            public static double[] ObtenerMaximosEsfuerzos(cSapModel mySapModel, string[] vigas, string combo)
             {
                 int n = vigas.Length;
                 double[][] esfuerzos = new double[6][];
@@ -506,7 +528,7 @@ namespace SmarTools.Model.Repository
 
                 for (int i = 0; i < n; i++)
                 {
-                    double[] resultado = ObtenerEsfuerzosEnExtremo(mySapModel, vigas[i], 1);
+                    double[] resultado = ObtenerEsfuerzosEnExtremo(mySapModel, vigas[i], 1, combo);
                     for (int j = 0; j < 6; j++)
                         esfuerzos[j][i] = resultado[j];
                 }
@@ -515,7 +537,7 @@ namespace SmarTools.Model.Repository
 
             }
 
-            public static double[] ObtenerEsfuerzosEnExtremo(cSapModel mySapModel, string barra, int extremo)
+            public static double[] ObtenerEsfuerzosEnExtremo(cSapModel mySapModel, string barra, int extremo, string combo)
             {
                 double[] Esfuerzos = new double[6];
 
@@ -539,6 +561,8 @@ namespace SmarTools.Model.Repository
                 mySapModel.PointElm.GetCoordCartesian(final, ref Xf, ref Yf, ref Zf);
 
                 double L = Math.Sqrt(Math.Pow((Xf - Xi), 2) + Math.Pow((Yf - Yi), 2) + Math.Pow((Zf - Zi), 2));
+
+                L = SAP.GetLength(mySapModel, inicio,final);
 
                 double nudo = 0;
 
@@ -572,7 +596,7 @@ namespace SmarTools.Model.Repository
                 }
 
                 mySapModel.Results.Setup.DeselectAllCasesAndCombosForOutput();
-                mySapModel.Results.Setup.SetComboSelectedForOutput("ULS");
+                mySapModel.Results.Setup.SetComboSelectedForOutput(combo);
 
                 ret = mySapModel.Results.FrameForce(barra, eItemTypeElm.ObjectElm, ref NumberResults, ref Obj, ref ObjSta, ref Elm, ref ElmSta, ref LoadCase, ref StepType, ref StepNum, ref P, ref V2, ref V3, ref T, ref M2, ref M3);
 
@@ -584,10 +608,11 @@ namespace SmarTools.Model.Repository
                 double[] Mz = new double[2];
 
                 int contador = 0;
-
+                
                 for (int i = 0; i < ObjSta.Length; i++)
                 {
-                    if (ObjSta[i] == nudo)
+                    double tolerancia = 1e-5; // Para 5 decimales (0.00001)
+                    if (Math.Abs(ObjSta[i] - nudo) < tolerancia)
                     {
                         N[contador] = P[i];
                         Vy[contador] = V2[i];
@@ -608,6 +633,138 @@ namespace SmarTools.Model.Repository
 
                 return Esfuerzos;
             }
+
+            public static double[] ObtenerEsfuerzosUnaBarraULS(cSapModel mySapModel, string barra, double station)
+            {
+                // Salida: [N, Vy, Vz, Mt, My, Mz]
+                double[] esfuerzos = new double[6];
+
+                mySapModel.SetPresentUnits(eUnits.kN_m_C);
+
+                // 2) Asegurar que el caso/comb. de resultados es ULS (ideal: haz esto fuera y una sola vez)
+                mySapModel.Results.Setup.DeselectAllCasesAndCombosForOutput();
+                mySapModel.Results.Setup.SetComboSelectedForOutput("ULS");
+
+                // 3) (Opcional) Garantizar que hay resultados: mejor hacerlo fuera de la función para no penalizar rendimiento
+                // if (!mySapModel.GetModelIsLocked()) mySapModel.Analyze.RunAnalysis();
+
+                // 4) Preparar contenedores de resultados (SAP llena estos arrays)
+                int NumberResults = 0;
+                string[] Obj = new string[0];
+                double[] ObjSta = new double[0];
+                string[] Elm = new string[0];
+                double[] ElmSta = new double[0];
+                string[] LoadCase = new string[0];
+                string[] StepType = new string[0];
+                double[] StepNum = new double[0];
+                double[] P = new double[0];
+                double[] V2 = new double[0];
+                double[] V3 = new double[0];
+                double[] T = new double[0];
+                double[] M2 = new double[0];
+                double[] M3 = new double[0];
+
+                // 5) Recuperar fuerzas internas a lo largo de la barra
+                int ret = mySapModel.Results.FrameForce(
+                    barra, eItemTypeElm.ObjectElm,
+                    ref NumberResults,
+                    ref Obj, ref ObjSta, ref Elm, ref ElmSta, ref LoadCase, ref StepType, ref StepNum,
+                    ref P, ref V2, ref V3, ref T, ref M2, ref M3
+                );
+
+                if (ret != 0 || NumberResults <= 0 || ObjSta == null || ObjSta.Length == 0)
+                {
+                    // Sin resultados: devolvemos ceros
+                    return esfuerzos;
+                }
+
+                // 6) Calcular tolerancia basada en la longitud de la barra (si puedes obtenerla)
+                //    Esto ayuda a que la comparación sea robusta en barras largas/cortas.
+                double L = GetFrameLength3D(mySapModel, barra);
+                double tol = Math.Max(1e-6, 1e-4 * Math.Max(1.0, L)); // p.ej. 0.01% de L, mínimo 1e-6
+
+                // 7) Buscar coincidencias dentro de la tolerancia; acumular máximos absolutos
+                bool anyMatch = false;
+
+                double maxN = 0.0, maxVy = 0.0, maxVz = 0.0, maxMt = 0.0, maxMy = 0.0, maxMz = 0.0;
+
+                // Primero intentamos coincidencias dentro de la tolerancia
+                for (int i = 0; i < ObjSta.Length; i++)
+                {
+                    if (Math.Abs(ObjSta[i] - station) <= tol)
+                    {
+                        anyMatch = true;
+                        maxN = Math.Max(maxN, Math.Abs(P[i]));
+                        maxVy = Math.Max(maxVy, Math.Abs(V2[i]));
+                        maxVz = Math.Max(maxVz, Math.Abs(V3[i]));
+                        maxMt = Math.Max(maxMt, Math.Abs(T[i]));
+                        maxMy = Math.Max(maxMy, Math.Abs(M2[i]));
+                        maxMz = Math.Max(maxMz, Math.Abs(M3[i]));
+                    }
+                }
+
+                // Si no hay coincidencias exactas, tomamos el punto más cercano
+                if (!anyMatch)
+                {
+                    int idx = IndexOfClosest(ObjSta, station);
+                    if (idx >= 0)
+                    {
+                        maxN = Math.Abs(P[idx]);
+                        maxVy = Math.Abs(V2[idx]);
+                        maxVz = Math.Abs(V3[idx]);
+                        maxMt = Math.Abs(T[idx]);
+                        maxMy = Math.Abs(M2[idx]);
+                        maxMz = Math.Abs(M3[idx]);
+                        anyMatch = true;
+                    }
+                }
+
+                // 8) Empaquetar resultados
+                if (anyMatch)
+                {
+                    esfuerzos[0] = maxN;
+                    esfuerzos[1] = maxVy;
+                    esfuerzos[2] = maxVz;
+                    esfuerzos[3] = maxMt;
+                    esfuerzos[4] = maxMy;
+                    esfuerzos[5] = maxMz;
+                }
+                // Si no hay match, se devuelven ceros (ya inicializado)
+
+                return esfuerzos;
+            }
+
+            public static double GetFrameLength3D(cSapModel sap, string frameName)
+            {
+                string pi = "", pj = "";
+                double xi = 0, yi = 0, zi = 0, xj = 0, yj = 0, zj = 0;
+
+                sap.FrameObj.GetPoints(frameName, ref pi, ref pj);
+                sap.PointObj.GetCoordCartesian(pi, ref xi, ref yi, ref zi);
+                sap.PointObj.GetCoordCartesian(pj, ref xj, ref yj, ref zj);
+
+                double dx = xj - xi, dy = yj - yi, dz = zj - zi;
+                return Math.Sqrt(dx * dx + dy * dy + dz * dz);
+
+            }
+
+            private static int IndexOfClosest(double[] xs, double x)
+            {
+                if (xs == null || xs.Length == 0) return -1;
+                int best = 0;
+                double bestD = Math.Abs(xs[0] - x);
+                for (int i = 1; i < xs.Length; i++)
+                {
+                    double d = Math.Abs(xs[i] - x);
+                    if (d < bestD)
+                    {
+                        bestD = d;
+                        best = i;
+                    }
+                }
+                return best;
+            }
+
         }
 
         public class ExcelTablesSubclass // Clase para las funciones que interactúen con las tablas de SAP2000
@@ -907,6 +1064,14 @@ namespace SmarTools.Model.Repository
                 return seccion_tipo;
             }
 
+            public static string GetPropName (cSapModel mySapModel, string[] barras)
+            {
+                string PropName = "";
+                string SAuto = "";
+                mySapModel.FrameObj.GetSection(barras[0], ref PropName, ref SAuto);
+                return PropName;
+            }
+
             public static int ObtenerSeccion (cSapModel mySapModel, string barra)
             {
                 string[] partes = barra.Split('/');
@@ -926,7 +1091,7 @@ namespace SmarTools.Model.Repository
                 return seccion;
             }
 
-            public static string ObtenerMaterial (cSapModel mySapModel, string barra)
+            public static string ObtenerMaterial (string barra)
             {
                 string[] partes = barra.Split('/');
                 for (int i = 0; i < partes.Length; i++)
@@ -953,7 +1118,7 @@ namespace SmarTools.Model.Repository
                 return material;
             }
 
-            public static double ObtenerEspesor(cSapModel mySapModel, string barra)
+            public static double ObtenerEspesor( string barra)
             {
                 string[] partes = barra.Split('/');
                 for (int i = 0; i < partes.Length; i++)
@@ -980,6 +1145,26 @@ namespace SmarTools.Model.Repository
                 return espesor;
             }
 
+            public static int ObtenerAlturaC(string barra)
+            {
+                var match = Regex.Match(barra, @"C-(\d{2,3})x");
+                if (match.Success)
+                {
+                    return int.Parse(match.Groups[1].Value);
+                }
+                throw new ArgumentException("Formato no válido");
+            }
+
+            public static int ObtenerAnchoC(string barra)
+            {
+                var match = Regex.Match(barra, @"C-\d{2,3}x(\d{2,3})x");
+                if (match.Success)
+                {
+                    return int.Parse(match.Groups[1].Value);
+                }
+                throw new ArgumentException("Formato no válido");
+            }
+
             public static void CrearYAgregarAGrupo (cSapModel mySapModel,string nombreGrupo, string[] barras)
             {
                 int NumberNames = 0;
@@ -996,6 +1181,30 @@ namespace SmarTools.Model.Repository
                 {
                     mySapModel.FrameObj.SetGroupAssign(barras[i], nombreGrupo, false, eItemType.Objects);
                 }
+            }
+
+            public static void GetFrameEndCoords(cSapModel mySapModel, string frameName, out double xi, out double yi, out double zi, out double xj, out double yj, out double zj)
+            {
+                xi=yi=zi=xj=yj=zj=0.0;
+                string pi = "", pj = "";
+
+                int ret = mySapModel.FrameObj.GetPoints(frameName, ref pi, ref pj);
+                if (ret != 0) return;
+
+                ret |= mySapModel.PointObj.GetCoordCartesian(pi, ref xi, ref yi, ref zi);
+                ret |= mySapModel.PointObj.GetCoordCartesian(pj, ref xj, ref yj, ref zj);
+            }
+
+            public static double GetVz(double[] esfuerzos)
+            {
+                if (esfuerzos == null || esfuerzos.Length < 2) return 0.0;
+                return esfuerzos[1];
+            }
+
+            public static double GetEsfuerzo(double[] esfuerzos, int esfuerzo)
+            {
+                if (esfuerzos == null || esfuerzos.Length < 2) return 0.0;
+                return esfuerzos[esfuerzo];
             }
         }
 

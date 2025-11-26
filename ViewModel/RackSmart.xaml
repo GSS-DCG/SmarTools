@@ -250,13 +250,13 @@
             </RadioButton.ToolTip>
             <StackPanel Orientation="Vertical">
                 <Image Source="https://i.imgur.com/NByziy5.png" Height="40" Width="40" Margin="5"/>
-                <TextBlock Text="Cálculo Flechas" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+                <TextBlock Text="Cálculo Flechas" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
 
         <!--Comprobacion Uniones-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-                     Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
                      Grid.Row="3"
                      Grid.Column="3"
                      Click="btnComprobacionUniones_Click">
@@ -264,22 +264,18 @@
                 <StackPanel Width="300">
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Bold"
-                   Foreground="{StaticResource Rojo01}"
+                   Foreground="{StaticResource Blue02}"
                    Text="Aplicación de comprobación de uniones"/>
-                    <TextBlock FontFamily="Neo Tech Std"
-                            FontWeight="Bold"
-                            Foreground="{StaticResource Rojo01}"
-                            Text="(En desarrollo. No disponible)"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   Permite comprobar las uniones del modelo calculado."/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   Esta aplicación no dimensiona la unión de la secundaria, solamente la comprueba. Si no cumple, se puede modificar el perfil con la aplicación de dimensionamiento a uno con espesor superior, y volver a comprobar las uniones"/>
                 </StackPanel>
@@ -303,9 +299,9 @@
                         l-52 -52 -226 150 c-124 83 -230 154 -236 159 -12 12 94 120 109 112 6 -4 111
                         -73 234 -155z m-182 -175 l236 -157 -60 -58 c-33 -32 -68 -58 -78 -58 -20 0
                         -361 334 -370 363 -5 16 19 67 31 67 3 0 111 -71 241 -157z"
-                        Fill="{StaticResource Rojo01}"/>
+                        Fill="White"/>
                 </Viewbox>
-                <TextBlock Text="Comprobacion Uniones" Style="{StaticResource selectorButtonTextNotAvailable}"/>
+                <TextBlock Text="Comprobacion Uniones" Style="{StaticResource selectorButtonText}"/>
             </StackPanel>
         </RadioButton>
 

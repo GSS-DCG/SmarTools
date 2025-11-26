@@ -43,9 +43,18 @@
                       Margin="0,3,0,3"/>
         </Border>
         <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">
-            <TextBlock Text="Coeficientes"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Light" FontSize="16" VerticalAlignment="Center" Margin="40,0,0,0"/>
+            <TextBlock Text="Uniones Fija"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Light" FontSize="16" VerticalAlignment="Center" Margin="40,0,0,0"/>
         </Border>
         <Border Grid.Row="3" Grid.Column="1">
+            <ComboBox x:Name="RevisionFija_Box" ItemsSource="{Binding RevisionsRack}" SelectedItem="{Binding RevisionRackSeleccionada}" Width="50" 
+              HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+              FontFamily="Neo Tech Std" Foreground="{StaticResource Blue02}" FontSize="16"
+              Margin="0,3,0,3"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
+            <TextBlock Text="Coeficientes"  Foreground="White" FontFamily="Neo Tech Std" FontWeight="Light" FontSize="16" VerticalAlignment="Center" Margin="40,0,0,0"/>
+        </Border>
+        <Border Grid.Row="4" Grid.Column="1">
             <ComboBox x:Name="RevisionCoef_Box"  ItemsSource="{Binding RevisionsCoeficientes}" SelectedItem="{Binding RevisionCoeficientesSeleccionada}" Width="50" 
                       HorizontalAlignment="Left"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                       FontFamily="Neo Tech Std" Foreground="{StaticResource Blue02}"  FontSize="16"
