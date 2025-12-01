@@ -28,7 +28,6 @@ namespace SmarTools.Model.Applications
         public string ESPESOR { get; set; }
         public string MATERIAL { get; set; }
         public string AXIL { get; set; }
-        public string Vy { get; set; }
         public string Vz { get; set; }
         public string RESULTANTE { get; set; }
         public string MAXADM { get; set; }
@@ -232,8 +231,8 @@ namespace SmarTools.Model.Applications
             string check2 = (ratio > 100) ? "No Cumple" : "Cumple";
 
             //Añadir resultados a la tabla
-            resultados.Add(new Resultados {UNION="Unión Viga-Correa", ELEMENTO="Correa", ESPESOR = espesor_correa.ToString("F1"), MATERIAL= material_correa, AXIL="-",Vy="-", Vz=presion.ToString("F3"), RESULTANTE=presion.ToString("F3"),MAXADM=Vmax_correa.ToString("F3"),CHECK=check });
-            resultados.Add(new Resultados { UNION = "Unión Viga-Correa", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = Nmax.ToString("F3"), Vy = Vymax.ToString("F3"), Vz = "-", RESULTANTE = Math.Sqrt(Math.Pow(Vymax, 2) + Math.Pow(Nmax, 2)).ToString("F3"), MAXADM = Vmax_viga.ToString("F3"), CHECK = check2 });
+            resultados.Add(new Resultados {UNION="Unión Viga-Correa", ELEMENTO="Correa", ESPESOR = espesor_correa.ToString("F1"), MATERIAL= material_correa, AXIL="-", Vz=presion.ToString("F3"), RESULTANTE=presion.ToString("F3"),MAXADM=Vmax_correa.ToString("F3"),CHECK=check });
+            resultados.Add(new Resultados { UNION = "Unión Viga-Correa", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = Nmax.ToString("F3"), Vz = Vymax.ToString("F3"), RESULTANTE = Math.Sqrt(Math.Pow(Vymax, 2) + Math.Pow(Nmax, 2)).ToString("F3"), MAXADM = Vmax_viga.ToString("F3"), CHECK = check2 });
             resultadosEjion.Add(new ResultEjion {CASO = "Presión", VzCorrea = presion.ToString("F3"), Ejion = ejion, Espesor = espesorEjion, Material = materialEjion, MaxAdm = Padm.ToString("F3"), RATIO = (presion/Padm*100).ToString("F1")+"%" });
             resultadosEjion.Add(new ResultEjion { CASO = "Succión", VzCorrea = succion.ToString("F3"), Ejion = ejion, Espesor = espesorEjion, Material = materialEjion, MaxAdm = Sadm.ToString("F3"), RATIO = (succion / Sadm * 100).ToString("F1") + "%" });
         }
@@ -279,8 +278,8 @@ namespace SmarTools.Model.Applications
                 string check_pilar = (Apr_pilar < 100) ? "Cumple" : "No Cumple";
 
                 //Añadimos los resultados a la tabla
-                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = esfuerzosULS[0].ToString("F3"), Vy = esfuerzosULS[1].ToString("F3"), Vz = esfuerzosULS[2].ToString("F3"), RESULTANTE = R.ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
-                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Pilar", ESPESOR = espesor_pilar.ToString("F1"), MATERIAL = material_pilar, AXIL = esfuerzosULS[0].ToString("F3"), Vy = esfuerzosULS[1].ToString("F3"), Vz = esfuerzosULS[2].ToString("F3"), RESULTANTE = R.ToString("F3"), MAXADM = Radm_pilar.ToString("F3"), CHECK = check_pilar });
+                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = esfuerzosULS[0].ToString("F3"), Vz = esfuerzosULS[1].ToString("F3"), RESULTANTE = R.ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
+                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Pilar", ESPESOR = espesor_pilar.ToString("F1"), MATERIAL = material_pilar, AXIL = esfuerzosULS[0].ToString("F3"), Vz = esfuerzosULS[1].ToString("F3"), RESULTANTE = R.ToString("F3"), MAXADM = Radm_pilar.ToString("F3"), CHECK = check_pilar });
             }
             else if (vista.Biposte.IsChecked == true)
             {
@@ -324,9 +323,9 @@ namespace SmarTools.Model.Applications
                 double[] esfuerzos_viga = (Rdel > Rtras) ? esfuerzosDelanterosULS : esfuerzosTraserosULS;
 
                 //Añadimos los resultados a la tabla
-                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = esfuerzos_viga[0].ToString("F3"), Vy = esfuerzos_viga[1].ToString("F3"), Vz = esfuerzos_viga[2].ToString("F3"), RESULTANTE = Math.Max(Rdel,Rtras).ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
-                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Pilar Delantero", ESPESOR = espesor_pilarDel.ToString("F1"), MATERIAL = material_pilarDel, AXIL = esfuerzosDelanterosULS[0].ToString("F3"), Vy = esfuerzosDelanterosULS[1].ToString("F3"), Vz = esfuerzosDelanterosULS[2].ToString("F3"), RESULTANTE = Rdel.ToString("F3"), MAXADM = Radm_pilarDel.ToString("F3"), CHECK = check_pilarDel });
-                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Pilar Trasero", ESPESOR = espesor_pilarTras.ToString("F1"), MATERIAL = material_pilarTras, AXIL = esfuerzosTraserosULS[0].ToString("F3"), Vy = esfuerzosTraserosULS[1].ToString("F3"), Vz = esfuerzosTraserosULS[2].ToString("F3"), RESULTANTE = Rtras.ToString("F3"), MAXADM = Radm_pilarTras.ToString("F3"), CHECK = check_pilarTras });
+                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = esfuerzos_viga[0].ToString("F3"), Vz = esfuerzos_viga[1].ToString("F3"), RESULTANTE = Math.Max(Rdel,Rtras).ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
+                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Pilar Delantero", ESPESOR = espesor_pilarDel.ToString("F1"), MATERIAL = material_pilarDel, AXIL = esfuerzosDelanterosULS[0].ToString("F3"), Vz = esfuerzosDelanterosULS[1].ToString("F3"), RESULTANTE = Rdel.ToString("F3"), MAXADM = Radm_pilarDel.ToString("F3"), CHECK = check_pilarDel });
+                resultados.Add(new Resultados { UNION = "Unión Viga-Pilar", ELEMENTO = "Pilar Trasero", ESPESOR = espesor_pilarTras.ToString("F1"), MATERIAL = material_pilarTras, AXIL = esfuerzosTraserosULS[0].ToString("F3"), Vz = esfuerzosTraserosULS[1].ToString("F3"), RESULTANTE = Rtras.ToString("F3"), MAXADM = Radm_pilarTras.ToString("F3"), CHECK = check_pilarTras });
             }
         }
 
@@ -351,7 +350,7 @@ namespace SmarTools.Model.Applications
 
                 //Esfuerzos máximos admisibles
                 double[] esf_pilar = uniones_perfiles[comb_pilar];
-                double Radm_pilar = esf_pilar[3];
+                double Radm_pilar = esf_pilar[2];
                 double[] esf_diagDel = uniones_perfiles[comb_diagDel];
                 double Radm_diagDel = esf_diagDel[4];
 
@@ -373,7 +372,8 @@ namespace SmarTools.Model.Applications
                     //Esfuerzos máximos admisibles
                     double[] esf_diagTras = uniones_perfiles[comb_diagTras];
                     double Radm_diagTras = esf_diagTras[4];
-                   
+                    Radm_pilar = esf_pilar[3];
+
                     //Esfuerzos en pilar
                     RPilarArbol(out double Rpilar, out double P, out double V2);
 
@@ -408,9 +408,9 @@ namespace SmarTools.Model.Applications
                     double Apr_diagTras= RDTras/Radm_diagTras * 100;
                     check_pilar = (Apr_pilar < 100) ? "Cumple" : "No Cumple";
                     string check_diagTras = (Apr_diagTras < 100) ? "Cumple" : "No Cumple";
-                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Pilar", ESPESOR = espesor_pilar.ToString("F1"), MATERIAL = material_pilar, AXIL = P.ToString("F3"), Vy = "-", Vz = V2.ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_pilar.ToString("F3"), CHECK = check_pilar });
-                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal Delantera", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vy = "-", Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
-                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal Trasera", ESPESOR = espesor_diagTras.ToString("F1"), MATERIAL = material_diagTras, AXIL = RDiagTras[0].ToString("F3"), Vy = "-", Vz = RDiagTras[1].ToString("F3"), RESULTANTE = RDTras.ToString("F3"), MAXADM = Radm_diagTras.ToString("F3"), CHECK = check_diagTras });
+                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Pilar", ESPESOR = espesor_pilar.ToString("F1"), MATERIAL = material_pilar, AXIL = P.ToString("F3"), Vz = V2.ToString("F3"), RESULTANTE = Rpilar.ToString("F3"), MAXADM = Radm_pilar.ToString("F3"), CHECK = check_pilar });
+                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal Delantera", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
+                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal Trasera", ESPESOR = espesor_diagTras.ToString("F1"), MATERIAL = material_diagTras, AXIL = RDiagTras[0].ToString("F3"), Vz = RDiagTras[1].ToString("F3"), RESULTANTE = RDTras.ToString("F3"), MAXADM = Radm_diagTras.ToString("F3"), CHECK = check_diagTras });
                     resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Pilar", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = Rpilar.ToString("F3"), MaxAdm = RPpilar, RATIO = ratiopilar});
                     resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Diagonal Delantera", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDdel.ToString("F3"), MaxAdm = RPdiagonal, RATIO = ratiodiagDel });
                     resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Diagonal Trasera", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDTras.ToString("F3"), MaxAdm = RPdiagonal, RATIO = ratiodiagTras });
@@ -418,8 +418,8 @@ namespace SmarTools.Model.Applications
                 }
                 else if(vista.UnaDiagonal.IsChecked == true)
                 {
-                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vy = RDiagdel[2].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
-                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Pilar", ESPESOR = espesor_pilar.ToString("F1"), MATERIAL = material_pilar, AXIL = "-", Vy = "-", Vz = "-", RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_pilar.ToString("F3"), CHECK = check_pilar });
+                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
+                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Pilar", ESPESOR = espesor_pilar.ToString("F1"), MATERIAL = material_pilar, AXIL = "-", Vz = "-", RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_pilar.ToString("F3"), CHECK = check_pilar });
                 }
             }
             else if (vista.Biposte.IsChecked == true)
@@ -450,8 +450,8 @@ namespace SmarTools.Model.Applications
                     string check_diagDel = (Apr_diagDel < 100) ? "Cumple" : "No Cumple";
 
                     //Añadimos resultados a la tabla
-                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vy = RDiagdel[2].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
-                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Pilar", ESPESOR = espesor_pilarTras.ToString("F1"), MATERIAL = material_pilarTras, AXIL = "-", Vy = "-", Vz = "-", RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_pilarTras.ToString("F3"), CHECK = check_pilarTras });
+                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
+                    resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Pilar", ESPESOR = espesor_pilarTras.ToString("F1"), MATERIAL = material_pilarTras, AXIL = "-", Vz = "-", RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_pilarTras.ToString("F3"), CHECK = check_pilarTras });
                 }
             }
         }
@@ -512,8 +512,8 @@ namespace SmarTools.Model.Applications
                 if (vista.UnaDiagonal.IsChecked == true)
                 {
                     //Añadimos los resultados a la tabla
-                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = "-", Vy = "-", Vz = "-", RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
-                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vy = "-", Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
+                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = "-", Vz = "-", RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
+                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
                     resultadosPlacas.Add(new ResultPlacas {UNION="Placa Viga-Diagonal", ELEMENTO="Diagonal",Espesor=espesor_placa,Material=material_placa,CODIGO="-",R=RDdel.ToString("F3"),MaxAdm=RPDiag,RATIO=RatioDiag + "%" });
                     resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Viga", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDdel.ToString("F3"), MaxAdm = RPviga, RATIO = RatioViga + "%" });
                 }
@@ -557,9 +557,9 @@ namespace SmarTools.Model.Applications
                     EspesorYMaterialPlaca(placa_Ddel, out espesor_placa, out material_placa);
 
                     //Añadimos los resultados a la tabla
-                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = "-", Vy = "-", Vz = "-", RESULTANTE = Rviga.ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
-                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal Delantera", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vy = "-", Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
-                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal Trasera", ESPESOR = espesor_diagTras.ToString("F1"), MATERIAL = material_diagTras, AXIL = RDiagTras[0].ToString("F3"), Vy = "-", Vz = RDiagTras[1].ToString("F3"), RESULTANTE = RDTras.ToString("F3"), MAXADM = Radm_diagTras.ToString("F3"), CHECK = check_diagTras });
+                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = "-", Vz = "-", RESULTANTE = Rviga.ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
+                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal Delantera", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
+                    resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal Trasera", ESPESOR = espesor_diagTras.ToString("F1"), MATERIAL = material_diagTras, AXIL = RDiagTras[0].ToString("F3"), Vz = RDiagTras[1].ToString("F3"), RESULTANTE = RDTras.ToString("F3"), MAXADM = Radm_diagTras.ToString("F3"), CHECK = check_diagTras });
                     resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Diagonal Delantera", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDdel.ToString("F3"), MaxAdm = RPDiag, RATIO = RatioDiagDel + "%" });
                     resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Diagonal Trasera", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDTras.ToString("F3"), MaxAdm = RPDiag, RATIO = RatioDiagTras + "%" });
                     resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Viga", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = Rviga.ToString("F3"), MaxAdm = RPviga, RATIO = RatioViga + "%" });

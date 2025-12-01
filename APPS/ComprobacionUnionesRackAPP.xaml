@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SmarTools.APPS"
         mc:Ignorable="d"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
-        Title="ComprobacionUnionesRackAPP" Height="1000" Width="1200"
+        Title="ComprobacionUnionesRackAPP" Height="1000" Width="1100"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -319,10 +319,7 @@
                                             <DataGridTextColumn Header="N(kN)" Width="100"
                                                                 Binding="{Binding AXIL}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="Vy(kN)" Width="100"
-                                                                Binding="{Binding Vy}"
-                                                                CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="Vz(kN)" Width="100"
+                                            <DataGridTextColumn Header="V(kN)" Width="100"
                                                                 Binding="{Binding Vz}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
                                             <DataGridTextColumn Header="RESULT(kN)" Width="100"

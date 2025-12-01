@@ -25,7 +25,9 @@ namespace SmarTools.Model.Applications
         public static cHelper cHelper = MainView.Globales._myHelper;
         public static cOAPI mySapObject = MainView.Globales._mySapObject;
         public static cSapModel mySapModel = MainView.Globales._mySapModel;
-        public static string ruta = @"Z:\300SmarTools\03 Uniones\Uniones 2VR4_"+MainView.Globales._revisionUniones1V+".xlsx";
+        public static ComprobacionUniones2VAPP vista = new ComprobacionUniones2VAPP();
+        public static string revision = vista.Revisión.Text;
+        public static string ruta = @"Z:\300SmarTools\03 Uniones\Uniones "+revision+"_"+MainView.Globales._revisionUniones1V+".xlsx";
 
         public static void ComprobarUniones2V(ComprobacionUniones2VAPP vista)
         {
@@ -36,10 +38,14 @@ namespace SmarTools.Model.Applications
                 loadingWindow.Show();
                 loadingWindow.UpdateLayout();
 
+                revision = vista.Revisión.Text;
+                ruta = @"Z:\300SmarTools\03 Uniones\Uniones " + revision + "_" + MainView.Globales._revisionUniones1V + ".xlsx";
+
                 UnionBS(vista);
                 UnionMS(vista);
                 UnionSB(vista);
                 UnionMC(vista);
+                UnionBC(vista);
             }
             finally
             {
@@ -92,16 +98,24 @@ namespace SmarTools.Model.Applications
             var uniones = CargarDesdeExcel();
             string union = "";
             bool cambiarBS = false;
-
-            if (seccion_tipo[0].StartsWith("C-195") || seccion_tipo[0].StartsWith("W8"))
+            if(vista.Num_String.Text=="1")
             {
-                union = "BS-22A";
+                if (seccion_tipo[0].StartsWith("C-195") || seccion_tipo[0].StartsWith("W8"))
+                {
+                    union = "BS-22A";
+                }
+                if (seccion_tipo[0].StartsWith("C-175") || seccion_tipo[0].StartsWith("W6"))
+                {
+                    union = "BS-22B/C";
+                    cambiarBS = true;
+                }
             }
-            if (seccion_tipo[0].StartsWith("C-175")|| seccion_tipo[0].StartsWith("W6"))
+            else if (vista.Num_String.Text == "2")
             {
                 union = "BS-22B/C";
-                cambiarBS=true;
+                cambiarBS = true;
             }
+
             double[] esfuerzos_BS = uniones[union];
 
             //Obtenemos los esfuerzos en las cabezas de los pilares
@@ -195,20 +209,27 @@ namespace SmarTools.Model.Applications
             //Datos de la unión
             var uniones = CargarDesdeExcel();
             string union = "";
-
-            if (seccion_tipo[0].Contains("W6"))
+            string unionFunc = "";
+            if(vista.Num_String.SelectedIndex==0)//1ST
             {
-                union = "MS-04";
+                if (seccion_tipo[0].Contains("W6"))
+                {
+                    union = "T5MS-04 DEF";
+                    unionFunc = "T5MS-04 FUN";
+                }
+                if (seccion_tipo[0].Contains("W8"))
+                {
+                    union = "T5MS-02 DEF";
+                    unionFunc = "T5MS-02 FUN";
+                }
             }
-            if (seccion_tipo[0].Contains("W8"))
+            else if (vista.Num_String.SelectedIndex == 1)
             {
-                union = "MS-02";
+                union = "T4MS-04 DEF";
+                unionFunc = "T4MS-04 FUN";
             }
-            //if (seccion_tipo[0].Contains("W8X24"))
-            //{
-            //    union = "MS-03";
-            //}
             double[] esfuerzos_MS = uniones[union];
+            double[] esfuerzos_MSFunc = uniones[unionFunc];
 
             //Obtenemos los esfuerzos en la cabeza del pilar motor
             SAP.AnalysisSubclass.RunModel(mySapModel);
@@ -216,96 +237,219 @@ namespace SmarTools.Model.Applications
             double X = 0, Y = 0, Z = 0;
             mySapModel.PointElm.GetCoordCartesian("mps", ref X, ref Y, ref Z);
             double[] esfuerzos_MS_modelo = SAP.AnalysisSubclass.GetFrameForces(mySapModel, "ULS", pilar_MP, Z);
+            double[] esfuerzos_MSFunc_modelo = SAP.AnalysisSubclass.GetFrameForces(mySapModel, "ULS4", pilar_MP, Z);
 
             //Rellenamos la parte de la tabla de esfuerzos máximos admisibles
             var labels_max = new Label[]
             {
                 vista.Tipo_MS, vista.Pmax_MS, vista.V2max_MS, vista.V3max_MS, vista.Tmax_MS, vista.M2max_MS, vista.M3max_MS
             };
-
-            labels_max[0].Content = union;
-            for (int i = 1; i <= 6; i++)
+            var labels_maxFunc = new Label[]
             {
-                labels_max[i].Content = esfuerzos_MS[i - 1];
-            }
-
-            //Rellenamos la parte de la tabla de esfuerzos del modelo
-            var labels_esfuerzos = new Label[]
-            {
-                vista.Ang_MS, vista.P_MS, vista.V2_MS, vista.V3_MS, vista.T_MS, vista.M2_MS, vista.M3_MS
+                vista.Tipo_MSFunc, vista.Pmax_MSFunc, vista.V2max_MSFunc, vista.V3max_MSFunc, vista.Tmax_MSFunc, vista.M2max_MSFunc, vista.M3max_MSFunc
             };
-            labels_esfuerzos[0].Content = "Envolvente";
-            for (int i = 1; i <= 6; i++)
+            if (vista.Posicion.Text=="Defensa")
             {
-                labels_esfuerzos[i].Content = esfuerzos_MS_modelo[i - 1].ToString("F3");
-            }
-
-            //Cogemos los valores que necesitamos
-            double.TryParse(vista.P_MS.Content?.ToString(), out double P);
-            double.TryParse(vista.V2_MS.Content?.ToString(), out double V2);
-            double.TryParse(vista.M3_MS.Content?.ToString(), out double M3);
-            double.TryParse(vista.Pmax_MS.Content?.ToString(), out double Pmax);
-            double.TryParse(vista.V2max_MS.Content?.ToString(), out double V2max);
-            double.TryParse(vista.M3max_MS.Content?.ToString(), out double M3max);
-
-            //Coloreamos todos los labels en verde por defecto
-            var labelsVerificar = new[] { vista.P_MS, vista.V2_MS, vista.V3_MS, vista.T_MS, vista.M2_MS, vista.M3_MS };
-            foreach (var label in labelsVerificar)
-            {
-                label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79));
-            }
-
-            // Evaluar condiciones
-            bool cumpleP = P <= Pmax;
-            bool cumpleV2 = V2 <= V2max;
-            bool cumpleM3 = M3 <= M3max;
-
-            if((union=="MS-02")==true && (cumpleP && cumpleV2 && cumpleM3)==false)
-            {
-                union = "MS-03";
-                esfuerzos_MS = uniones[union];
-
-                //Rellenamos la parte de la tabla de esfuerzos máximos admisibles
-                labels_max = new Label[]
-                {
-                vista.Tipo_MS, vista.Pmax_MS, vista.V2max_MS, vista.V3max_MS, vista.Tmax_MS, vista.M2max_MS, vista.M3max_MS
-                };
-
                 labels_max[0].Content = union;
                 for (int i = 1; i <= 6; i++)
                 {
                     labels_max[i].Content = esfuerzos_MS[i - 1];
                 }
-                //Rellenamos la parte de la tabla de esfuerzos del modelo
-                labels_esfuerzos = new Label[]
+
+                labels_maxFunc[0].Content = unionFunc;
+                for (int i = 1; i <= 6; i++)
                 {
+                    labels_maxFunc[i].Content = "-";
+                }
+            }
+            else if(vista.Posicion.Text=="Funcionamiento")
+            {
+                labels_max[0].Content = union;
+                for (int i = 1; i <= 6; i++)
+                {
+                    labels_max[i].Content = "-";
+                }
+
+                labels_maxFunc[0].Content = unionFunc;
+                for (int i = 1; i <= 6; i++)
+                {
+                    labels_maxFunc[i].Content = esfuerzos_MSFunc[i - 1];
+                }
+            }
+            //Rellenamos la parte de la tabla de esfuerzos del modelo
+            var labels_esfuerzos = new Label[]
+            {
                 vista.Ang_MS, vista.P_MS, vista.V2_MS, vista.V3_MS, vista.T_MS, vista.M2_MS, vista.M3_MS
-                };
+            };
+            var labels_esfuerzosFunc = new Label[]
+            {
+                vista.Ang_MSFunc, vista.P_MSFunc, vista.V2_MSFunc, vista.V3_MSFunc, vista.T_MSFunc, vista.M2_MSFunc, vista.M3_MSFunc
+            };
+
+            if (vista.Posicion.Text=="Defensa")
+            {
                 labels_esfuerzos[0].Content = "Envolvente";
                 for (int i = 1; i <= 6; i++)
                 {
                     labels_esfuerzos[i].Content = esfuerzos_MS_modelo[i - 1].ToString("F3");
                 }
-
-                //Cogemos los valores que necesitamos
-                double.TryParse(vista.P_MS.Content?.ToString(), out P);
-                double.TryParse(vista.V2_MS.Content?.ToString(), out V2);
-                double.TryParse(vista.M3_MS.Content?.ToString(), out M3);
-                double.TryParse(vista.Pmax_MS.Content?.ToString(), out Pmax);
-                double.TryParse(vista.V2max_MS.Content?.ToString(), out V2max);
-                double.TryParse(vista.M3max_MS.Content?.ToString(), out M3max);
-
-                // Evaluar condiciones
-                cumpleP = P <= Pmax;
-                cumpleV2 = V2 <= V2max;
-                cumpleM3 = M3 <= M3max;
+                labels_esfuerzosFunc[0].Content = "Func. Succión";
+                for (int i = 1; i <= 6; i++)
+                {
+                    labels_esfuerzosFunc[i].Content = "-";
+                }
+            }
+            else if(vista.Posicion.Text=="Funcionamiento")
+            {
+                labels_esfuerzos[0].Content = "Envolvente";
+                for (int i = 1; i <= 6; i++)
+                {
+                    labels_esfuerzos[i].Content = "-";
+                }
+                labels_esfuerzosFunc[0].Content = "Func. Succión";
+                for (int i = 1; i <= 6; i++)
+                {
+                    labels_esfuerzosFunc[i].Content = esfuerzos_MSFunc_modelo[i - 1].ToString("F3");
+                }
             }
 
-            vista.RecuadroMS.Background = (cumpleP && cumpleV2 && cumpleM3) ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79)) : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+            //Cogemos los valores que necesitamos
+            if (vista.Posicion.Text == "Defensa")
+            {
+                double.TryParse(vista.P_MS.Content?.ToString(), out double P);
+                double.TryParse(vista.V2_MS.Content?.ToString(), out double V2);
+                double.TryParse(vista.M3_MS.Content?.ToString(), out double M3);
+                double.TryParse(vista.Pmax_MS.Content?.ToString(), out double Pmax);
+                double.TryParse(vista.V2max_MS.Content?.ToString(), out double V2max);
+                double.TryParse(vista.M3max_MS.Content?.ToString(), out double M3max);
 
-            if (!cumpleP) vista.P_MS.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
-            if (!cumpleV2) vista.V2_MS.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
-            if (!cumpleM3) vista.M3_MS.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+                //Coloreamos todos los labels en verde por defecto
+                var labelsVerificar = new[] { vista.P_MS, vista.V2_MS, vista.V3_MS, vista.T_MS, vista.M2_MS, vista.M3_MS, vista.P_MSFunc, vista.V2_MSFunc, vista.V3_MSFunc, vista.T_MSFunc, vista.M2_MSFunc, vista.M3_MSFunc };
+                foreach (var label in labelsVerificar)
+                {
+                    label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79));
+                }
+
+                // Evaluar condiciones
+                bool cumpleP = P <= Pmax;
+                bool cumpleV2 = V2 <= V2max;
+                bool cumpleM3 = M3 <= M3max;
+
+                if ((union == "MS-02") == true && (cumpleP && cumpleV2 && cumpleM3) == false)
+                {
+                    union = "MS-03";
+                    esfuerzos_MS = uniones[union];
+
+                    //Rellenamos la parte de la tabla de esfuerzos máximos admisibles
+                    labels_max = new Label[]
+                    {
+                        vista.Tipo_MS, vista.Pmax_MS, vista.V2max_MS, vista.V3max_MS, vista.Tmax_MS, vista.M2max_MS, vista.M3max_MS
+                    };
+
+                    labels_max[0].Content = union;
+                    for (int i = 1; i <= 6; i++)
+                    {
+                        labels_max[i].Content = esfuerzos_MS[i - 1];
+                    }
+                    //Rellenamos la parte de la tabla de esfuerzos del modelo
+                    labels_esfuerzos = new Label[]
+                    {
+                        vista.Ang_MS, vista.P_MS, vista.V2_MS, vista.V3_MS, vista.T_MS, vista.M2_MS, vista.M3_MS
+                    };
+                    labels_esfuerzos[0].Content = "Envolvente";
+                    for (int i = 1; i <= 6; i++)
+                    {
+                        labels_esfuerzos[i].Content = esfuerzos_MS_modelo[i - 1].ToString("F3");
+                    }
+
+                    //Cogemos los valores que necesitamos
+                    double.TryParse(vista.P_MS.Content?.ToString(), out P);
+                    double.TryParse(vista.V2_MS.Content?.ToString(), out V2);
+                    double.TryParse(vista.M3_MS.Content?.ToString(), out M3);
+                    double.TryParse(vista.Pmax_MS.Content?.ToString(), out Pmax);
+                    double.TryParse(vista.V2max_MS.Content?.ToString(), out V2max);
+                    double.TryParse(vista.M3max_MS.Content?.ToString(), out M3max);
+
+                    // Evaluar condiciones
+                    cumpleP = P <= Pmax;
+                    cumpleV2 = V2 <= V2max;
+                    cumpleM3 = M3 <= M3max;
+                }
+
+                vista.RecuadroMS.Background = (cumpleP && cumpleV2 && cumpleM3) ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79)) : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+
+                if (!cumpleP) vista.P_MS.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+                if (!cumpleV2) vista.V2_MS.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+                if (!cumpleM3) vista.M3_MS.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+            }
+            else if (vista.Posicion.Text == "Funcionamiento")
+            {
+                double.TryParse(vista.P_MSFunc.Content?.ToString(), out double PFunc);
+                double.TryParse(vista.V2_MSFunc.Content?.ToString(), out double V2Func);
+                double.TryParse(vista.M3_MSFunc.Content?.ToString(), out double M3Func);
+                double.TryParse(vista.Pmax_MSFunc.Content?.ToString(), out double PmaxFunc);
+                double.TryParse(vista.V2max_MSFunc.Content?.ToString(), out double V2maxFunc);
+                double.TryParse(vista.M3max_MSFunc.Content?.ToString(), out double M3maxFunc);
+
+                //Coloreamos todos los labels en verde por defecto
+                var labelsVerificar = new[] { vista.P_MS, vista.V2_MS, vista.V3_MS, vista.T_MS, vista.M2_MS, vista.M3_MS, vista.P_MSFunc, vista.V2_MSFunc, vista.V3_MSFunc, vista.T_MSFunc, vista.M2_MSFunc, vista.M3_MSFunc };
+                foreach (var label in labelsVerificar)
+                {
+                    label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79));
+                }
+
+                // Evaluar condiciones
+                bool cumpleP = PFunc <= PmaxFunc;
+                bool cumpleV2 = V2Func <= V2maxFunc;
+                bool cumpleM3 = M3Func <= M3maxFunc;
+
+                if ((union == "MS-02") == true && (cumpleP && cumpleV2 && cumpleM3) == false)
+                {
+                    union = "MS-03";
+                    esfuerzos_MS = uniones[union];
+
+                    //Rellenamos la parte de la tabla de esfuerzos máximos admisibles
+                    labels_max = new Label[]
+                    {
+                        vista.Tipo_MS, vista.Pmax_MS, vista.V2max_MS, vista.V3max_MS, vista.Tmax_MS, vista.M2max_MS, vista.M3max_MS
+                    };
+
+                    labels_max[0].Content = union;
+                    for (int i = 1; i <= 6; i++)
+                    {
+                        labels_max[i].Content = esfuerzos_MS[i - 1];
+                    }
+                    //Rellenamos la parte de la tabla de esfuerzos del modelo
+                    labels_esfuerzos = new Label[]
+                    {
+                        vista.Ang_MS, vista.P_MS, vista.V2_MS, vista.V3_MS, vista.T_MS, vista.M2_MS, vista.M3_MS
+                    };
+                    labels_esfuerzos[0].Content = "Envolvente";
+                    for (int i = 1; i <= 6; i++)
+                    {
+                        labels_esfuerzos[i].Content = esfuerzos_MS_modelo[i - 1].ToString("F3");
+                    }
+
+                    //Cogemos los valores que necesitamos
+                    double.TryParse(vista.P_MS.Content?.ToString(), out PFunc);
+                    double.TryParse(vista.V2_MS.Content?.ToString(), out V2Func);
+                    double.TryParse(vista.M3_MS.Content?.ToString(), out M3Func);
+                    double.TryParse(vista.Pmax_MS.Content?.ToString(), out PmaxFunc);
+                    double.TryParse(vista.V2max_MS.Content?.ToString(), out V2maxFunc);
+                    double.TryParse(vista.M3max_MS.Content?.ToString(), out M3maxFunc);
+
+                    // Evaluar condiciones
+                    cumpleP = PFunc <= PmaxFunc;
+                    cumpleV2 = V2Func <= V2maxFunc;
+                    cumpleM3 = M3Func <= M3maxFunc;
+                }
+
+                vista.RecuadroMS.Background = (cumpleP && cumpleV2 && cumpleM3) ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79)) : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+
+                if (!cumpleP) vista.P_MSFunc.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+                if (!cumpleV2) vista.V2_MSFunc.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+                if (!cumpleM3) vista.M3_MSFunc.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+            }
         }
 
         public static void UnionSB(ComprobacionUniones2VAPP vista)
@@ -455,7 +599,23 @@ namespace SmarTools.Model.Applications
         {
             //Datos de la unión
             var uniones = CargarDesdeExcel();
-            double[] esfuerzos_MC = uniones["MC"];
+            double[] esfuerzos_MC=new double[6];
+            if(revision=="2VR4")
+            {
+                esfuerzos_MC = uniones["MC"];
+            }
+            else if(revision=="2VR5")
+            {
+                if (vista.Num_String.Text == "1")
+                {
+                    esfuerzos_MC = uniones["MC (2V-1ST) DEF"];
+                }
+                else if (vista.Num_String.Text == "2")
+                {
+                    esfuerzos_MC = uniones["MC (2V-2ST) DEF"];
+                }
+            }
+            
 
             //Obtenemos los esfuerzos de la MC
             SAP.AnalysisSubclass.RunModel(mySapModel);
@@ -519,6 +679,72 @@ namespace SmarTools.Model.Applications
             if (!cumpleM3) vista.M3_MC.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
         }
 
+        public static void UnionBC(ComprobacionUniones2VAPP vista)
+        {
+            //Datos de la unión
+            var uniones = CargarDesdeExcel();
+            double[] esfuerzos_BC = uniones["T4BC-31A"];
 
+            //Obtenemos los esfuerzos de la BC
+            SAP.AnalysisSubclass.RunModel(mySapModel);
+            mySapModel.SetPresentUnits(eUnits.kN_m_C);
+            string[] vigas_n = SAP.ElementFinderSubclass.TrackerSubclass.NorthBeams(mySapModel);
+            string[] vigas_s = SAP.ElementFinderSubclass.TrackerSubclass.SouthBeams(mySapModel);
+            double[] maximosNorte = SAP.AnalysisSubclass.ObtenerMaximosEsfuerzos(mySapModel, vigas_n, "ULS");
+            double[] maximosSur = SAP.AnalysisSubclass.ObtenerMaximosEsfuerzos(mySapModel, vigas_s, "ULS");
+
+            double[] esfuerzos_BC_modelo = maximosNorte
+             .Zip(maximosSur, (n, s) => Math.Max(Math.Abs(n), Math.Abs(s)))
+             .ToArray();
+
+            //Rellenamos la parte de la tabla de esfuerzos máximos admisibles
+            var labels_max = new Label[]
+            {
+                vista.Tipo_BC, vista.Pmax_BC, vista.V2max_BC, vista.V3max_BC, vista.Tmax_BC, vista.M2max_BC, vista.M3max_BC
+            };
+
+            labels_max[0].Content = "BC-1VR5";
+            for (int i = 1; i <= 6; i++)
+            {
+                labels_max[i].Content = esfuerzos_BC[i - 1];
+            }
+
+            //Rellenamos la parte de la tabla de esfuerzos del modelo
+            var labels_esfuerzos = new Label[]
+            {
+                vista.Ang_BC, vista.P_BC, vista.V2_BC, vista.V3_BC, vista.T_BC, vista.M2_BC, vista.M3_BC
+            };
+            labels_esfuerzos[0].Content = "55º";
+            for (int i = 1; i <= 6; i++)
+            {
+                labels_esfuerzos[i].Content = esfuerzos_BC_modelo[i - 1].ToString("F3");
+            }
+
+            //Cogemos los valores que necesitamos
+            double.TryParse(vista.V2_BC.Content?.ToString(), out double V2);
+            double.TryParse(vista.T_BC.Content?.ToString(), out double T);
+            double.TryParse(vista.M3_BC.Content?.ToString(), out double M3);
+            double.TryParse(vista.V2max_BC.Content?.ToString(), out double V2max);
+            double.TryParse(vista.Tmax_BC.Content?.ToString(), out double Tmax);
+            double.TryParse(vista.M3max_BC.Content?.ToString(), out double M3max);
+
+            //Coloreamos todos los labels en verde por defecto
+            var labelsVerificar = new[] { vista.P_BC, vista.V2_BC, vista.V3_BC, vista.T_BC, vista.M2_BC, vista.M3_BC };
+            foreach (var label in labelsVerificar)
+            {
+                label.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79));
+            }
+
+            // Evaluar condiciones
+            bool cumpleV2 = V2 <= V2max;
+            bool cumpleT = T <= Tmax;
+            bool cumpleM3 = M3 <= M3max;
+
+            vista.RecuadroBC.Background = (cumpleV2 && cumpleT && cumpleM3) ? new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(32, 199, 79)) : new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+
+            if (!cumpleV2) vista.V2_BC.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+            if (!cumpleT) vista.T_BC.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+            if (!cumpleM3) vista.M3_BC.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+        }
     }
 }

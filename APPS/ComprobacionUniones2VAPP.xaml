@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SmarTools.APPS"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        Title="ComprobacionUniones2VAPP" Height="600" Width="800"
+        Title="ComprobacionUniones2VAPP" Height="800" Width="800"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True"
@@ -105,15 +105,52 @@
 
                         <!--User Control-->
                         <Grid x:Name="MainViewContentControl"
-                          Grid.Row="2"
-                          Margin="18">
+                              Grid.Row="2"
+                              Margin="18">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="90"/>
+                                        <ColumnDefinition Width="90"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Revisión" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Foreground="White" FontSize="14" Margin="5,0,0,0" FontWeight="Bold" VerticalContentAlignment="Top" FontFamily="Neo Tech Std"/>
+                                    <ComboBox x:Name="Revisión" Grid.Row="0" Grid.Column="1"  SelectedIndex="0" Foreground="{StaticResource General2}" FontSize="14" Margin="0,1,25,1" FontWeight="Medium" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Neo Tech Std">
+                                        <ComboBoxItem Content="2VR4"/>
+                                        <ComboBoxItem Content="2VR5"/>
+                                    </ComboBox>
+                                    <Label Content="Nº Strings" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Foreground="White" FontSize="14" Margin="5,0,0,0" FontWeight="Bold" VerticalContentAlignment="Top" FontFamily="Neo Tech Std"/>
+                                    <ComboBox x:Name="Num_String" Grid.Row="0" Grid.Column="3"  SelectedIndex="0" Foreground="{StaticResource General2}" FontSize="14" Margin="25,1,25,1" FontWeight="Medium" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Neo Tech Std">
+                                        <ComboBoxItem Content="1"/>
+                                        <ComboBoxItem Content="2"/>
+                                    </ComboBox>
+                                    <Label Content="Posición" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Foreground="White" FontSize="14" Margin="5,0,0,0" FontWeight="Bold" VerticalContentAlignment="Top" FontFamily="Neo Tech Std"/>
+                                    <ComboBox x:Name="Posicion" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" SelectedIndex="0" Foreground="{StaticResource General2}" FontSize="14" Margin="0,1,40,1" FontWeight="Medium" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Neo Tech Std">
+                                        <ComboBoxItem Content="Defensa"/>
+                                        <ComboBoxItem Content="Funcionamiento"/>
+                                    </ComboBox>
+
+                                </Grid>
+                            </StackPanel>
                             <StackPanel x:Name="TablaResultados"
-                                    Grid.Row="0"
-                                    Orientation="Vertical"
-                                    Background="Transparent"
-                                    Margin="0,0,5,0"
-                                    MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
-                                    MouseEnter="pnlControlBar_MouseEnter">
+                                        Grid.Row="1"
+                                        Orientation="Vertical"
+                                        Background="Transparent"
+                                        Margin="0,0,5,0"
+                                        MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
+                                        MouseEnter="pnlControlBar_MouseEnter">
                                 <Grid Margin="2,10,0,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="35"/>
@@ -132,6 +169,13 @@
                                         <RowDefinition Height="25"/>
                                         <RowDefinition Height="25"/>
                                         <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                    
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="90"/>
@@ -144,6 +188,7 @@
                                         <ColumnDefinition Width="90"/>
                                     </Grid.ColumnDefinitions>
                                     <!--#region BORDE TABLAS-->
+                                    <!--#region BS-->
                                     <Border x:Name="RecuadroBS" Grid.Row="1" Grid.Column="0" BorderBrush="White" BorderThickness="1" Background="White"/>
                                     <Border Grid.Row="1" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="1" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
@@ -170,7 +215,8 @@
                                     <Border Grid.Row="3" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="3" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="3" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
-
+                                    <!--#endregion-->
+                                    <!--#region MS-->
                                     <Border x:Name="RecuadroMS" Grid.Row="5" Grid.Column="0"  BorderBrush="White" BorderThickness="1" Background="White"/>
                                     <Border Grid.Row="5" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="5" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
@@ -198,7 +244,16 @@
                                     <Border Grid.Row="7" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="7" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
 
-                                    <Border x:Name="RecuadroSB" Grid.Row="9" Grid.Column="0"  BorderBrush="White" BorderThickness="1" Background="White"/>
+                                    <Border Grid.Row="8" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="8" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="8" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="8" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="8" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="8" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="8" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="8" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
+
+                                    <Border Grid.Row="9" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="9" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="9" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="9" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
@@ -206,17 +261,9 @@
                                     <Border Grid.Row="9" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="9" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="9" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
-
-                                    <Border Grid.Row="10" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="10" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="10" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="10" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="10" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="10" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="10" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="10" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
-
-                                    <Border Grid.Row="11" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
+                                    <!--#endregion-->
+                                    <!--#region BC-->
+                                    <Border x:Name="RecuadroBC" Grid.Row="11" Grid.Column="0"  BorderBrush="White" BorderThickness="1" Background="White"/>
                                     <Border Grid.Row="11" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="11" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="11" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
@@ -225,7 +272,16 @@
                                     <Border Grid.Row="11" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="11" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
 
-                                    <Border x:Name="RecuadroMC" Grid.Row="13" Grid.Column="0"  BorderBrush="White" BorderThickness="1" Background="White"/>
+                                    <Border Grid.Row="12" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="12" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="12" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="12" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="12" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="12" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="12" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="12" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
+
+                                    <Border Grid.Row="13" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="13" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="13" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="13" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
@@ -233,17 +289,9 @@
                                     <Border Grid.Row="13" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="13" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="13" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
-
-                                    <Border Grid.Row="14" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="14" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="14" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="14" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="14" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="14" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="14" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
-                                    <Border Grid.Row="14" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
-
-                                    <Border Grid.Row="15" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
+                                    <!--#endregion-->
+                                    <!--#region SB-->
+                                    <Border x:Name="RecuadroSB" Grid.Row="15" Grid.Column="0"  BorderBrush="White" BorderThickness="1" Background="White"/>
                                     <Border Grid.Row="15" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="15" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="15" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
@@ -251,14 +299,60 @@
                                     <Border Grid.Row="15" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="15" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
                                     <Border Grid.Row="15" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
+
+                                    <Border Grid.Row="16" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="16" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="16" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="16" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="16" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="16" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="16" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="16" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
+
+                                    <Border Grid.Row="17" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="17" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="17" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="17" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="17" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="17" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="17" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="17" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
                                     <!--#endregion-->
-                                    <!--#region TABLA BS-->
-                                    <Label Content="Resultados 2PR4" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Foreground="White" FontSize="14" Margin="5,0,0,0" FontWeight="Bold" VerticalContentAlignment="Top" FontFamily="Neo Tech Std"/>
+                                    <!--#region MC-->
+                                    <Border x:Name="RecuadroMC" Grid.Row="19" Grid.Column="0"  BorderBrush="White" BorderThickness="1" Background="White"/>
+                                    <Border Grid.Row="19" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="19" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="19" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="19" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="19" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="19" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="19" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
+
+                                    <Border Grid.Row="20" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="20" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="20" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="20" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="20" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="20" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="20" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="20" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
+
+                                    <Border Grid.Row="21" Grid.Column="0" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="21" Grid.Column="1" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="21" Grid.Column="2" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="21" Grid.Column="3" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="21" Grid.Column="4" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="21" Grid.Column="5" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="21" Grid.Column="6" BorderBrush="White" BorderThickness="1"/>
+                                    <Border Grid.Row="21" Grid.Column="7" BorderBrush="White" BorderThickness="1"/>
+                                    <!--#endregion-->
+                                    <!--#endregion-->
                                     <Label Content="Refuerzo de secundaria" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Foreground="White" FontSize="14" Margin="5,0,0,0" FontWeight="Medium" VerticalContentAlignment="Top" FontFamily="Neo Tech Std"/>
                                     <ComboBox x:Name="Refuerzo_Secundaria" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" SelectedIndex="1" Foreground="{StaticResource General2}" FontSize="14" Margin="5" FontWeight="Medium" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" FontFamily="Neo Tech Std">
                                         <ComboBoxItem Content="Tipo A (Largo)"/>
                                         <ComboBoxItem Content="Tipo B (Corto)"/>
                                     </ComboBox>
+                                    <!--#region TABLA BS-->
                                     <Label Content="BS" Grid.Row="1" Grid.Column="0" Foreground="{StaticResource General2}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label Content="UNIÓN" Grid.Row="1" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label Content="P (kN)" Grid.Row="1" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
@@ -293,7 +387,7 @@
                                     <Label Content="T (kN·m)" Grid.Row="5" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label Content="M2 (kN·m)" Grid.Row="5" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label Content="M3 (kN·m)" Grid.Row="5" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="Maximo" Grid.Row="6" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Max Def" Grid.Row="6" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label x:Name="Tipo_MS" Grid.Row="6" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label x:Name="Pmax_MS" Grid.Row="6" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label x:Name="V2max_MS" Grid.Row="6" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
@@ -301,66 +395,108 @@
                                     <Label x:Name="Tmax_MS" Grid.Row="6" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label x:Name="M2max_MS" Grid.Row="6" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <Label x:Name="M3max_MS" Grid.Row="6" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="Modelo" Grid.Row="7" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Ang_MS" Grid.Row="7" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="P_MS" Grid.Row="7" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V2_MS" Grid.Row="7" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V3_MS" Grid.Row="7" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="T_MS" Grid.Row="7" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M2_MS" Grid.Row="7" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M3_MS" Grid.Row="7" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Max Func" Grid.Row="7" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Tipo_MSFunc" Grid.Row="7" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Pmax_MSFunc" Grid.Row="7" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2max_MSFunc" Grid.Row="7" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V3max_MSFunc" Grid.Row="7" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Tmax_MSFunc" Grid.Row="7" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2max_MSFunc" Grid.Row="7" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3max_MSFunc" Grid.Row="7" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Mod Def" Grid.Row="8" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Ang_MS" Grid.Row="8" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="P_MS" Grid.Row="8" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2_MS" Grid.Row="8" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V3_MS" Grid.Row="8" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="T_MS" Grid.Row="8" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2_MS" Grid.Row="8" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3_MS" Grid.Row="8" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Mod Func" Grid.Row="9" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Ang_MSFunc" Grid.Row="9" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="P_MSFunc" Grid.Row="9" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2_MSFunc" Grid.Row="9" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V3_MSFunc" Grid.Row="9" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="T_MSFunc" Grid.Row="9" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2_MSFunc" Grid.Row="9" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3_MSFunc" Grid.Row="9" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <!--#endregion-->
+                                    <!--#region TABLA BC-->
+                                    <Label Content="BC" Grid.Row="11" Grid.Column="0" Foreground="{StaticResource General2}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="UNIÓN" Grid.Row="11" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="P (kN)" Grid.Row="11" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="V2 (kN)" Grid.Row="11" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="V3 (kN)" Grid.Row="11" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="T (kN·m)" Grid.Row="11" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="M2 (kN·m)" Grid.Row="11" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="M3 (kN·m)" Grid.Row="11" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Maximo" Grid.Row="12" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Tipo_BC" Grid.Row="12" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Pmax_BC" Grid.Row="12" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2max_BC" Grid.Row="12" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V3max_BC" Grid.Row="12" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Tmax_BC" Grid.Row="12" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2max_BC" Grid.Row="12" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3max_BC" Grid.Row="12" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Modelo" Grid.Row="13" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Ang_BC" Grid.Row="13" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="P_BC" Grid.Row="13" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2_BC" Grid.Row="13" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V3_BC" Grid.Row="13" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="T_BC" Grid.Row="13" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2_BC" Grid.Row="13" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3_BC" Grid.Row="13" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+<!--#endregion-->
                                     <!--#region TABLA SB-->
-                                    <Label x:Name="EspesorSB" Content="SB" Grid.Row="9" Grid.Column="0" Foreground="{StaticResource General2}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="UNIÓN" Grid.Row="9" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="P (kN)" Grid.Row="9" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="V2 (kN)" Grid.Row="9" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="V2inf (kN)" Grid.Row="9" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="T (kN·m)" Grid.Row="9" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="M2 (kN·m)" Grid.Row="9" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="M3 (kN·m)" Grid.Row="9" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="Maximo" Grid.Row="10" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Tipo_SB" Grid.Row="10" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Pmax_SB" Grid.Row="10" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V2max_SB" Grid.Row="10" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V2infmax_SB" Grid.Row="10" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Tmax_SB" Grid.Row="10" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M2max_SB" Grid.Row="10" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M3max_SB" Grid.Row="10" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="Modelo" Grid.Row="11" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Ang_SB" Grid.Row="11" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="P_SB" Grid.Row="11" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V2_SB" Grid.Row="11" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V2inf_SB" Grid.Row="11" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="T_SB" Grid.Row="11" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M2_SB" Grid.Row="11" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M3_SB" Grid.Row="11" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="EspesorSB" Content="SB" Grid.Row="15" Grid.Column="0" Foreground="{StaticResource General2}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="UNIÓN" Grid.Row="15" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="P (kN)" Grid.Row="15" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="V2 (kN)" Grid.Row="15" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="V2inf (kN)" Grid.Row="15" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="T (kN·m)" Grid.Row="15" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="M2 (kN·m)" Grid.Row="15" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="M3 (kN·m)" Grid.Row="15" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Maximo" Grid.Row="16" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Tipo_SB" Grid.Row="16" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Pmax_SB" Grid.Row="16" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2max_SB" Grid.Row="16" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2infmax_SB" Grid.Row="16" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Tmax_SB" Grid.Row="16" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2max_SB" Grid.Row="16" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3max_SB" Grid.Row="16" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Modelo" Grid.Row="17" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Ang_SB" Grid.Row="17" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="P_SB" Grid.Row="17" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2_SB" Grid.Row="17" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2inf_SB" Grid.Row="17" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="T_SB" Grid.Row="17" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2_SB" Grid.Row="17" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3_SB" Grid.Row="17" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <!--#endregion-->
                                     <!--#region TABLA MC-->
-                                    <Label Content="MC" Grid.Row="13" Grid.Column="0" Foreground="{StaticResource General2}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="UNIÓN" Grid.Row="13" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="P (kN)" Grid.Row="13" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="V2 (kN)" Grid.Row="13" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="V3 (kN)" Grid.Row="13" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="T (kN·m)" Grid.Row="13" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="M2 (kN·m)" Grid.Row="13" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="M3 (kN·m)" Grid.Row="13" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="Maximo" Grid.Row="14" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Tipo_MC" Grid.Row="14" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Pmax_MC" Grid.Row="14" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V2max_MC" Grid.Row="14" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V3max_MC" Grid.Row="14" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Tmax_MC" Grid.Row="14" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M2max_MC" Grid.Row="14" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M3max_MC" Grid.Row="14" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label Content="Modelo" Grid.Row="15" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="Ang_MC" Grid.Row="15" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="P_MC" Grid.Row="15" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V2_MC" Grid.Row="15" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="V3_MC" Grid.Row="15" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="T_MC" Grid.Row="15" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M2_MC" Grid.Row="15" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
-                                    <Label x:Name="M3_MC" Grid.Row="15" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="MC" Grid.Row="19" Grid.Column="0" Foreground="{StaticResource General2}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="UNIÓN" Grid.Row="19" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="P (kN)" Grid.Row="19" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="V2 (kN)" Grid.Row="19" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="V3 (kN)" Grid.Row="19" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="T (kN·m)" Grid.Row="19" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="M2 (kN·m)" Grid.Row="19" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="M3 (kN·m)" Grid.Row="19" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Maximo" Grid.Row="20" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Tipo_MC" Grid.Row="20" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Pmax_MC" Grid.Row="20" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2max_MC" Grid.Row="20" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V3max_MC" Grid.Row="20" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Tmax_MC" Grid.Row="20" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2max_MC" Grid.Row="20" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3max_MC" Grid.Row="20" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label Content="Modelo" Grid.Row="21" Grid.Column="0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="Ang_MC" Grid.Row="21" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="P_MC" Grid.Row="21" Grid.Column="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V2_MC" Grid.Row="21" Grid.Column="3" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="V3_MC" Grid.Row="21" Grid.Column="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="T_MC" Grid.Row="21" Grid.Column="5" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M2_MC" Grid.Row="21" Grid.Column="6" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
+                                    <Label x:Name="M3_MC" Grid.Row="21" Grid.Column="7" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="13.5" FontWeight="Bold" FontFamily="Neo Tech Std"/>
                                     <!--#endregion-->
 
                                 </Grid>

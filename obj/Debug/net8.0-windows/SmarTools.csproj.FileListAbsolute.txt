@@ -222,3 +222,5 @@ C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionFlechasRackAPP.g.c
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionFlechasRackAPP.baml
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUnionesRackAPP.g.cs
 C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ComprobacionUnionesRackAPP.baml
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ItaliaNTCRackAPP.g.cs
+C:\InSync\SmarTools\obj\Debug\net8.0-windows\APPS\ItaliaNTCRackAPP.baml
