@@ -178,8 +178,8 @@
         </RadioButton>
 
         <!--Italia NTC-->
-        <RadioButton Style="{StaticResource SelectorButtonNotAvailable}" 
-                     Tag="{StaticResource Rojo02}"
+        <RadioButton Style="{StaticResource SelectorButton}" 
+                     Tag="{StaticResource Resaltado}"
                      Grid.Row="3"
                      Grid.Column="1"
                      Click="btnItalia_Click">
@@ -187,22 +187,17 @@
                 <StackPanel Width="300">
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Bold"
-                   Foreground="{StaticResource Rojo01}"
+                   Foreground="{StaticResource Blue02}"
                    Text="Aplicación de cálculo con normativa NTC-2018"/>
                     <TextBlock FontFamily="Neo Tech Std"
-                   FontWeight="Bold"
-                   Foreground="{StaticResource Rojo01}"
-                   Text="(En desarrollo. No disponible)"/>
-                    <TextBlock/>
-                    <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   Permite dimensionar un modelo según la normativa NTC-2018, ya que realiza las comprobaciones que faltan en SAP2000, como por ejemplo, la esbeltez"/>
                     <TextBlock/>
                     <TextBlock FontFamily="Neo Tech Std"
                    FontWeight="Light"
-                   Foreground="{StaticResource Rojo02}"
+                   Foreground="{StaticResource Blue03}"
                    TextWrapping="Wrap"
                    Text="   Genera un informe con los apartados de las comprobaciones que faltan para poder añadirlo al listado de cálculo"/>
                 </StackPanel>

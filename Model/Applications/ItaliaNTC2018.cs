@@ -4,6 +4,7 @@ using ModernUI.View;
 using SAP2000v1;
 using SmarTools.APPS;
 using SmarTools.Model.Repository;
+using SmarTools.View;
 using System.IO;
 using System.IO.Pipes;
 using System.Reflection.Metadata;
@@ -41,585 +42,607 @@ namespace SmarTools.Model.Applications
 
         public static void ComprobarNTC(TextBox CABEZA_MOTOR, TextBox CABEZA_GENERAL, ListView PILAR, ListView PILAR_MOTOR, ListView VIGA_PRINCIPAL, ListView VIGA_SECUNDARIA)
         {
-            int ret = 0;
-            bool estrategia = false;
-            double dist_pm = 0;
-            double dist_pg = 0;
-
-            string[][] DataSteel = new string[500][];
-            int n_steel = 0;
-            string[][] DataCold = new string[500][];
-            int n_cold = 0;
-
-            bool cumplen_todos_los_perfiles = true;
-
-            if (CABEZA_MOTOR.Text != "")
+            var loadingWindow = new Status();
+            try
             {
-                dist_pm = double.Parse(CABEZA_MOTOR.Text) / 1000;
-            }
+                loadingWindow.Show();
+                loadingWindow.UpdateLayout();
 
-            if (CABEZA_MOTOR.Text != "")
-            {
-                dist_pg = double.Parse(CABEZA_GENERAL.Text) / 1000;
-            }
-            Herramientas.AbrirArchivoSAP2000();
-            my_Sap_Model.SetPresentUnits(eUnits.kN_m_C);
-            SAP.AnalysisSubclass.UnlockModel(my_Sap_Model);
-            SAP2000.CambiarNormativaSteel(my_help, my_Sap_object, my_Sap_Model);
-            SAP2000.CambiarTablasPandeoColdFormed(my_Sap_Model, "Column");
-            SAP2000.CambiarTablasPandeoSteel(my_Sap_Model, "Column");
-            SAP2000.CambiarCoeficientePandeo(my_Sap_Model);
-            SAP2000.CalcularMordelo(my_help, my_Sap_object, my_Sap_Model);
+                int ret = 0;
+                bool estrategia = false;
+                double dist_pm = 0;
+                double dist_pg = 0;
 
-            my_Sap_Model.DesignSteel.StartDesign();
+                string[][] DataSteel = new string[500][];
+                int n_steel = 0;
+                string[][] DataCold = new string[500][];
+                int n_cold = 0;
 
-            int NumberItemsSteel = 0;
-            string[] FrameNameSteel = new string[500];
-            double[] RatioSteel = new double[500];
-            int[] RatioTypeSteel = new int[500];
-            double[] LocationSteel = new double[500];
-            string[] ComboNameSteel = new string[500];
-            string[] ErrorSummarySteel = new string[500];
-            string[] WarningSummarySteel = new string[500];
+                bool cumplen_todos_los_perfiles = true;
 
-            my_Sap_Model.SelectObj.All();
-            my_Sap_Model.DesignSteel.GetSummaryResults("All", ref NumberItemsSteel, ref FrameNameSteel, ref RatioSteel, ref RatioTypeSteel, ref LocationSteel, ref ComboNameSteel, ref ErrorSummarySteel, ref WarningSummarySteel, eItemType.SelectedObjects);
-
-
-            my_Sap_Model.DesignColdFormed.StartDesign();
-
-            int NumberItemsCold = 0;
-            string[] FrameName = new string[500];
-            double[] Ratio = new double[500];
-            int[] RatioType = new int[500];
-            double[] Location = new double[500];
-            string[] ComboName = new string[500];
-            string[] ErrorSummary = new string[500];
-            string[] WarningSummary = new string[500];
-
-            my_Sap_Model.SelectObj.All();
-            my_Sap_Model.DesignColdFormed.GetSummaryResults("All", ref NumberItemsCold, ref FrameName, ref Ratio, ref RatioType, ref Location, ref ComboName, ref ErrorSummary, ref WarningSummary, eItemType.SelectedObjects);
-
-            List<PilarMotor> itemsMotor = new List<PilarMotor>();
-            List<Pilar> items = new List<Pilar>();
-            List<Viga> itemsViga = new List<Viga>();
-            List<Secundaria> itemsSecundaria = new List<Secundaria>();
-
-            for (int n = 0; n < NumberItemsSteel; n++)
-            {
-                string subcadena = "";
-                try
+                if (CABEZA_MOTOR.Text != "")
                 {
-                    int indiceCaracter = FrameNameSteel[n].IndexOf("_");
-                    subcadena = FrameNameSteel[n].Substring(0, indiceCaracter);
-                }
-                catch
-                {
-                    subcadena = FrameNameSteel[n];
+                    dist_pm = double.Parse(CABEZA_MOTOR.Text) / 1000;
                 }
 
-                string estado = "No Ok";
-
-                if (FrameNameSteel[n] == "Column_0")
+                if (CABEZA_MOTOR.Text != "")
                 {
-                    string PropName = "";
-                    string sAuto = "";
+                    dist_pg = double.Parse(CABEZA_GENERAL.Text) / 1000;
+                }
+                Herramientas.AbrirArchivoSAP2000();
+                my_Sap_Model.SetPresentUnits(eUnits.kN_m_C);
+                SAP.AnalysisSubclass.UnlockModel(my_Sap_Model);
+                SAP2000.CambiarNormativaSteel(my_help, my_Sap_object, my_Sap_Model);
+                SAP2000.CambiarTablasPandeoColdFormed(my_Sap_Model, "Column");
+                SAP2000.CambiarTablasPandeoSteel(my_Sap_Model, "Column");
+                SAP2000.CambiarCoeficientePandeo(my_Sap_Model);
+                SAP2000.CalcularMordelo(my_help, my_Sap_object, my_Sap_Model);
 
-                    my_Sap_Model.FrameObj.GetSection(FrameNameSteel[n], ref PropName, ref sAuto);
+                my_Sap_Model.DesignSteel.StartDesign();
 
-                    double Area = 0;
-                    double As2 = 0;
-                    double As3 = 0;
-                    double Torsion = 0;
-                    double I22 = 0;
-                    double I33 = 0;
-                    double S22 = 0;
-                    double S33 = 0;
-                    double Z22 = 0;
-                    double Z33 = 0;
-                    double R22 = 0;
-                    double R33 = 0;
-                    my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
-                    string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pm) * 2,
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pm) * 2,
-                    R22,
-                    R33
-                    );
+                int NumberItemsSteel = 0;
+                string[] FrameNameSteel = new string[500];
+                double[] RatioSteel = new double[500];
+                int[] RatioTypeSteel = new int[500];
+                double[] LocationSteel = new double[500];
+                string[] ComboNameSteel = new string[500];
+                string[] ErrorSummarySteel = new string[500];
+                string[] WarningSummarySteel = new string[500];
 
-                    if (RatioSteel[n] < 1 & limitacionEsbeltez[3] == "true")
+                my_Sap_Model.SelectObj.All();
+                my_Sap_Model.DesignSteel.GetSummaryResults("All", ref NumberItemsSteel, ref FrameNameSteel, ref RatioSteel, ref RatioTypeSteel, ref LocationSteel, ref ComboNameSteel, ref ErrorSummarySteel, ref WarningSummarySteel, eItemType.SelectedObjects);
+
+
+                my_Sap_Model.DesignColdFormed.StartDesign();
+
+                int NumberItemsCold = 0;
+                string[] FrameName = new string[500];
+                double[] Ratio = new double[500];
+                int[] RatioType = new int[500];
+                double[] Location = new double[500];
+                string[] ComboName = new string[500];
+                string[] ErrorSummary = new string[500];
+                string[] WarningSummary = new string[500];
+
+                my_Sap_Model.SelectObj.All();
+                my_Sap_Model.DesignColdFormed.GetSummaryResults("All", ref NumberItemsCold, ref FrameName, ref Ratio, ref RatioType, ref Location, ref ComboName, ref ErrorSummary, ref WarningSummary, eItemType.SelectedObjects);
+
+                List<PilarMotor> itemsMotor = new List<PilarMotor>();
+                List<Pilar> items = new List<Pilar>();
+                List<Viga> itemsViga = new List<Viga>();
+                List<Secundaria> itemsSecundaria = new List<Secundaria>();
+
+                for (int n = 0; n < NumberItemsSteel; n++)
+                {
+                    string subcadena = "";
+                    try
                     {
-                        estado = "OK";
+                        int indiceCaracter = FrameNameSteel[n].IndexOf("_");
+                        subcadena = FrameNameSteel[n].Substring(0, indiceCaracter);
+                    }
+                    catch
+                    {
+                        subcadena = FrameNameSteel[n];
                     }
 
-                    itemsMotor.Add(new PilarMotor()
-                    {
-                        NOMBRE_PILAR_MOTOR = FrameNameSteel[n],
-                        SECCION_PILAR_MOTOR = PropName,
-                        MATERIAL_PILAR_MOTOR = "Steel",
-                        RATIO_PILAR_MOTOR = Math.Round(RatioSteel[n], 2).ToString(),
-                        ESBELTEZ_PILAR_MOTOR = limitacionEsbeltez[2],
-                        ESTADO_PILAR_MOTOR = estado
-                    });
+                    string estado = "No Ok";
 
-                    DataSteel[n_steel] =
-                        [FrameNameSteel[n],
+                    if (FrameNameSteel[n] == "Column_0")
+                    {
+                        string PropName = "";
+                        string sAuto = "";
+
+                        my_Sap_Model.FrameObj.GetSection(FrameNameSteel[n], ref PropName, ref sAuto);
+
+                        double Area = 0;
+                        double As2 = 0;
+                        double As3 = 0;
+                        double Torsion = 0;
+                        double I22 = 0;
+                        double I33 = 0;
+                        double S22 = 0;
+                        double S33 = 0;
+                        double Z22 = 0;
+                        double Z33 = 0;
+                        double R22 = 0;
+                        double R33 = 0;
+                        my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
+                        string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pm) * 2,
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pm) * 2,
+                        R22,
+                        R33
+                        );
+
+                        if (RatioSteel[n] < 1 & limitacionEsbeltez[3] == "true")
+                        {
+                            estado = "OK";
+                        }
+
+                        itemsMotor.Add(new PilarMotor()
+                        {
+                            NOMBRE_PILAR_MOTOR = FrameNameSteel[n],
+                            SECCION_PILAR_MOTOR = PropName,
+                            MATERIAL_PILAR_MOTOR = "Steel",
+                            RATIO_PILAR_MOTOR = Math.Round(RatioSteel[n], 2).ToString(),
+                            ESBELTEZ_PILAR_MOTOR = limitacionEsbeltez[2],
+                            ESTADO_PILAR_MOTOR = estado
+                        });
+
+                        DataSteel[n_steel] =
+                            [FrameNameSteel[n],
                         PropName,
                         ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pm) * 2).ToString(),
                         ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pm) * 2).ToString(),
                         Math.Round(R22,4).ToString(),
                         Math.Round(R33,4).ToString(),
                         limitacionEsbeltez[2]
-                        ];
+                            ];
 
-                    n_steel++;
+                        n_steel++;
 
-                    if (estado != "OK")
-                    {
-                        cumplen_todos_los_perfiles = false;
+                        if (estado != "OK")
+                        {
+                            cumplen_todos_los_perfiles = false;
+                        }
                     }
-                }
-                else if (subcadena == "Column")
-                {
-                    string PropName = "";
-                    string sAuto = "";
-                    my_Sap_Model.FrameObj.GetSection(FrameNameSteel[n], ref PropName, ref sAuto);
-
-                    double Area = 0;
-                    double As2 = 0;
-                    double As3 = 0;
-                    double Torsion = 0;
-                    double I22 = 0;
-                    double I33 = 0;
-                    double S22 = 0;
-                    double S33 = 0;
-                    double Z22 = 0;
-                    double Z33 = 0;
-                    double R22 = 0;
-                    double R33 = 0;
-                    my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
-                    string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pg) * 2,
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pg) * 2,
-                    R22,
-                    R33
-                    );
-
-                    if (RatioSteel[n] < 1 & limitacionEsbeltez[3] == "true")
+                    else if (subcadena == "Column")
                     {
-                        estado = "OK";
-                    }
+                        string PropName = "";
+                        string sAuto = "";
+                        my_Sap_Model.FrameObj.GetSection(FrameNameSteel[n], ref PropName, ref sAuto);
 
-                    items.Add(new Pilar()
-                    {
-                        NOMBRE_PILAR = FrameNameSteel[n],
-                        SECCION_PILAR = PropName,
-                        MATERIAL_PILAR = "Steel",
-                        RATIO_PILAR = Math.Round(RatioSteel[n], 2).ToString(),
-                        ESBELTEZ_PILAR = limitacionEsbeltez[2],
-                        ESTADO_PILAR = estado
-                    });
+                        double Area = 0;
+                        double As2 = 0;
+                        double As3 = 0;
+                        double Torsion = 0;
+                        double I22 = 0;
+                        double I33 = 0;
+                        double S22 = 0;
+                        double S33 = 0;
+                        double Z22 = 0;
+                        double Z33 = 0;
+                        double R22 = 0;
+                        double R33 = 0;
+                        my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
+                        string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pg) * 2,
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pg) * 2,
+                        R22,
+                        R33
+                        );
 
-                    DataSteel[n_steel] =
-                        [FrameNameSteel[n],
+                        if (RatioSteel[n] < 1 & limitacionEsbeltez[3] == "true")
+                        {
+                            estado = "OK";
+                        }
+
+                        items.Add(new Pilar()
+                        {
+                            NOMBRE_PILAR = FrameNameSteel[n],
+                            SECCION_PILAR = PropName,
+                            MATERIAL_PILAR = "Steel",
+                            RATIO_PILAR = Math.Round(RatioSteel[n], 2).ToString(),
+                            ESBELTEZ_PILAR = limitacionEsbeltez[2],
+                            ESTADO_PILAR = estado
+                        });
+
+                        DataSteel[n_steel] =
+                            [FrameNameSteel[n],
                         PropName,
                         ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pm) * 2).ToString(),
                         ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) - dist_pm) * 2).ToString(),
                         Math.Round(R22,4).ToString(),
                         Math.Round(R33,4).ToString(),
                         limitacionEsbeltez[2]
-                        ];
+                            ];
 
-                    n_steel++;
+                        n_steel++;
 
-                    if (estado != "OK")
-                    {
-                        cumplen_todos_los_perfiles = false;
+                        if (estado != "OK")
+                        {
+                            cumplen_todos_los_perfiles = false;
+                        }
                     }
-                }
-                else if (FrameNameSteel[n].Contains("SB"))
-                {
-                    string PropName = "";
-                    string sAuto = "";
-                    my_Sap_Model.FrameObj.GetSection(FrameNameSteel[n], ref PropName, ref sAuto);
-
-                    double Area = 0;
-                    double As2 = 0;
-                    double As3 = 0;
-                    double Torsion = 0;
-                    double I22 = 0;
-                    double I33 = 0;
-                    double S22 = 0;
-                    double S33 = 0;
-                    double Z22 = 0;
-                    double Z33 = 0;
-                    double R22 = 0;
-                    double R33 = 0;
-                    my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
-                    string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2,
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2,
-                    R22,
-                    R33
-                    );
-
-                    if (RatioSteel[n] < 1 & limitacionEsbeltez[3] == "true")
+                    else if (FrameNameSteel[n].Contains("SB"))
                     {
-                        estado = "OK";
-                    }
+                        string PropName = "";
+                        string sAuto = "";
+                        my_Sap_Model.FrameObj.GetSection(FrameNameSteel[n], ref PropName, ref sAuto);
 
-                    itemsSecundaria.Add(new Secundaria()
-                    {
-                        NOMBRE_SECUNDARIA = FrameNameSteel[n],
-                        SECCION_SECUNDARIA = PropName,
-                        MATERIAL_SECUNDARIA = "Steel",
-                        RATIO_SECUNDARIA = Math.Round(RatioSteel[n], 2).ToString(),
-                        ESBELTEZ_SECUNDARIA = limitacionEsbeltez[2],
-                        ESTADO_SECUNDARIA = estado
-                    });
+                        double Area = 0;
+                        double As2 = 0;
+                        double As3 = 0;
+                        double Torsion = 0;
+                        double I22 = 0;
+                        double I33 = 0;
+                        double S22 = 0;
+                        double S33 = 0;
+                        double Z22 = 0;
+                        double Z33 = 0;
+                        double R22 = 0;
+                        double R33 = 0;
+                        my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
+                        string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2,
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2,
+                        R22,
+                        R33
+                        );
 
-                    DataSteel[n_steel] =
-                        [FrameNameSteel[n],
+                        if (RatioSteel[n] < 1 & limitacionEsbeltez[3] == "true")
+                        {
+                            estado = "OK";
+                        }
+
+                        itemsSecundaria.Add(new Secundaria()
+                        {
+                            NOMBRE_SECUNDARIA = FrameNameSteel[n],
+                            SECCION_SECUNDARIA = PropName,
+                            MATERIAL_SECUNDARIA = "Steel",
+                            RATIO_SECUNDARIA = Math.Round(RatioSteel[n], 2).ToString(),
+                            ESBELTEZ_SECUNDARIA = limitacionEsbeltez[2],
+                            ESTADO_SECUNDARIA = estado
+                        });
+
+                        DataSteel[n_steel] =
+                            [FrameNameSteel[n],
                         PropName,
                         ( (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2).ToString(),
                         ( (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2).ToString(),
                         Math.Round(R22,4).ToString(),
                         Math.Round(R33,4).ToString(),
                         limitacionEsbeltez[2]
-                        ];
+                            ];
 
-                    n_steel++;
+                        n_steel++;
 
-                    if (estado != "OK")
-                    {
-                        cumplen_todos_los_perfiles = false;
+                        if (estado != "OK")
+                        {
+                            cumplen_todos_los_perfiles = false;
+                        }
                     }
-                }
-                else if (FrameNameSteel[n].Contains("B") | FrameNameSteel[n].Contains("B-"))
-                {
-                    string PropName = "";
-                    string sAuto = "";
-                    my_Sap_Model.FrameObj.GetSection(FrameNameSteel[n], ref PropName, ref sAuto);
-
-                    double Area = 0;
-                    double As2 = 0;
-                    double As3 = 0;
-                    double Torsion = 0;
-                    double I22 = 0;
-                    double I33 = 0;
-                    double S22 = 0;
-                    double S33 = 0;
-                    double Z22 = 0;
-                    double Z33 = 0;
-                    double R22 = 0;
-                    double R33 = 0;
-                    my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
-
-
-                    if (RatioSteel[n] < 1)
+                    else if (FrameNameSteel[n].Contains("B") | FrameNameSteel[n].Contains("B-"))
                     {
-                        estado = "OK";
-                    }
+                        string PropName = "";
+                        string sAuto = "";
+                        my_Sap_Model.FrameObj.GetSection(FrameNameSteel[n], ref PropName, ref sAuto);
 
-                    itemsViga.Add(new Viga()
-                    {
-                        NOMBRE_VIGA = FrameNameSteel[n],
-                        SECCION_VIGA = PropName,
-                        MATERIAL_VIGA = "Steel",
-                        RATIO_VIGA = Math.Round(RatioSteel[n], 2).ToString(),
-                        ESBELTEZ_VIGA = "N.A",
-                        ESTADO_VIGA = estado
-                    });
+                        double Area = 0;
+                        double As2 = 0;
+                        double As3 = 0;
+                        double Torsion = 0;
+                        double I22 = 0;
+                        double I33 = 0;
+                        double S22 = 0;
+                        double S33 = 0;
+                        double Z22 = 0;
+                        double Z33 = 0;
+                        double R22 = 0;
+                        double R33 = 0;
+                        my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
 
-                    DataSteel[n_steel] =
-                        [FrameNameSteel[n],
+
+                        if (RatioSteel[n] < 1)
+                        {
+                            estado = "OK";
+                        }
+
+                        itemsViga.Add(new Viga()
+                        {
+                            NOMBRE_VIGA = FrameNameSteel[n],
+                            SECCION_VIGA = PropName,
+                            MATERIAL_VIGA = "Steel",
+                            RATIO_VIGA = Math.Round(RatioSteel[n], 2).ToString(),
+                            ESBELTEZ_VIGA = "N.A",
+                            ESTADO_VIGA = estado
+                        });
+
+                        DataSteel[n_steel] =
+                            [FrameNameSteel[n],
                         PropName,
                         ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]))).ToString(),
                         ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameNameSteel[n]))).ToString(),
                         Math.Round(R22,4).ToString(),
                         Math.Round(R33,4).ToString(),
                         "N.A"
-                        ];
+                            ];
 
-                    n_steel++;
+                        n_steel++;
 
-                    if (estado != "OK")
-                    {
-                        cumplen_todos_los_perfiles = false;
+                        if (estado != "OK")
+                        {
+                            cumplen_todos_los_perfiles = false;
+                        }
+
                     }
 
                 }
 
-            }
-
-            for (int n = 0; n < NumberItemsCold; n++)
-            {
-                string subcadena = "";
-                try
+                for (int n = 0; n < NumberItemsCold; n++)
                 {
-                    int indiceCaracter = FrameName[n].IndexOf("_");
-                    subcadena = FrameName[n].Substring(0, indiceCaracter);
-                }
-                catch
-                {
-                    subcadena = FrameName[n];
-                }
-
-                string estado = "No Ok";
-
-                if (Ratio[n] < 1)
-                {
-                    estado = "OK";
-                }
-
-                if (FrameName[n] == "Column_0")
-                {
-                    string PropName = "";
-                    string sAuto = "";
-                    my_Sap_Model.FrameObj.GetSection(FrameName[n], ref PropName, ref sAuto);
-
-                    double Area = 0;
-                    double As2 = 0;
-                    double As3 = 0;
-                    double Torsion = 0;
-                    double I22 = 0;
-                    double I33 = 0;
-                    double S22 = 0;
-                    double S33 = 0;
-                    double Z22 = 0;
-                    double Z33 = 0;
-                    double R22 = 0;
-                    double R33 = 0;
-                    my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
-                    string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2,
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2,
-                    R22,
-                    R33
-                    );
-
-                    if (Ratio[n] < 1 & limitacionEsbeltez[3] == "true")
+                    string subcadena = "";
+                    try
                     {
-                        estado = "OK";
+                        int indiceCaracter = FrameName[n].IndexOf("_");
+                        subcadena = FrameName[n].Substring(0, indiceCaracter);
+                    }
+                    catch
+                    {
+                        subcadena = FrameName[n];
                     }
 
-                    itemsMotor.Add(new PilarMotor()
-                    {
-                        NOMBRE_PILAR_MOTOR = FrameName[n],
-                        SECCION_PILAR_MOTOR = PropName,
-                        MATERIAL_PILAR_MOTOR = "Cold Formed",
-                        RATIO_PILAR_MOTOR = Math.Round(Ratio[n], 2).ToString(),
-                        ESBELTEZ_PILAR_MOTOR = limitacionEsbeltez[2],
-                        ESTADO_PILAR_MOTOR = estado
-                    });
-
-                    DataCold[n_cold] =
-                        [FrameName[n],
-                        PropName,
-                        ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2).ToString(),
-                        ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2).ToString(),
-                        Math.Round(R22,4).ToString(),
-                        Math.Round(R33,4).ToString(),
-                        limitacionEsbeltez[2]
-                        ];
-
-                    n_cold++;
-
-                    if (estado != "OK")
-                    {
-                        cumplen_todos_los_perfiles = false;
-                    }
-                }
-                else if (subcadena == "Column")
-                {
-                    string PropName = "";
-                    string sAuto = "";
-                    my_Sap_Model.FrameObj.GetSection(FrameName[n], ref PropName, ref sAuto);
-
-                    double Area = 0;
-                    double As2 = 0;
-                    double As3 = 0;
-                    double Torsion = 0;
-                    double I22 = 0;
-                    double I33 = 0;
-                    double S22 = 0;
-                    double S33 = 0;
-                    double Z22 = 0;
-                    double Z33 = 0;
-                    double R22 = 0;
-                    double R33 = 0;
-                    my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
-                    string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pg) * 2,
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pg) * 2,
-                    R22,
-                    R33
-                    );
-
-                    if (Ratio[n] < 1 & limitacionEsbeltez[3] == "true")
-                    {
-                        estado = "OK";
-                    }
-
-                    items.Add(new Pilar()
-                    {
-                        NOMBRE_PILAR = FrameName[n],
-                        SECCION_PILAR = PropName,
-                        MATERIAL_PILAR = "Cold Formed",
-                        RATIO_PILAR = Math.Round(Ratio[n], 2).ToString(),
-                        ESBELTEZ_PILAR = limitacionEsbeltez[2],
-                        ESTADO_PILAR = estado
-                    });
-
-                    DataCold[n_cold] =
-                        [FrameName[n],
-                        PropName,
-                        ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2).ToString(),
-                        ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2).ToString(),
-                        Math.Round(R22,4).ToString(),
-                        Math.Round(R33,4).ToString(),
-                        limitacionEsbeltez[2]
-                        ];
-
-                    n_cold++;
-
-                    if (estado != "OK")
-                    {
-                        cumplen_todos_los_perfiles = false;
-                    }
-                }
-                else if (FrameName[n].Contains("SB"))
-                {
-                    string PropName = "";
-                    string sAuto = "";
-                    my_Sap_Model.FrameObj.GetSection(FrameName[n], ref PropName, ref sAuto);
-
-                    double Area = 0;
-                    double As2 = 0;
-                    double As3 = 0;
-                    double Torsion = 0;
-                    double I22 = 0;
-                    double I33 = 0;
-                    double S22 = 0;
-                    double S33 = 0;
-                    double Z22 = 0;
-                    double Z33 = 0;
-                    double R22 = 0;
-                    double R33 = 0;
-                    my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
-                    string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2,
-                    (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2,
-                    R22,
-                    R33
-                    );
-
-                    if (Ratio[n] < 1 & limitacionEsbeltez[3] == "true")
-                    {
-                        estado = "OK";
-                    }
-
-                    itemsSecundaria.Add(new Secundaria()
-                    {
-                        NOMBRE_SECUNDARIA = FrameName[n],
-                        SECCION_SECUNDARIA = PropName,
-                        MATERIAL_SECUNDARIA = "Cold Formed",
-                        RATIO_SECUNDARIA = Math.Round(Ratio[n], 2).ToString(),
-                        ESBELTEZ_SECUNDARIA = limitacionEsbeltez[2],
-                        ESTADO_SECUNDARIA = estado
-                    });
-
-                    DataCold[n_cold] =
-                        [FrameName[n],
-                        PropName,
-                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n]) * 2).ToString(),
-                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n]) * 2).ToString(),
-                        Math.Round(R22,4).ToString(),
-                        Math.Round(R33,4).ToString(),
-                        limitacionEsbeltez[2]
-                        ];
-
-                    n_cold++;
-
-                    if (estado != "OK")
-                    {
-                        cumplen_todos_los_perfiles = false;
-                    }
-                }
-                else if (FrameName[n].Contains("B") | FrameName[n].Contains("B-"))
-                {
-                    string PropName = "";
-                    string sAuto = "";
-                    my_Sap_Model.FrameObj.GetSection(FrameName[n], ref PropName, ref sAuto);
-
-                    double Area = 0;
-                    double As2 = 0;
-                    double As3 = 0;
-                    double Torsion = 0;
-                    double I22 = 0;
-                    double I33 = 0;
-                    double S22 = 0;
-                    double S33 = 0;
-                    double Z22 = 0;
-                    double Z33 = 0;
-                    double R22 = 0;
-                    double R33 = 0;
-                    my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
-
+                    string estado = "No Ok";
 
                     if (Ratio[n] < 1)
                     {
                         estado = "OK";
                     }
 
-                    itemsViga.Add(new Viga()
+                    if (FrameName[n] == "Column_0")
                     {
-                        NOMBRE_VIGA = FrameName[n],
-                        SECCION_VIGA = PropName,
-                        MATERIAL_VIGA = "Cold Formed",
-                        RATIO_VIGA = Math.Round(Ratio[n], 2).ToString(),
-                        ESBELTEZ_VIGA = "N.A",
-                        ESTADO_VIGA = estado
-                    });
+                        string PropName = "";
+                        string sAuto = "";
+                        my_Sap_Model.FrameObj.GetSection(FrameName[n], ref PropName, ref sAuto);
 
-                    DataCold[n_cold] =
-                        [FrameName[n],
+                        double Area = 0;
+                        double As2 = 0;
+                        double As3 = 0;
+                        double Torsion = 0;
+                        double I22 = 0;
+                        double I33 = 0;
+                        double S22 = 0;
+                        double S33 = 0;
+                        double Z22 = 0;
+                        double Z33 = 0;
+                        double R22 = 0;
+                        double R33 = 0;
+                        my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
+                        string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2,
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2,
+                        R22,
+                        R33
+                        );
+
+                        if (Ratio[n] < 1 & limitacionEsbeltez[3] == "true")
+                        {
+                            estado = "OK";
+                        }
+
+                        itemsMotor.Add(new PilarMotor()
+                        {
+                            NOMBRE_PILAR_MOTOR = FrameName[n],
+                            SECCION_PILAR_MOTOR = PropName,
+                            MATERIAL_PILAR_MOTOR = "Cold Formed",
+                            RATIO_PILAR_MOTOR = Math.Round(Ratio[n], 2).ToString(),
+                            ESBELTEZ_PILAR_MOTOR = limitacionEsbeltez[2],
+                            ESTADO_PILAR_MOTOR = estado
+                        });
+
+                        DataCold[n_cold] =
+                            [FrameName[n],
+                        PropName,
+                        ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2).ToString(),
+                        ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2).ToString(),
+                        Math.Round(R22,4).ToString(),
+                        Math.Round(R33,4).ToString(),
+                        limitacionEsbeltez[2]
+                            ];
+
+                        n_cold++;
+
+                        if (estado != "OK")
+                        {
+                            cumplen_todos_los_perfiles = false;
+                        }
+                    }
+                    else if (subcadena == "Column")
+                    {
+                        string PropName = "";
+                        string sAuto = "";
+                        my_Sap_Model.FrameObj.GetSection(FrameName[n], ref PropName, ref sAuto);
+
+                        double Area = 0;
+                        double As2 = 0;
+                        double As3 = 0;
+                        double Torsion = 0;
+                        double I22 = 0;
+                        double I33 = 0;
+                        double S22 = 0;
+                        double S33 = 0;
+                        double Z22 = 0;
+                        double Z33 = 0;
+                        double R22 = 0;
+                        double R33 = 0;
+                        my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
+                        string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pg) * 2,
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pg) * 2,
+                        R22,
+                        R33
+                        );
+
+                        if (Ratio[n] < 1 & limitacionEsbeltez[3] == "true")
+                        {
+                            estado = "OK";
+                        }
+
+                        items.Add(new Pilar()
+                        {
+                            NOMBRE_PILAR = FrameName[n],
+                            SECCION_PILAR = PropName,
+                            MATERIAL_PILAR = "Cold Formed",
+                            RATIO_PILAR = Math.Round(Ratio[n], 2).ToString(),
+                            ESBELTEZ_PILAR = limitacionEsbeltez[2],
+                            ESTADO_PILAR = estado
+                        });
+
+                        DataCold[n_cold] =
+                            [FrameName[n],
+                        PropName,
+                        ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2).ToString(),
+                        ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) - dist_pm) * 2).ToString(),
+                        Math.Round(R22,4).ToString(),
+                        Math.Round(R33,4).ToString(),
+                        limitacionEsbeltez[2]
+                            ];
+
+                        n_cold++;
+
+                        if (estado != "OK")
+                        {
+                            cumplen_todos_los_perfiles = false;
+                        }
+                    }
+                    else if (FrameName[n].Contains("SB"))
+                    {
+                        string PropName = "";
+                        string sAuto = "";
+                        my_Sap_Model.FrameObj.GetSection(FrameName[n], ref PropName, ref sAuto);
+
+                        double Area = 0;
+                        double As2 = 0;
+                        double As3 = 0;
+                        double Torsion = 0;
+                        double I22 = 0;
+                        double I33 = 0;
+                        double S22 = 0;
+                        double S33 = 0;
+                        double Z22 = 0;
+                        double Z33 = 0;
+                        double R22 = 0;
+                        double R33 = 0;
+                        my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
+                        string[] limitacionEsbeltez = COMPROBACIONES.Limitacion_Esbletez(
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2,
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n])) * 2,
+                        R22,
+                        R33
+                        );
+
+                        if (Ratio[n] < 1 & limitacionEsbeltez[3] == "true")
+                        {
+                            estado = "OK";
+                        }
+
+                        itemsSecundaria.Add(new Secundaria()
+                        {
+                            NOMBRE_SECUNDARIA = FrameName[n],
+                            SECCION_SECUNDARIA = PropName,
+                            MATERIAL_SECUNDARIA = "Cold Formed",
+                            RATIO_SECUNDARIA = Math.Round(Ratio[n], 2).ToString(),
+                            ESBELTEZ_SECUNDARIA = limitacionEsbeltez[2],
+                            ESTADO_SECUNDARIA = estado
+                        });
+
+                        DataCold[n_cold] =
+                            [FrameName[n],
+                        PropName,
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n]) * 2).ToString(),
+                        (HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]) + HERRAMIENTAS_AUXILIARES.LongitudRefuerzo(my_Sap_Model, FrameName[n]) * 2).ToString(),
+                        Math.Round(R22,4).ToString(),
+                        Math.Round(R33,4).ToString(),
+                        limitacionEsbeltez[2]
+                            ];
+
+                        n_cold++;
+
+                        if (estado != "OK")
+                        {
+                            cumplen_todos_los_perfiles = false;
+                        }
+                    }
+                    else if (FrameName[n].Contains("B") | FrameName[n].Contains("B-"))
+                    {
+                        string PropName = "";
+                        string sAuto = "";
+                        my_Sap_Model.FrameObj.GetSection(FrameName[n], ref PropName, ref sAuto);
+
+                        double Area = 0;
+                        double As2 = 0;
+                        double As3 = 0;
+                        double Torsion = 0;
+                        double I22 = 0;
+                        double I33 = 0;
+                        double S22 = 0;
+                        double S33 = 0;
+                        double Z22 = 0;
+                        double Z33 = 0;
+                        double R22 = 0;
+                        double R33 = 0;
+                        my_Sap_Model.PropFrame.GetSectProps(PropName, ref Area, ref As2, ref As3, ref Torsion, ref I22, ref I33, ref S22, ref S33, ref Z22, ref Z33, ref R22, ref R33);
+
+
+                        if (Ratio[n] < 1)
+                        {
+                            estado = "OK";
+                        }
+
+                        itemsViga.Add(new Viga()
+                        {
+                            NOMBRE_VIGA = FrameName[n],
+                            SECCION_VIGA = PropName,
+                            MATERIAL_VIGA = "Cold Formed",
+                            RATIO_VIGA = Math.Round(Ratio[n], 2).ToString(),
+                            ESBELTEZ_VIGA = "N.A",
+                            ESTADO_VIGA = estado
+                        });
+
+                        DataCold[n_cold] =
+                            [FrameName[n],
                         PropName,
                         ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]))).ToString(),
                         ((HERRAMIENTAS_AUXILIARES.LongitudSegmento(my_Sap_Model, FrameName[n]))).ToString(),
                         Math.Round(R22,4).ToString(),
                         Math.Round(R33,4).ToString(),
                         "N.A"
-                        ];
-                    n_cold++;
+                            ];
+                        n_cold++;
 
-                    if (estado != "OK")
-                    {
-                        cumplen_todos_los_perfiles = false;
+                        if (estado != "OK")
+                        {
+                            cumplen_todos_los_perfiles = false;
+                        }
                     }
                 }
+
+
+                PILAR_MOTOR.ItemsSource = itemsMotor;
+
+                PILAR.ItemsSource = items;
+
+                VIGA_PRINCIPAL.ItemsSource = itemsViga;
+
+                VIGA_SECUNDARIA.ItemsSource = itemsSecundaria;
+
+                if (cumplen_todos_los_perfiles)
+                {
+                    MessageBox.Show("OK:\n La solucion actual cumple resistentemente", "ITA_NTC_2018 Result", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    //HERRAMIENTAS_AUXILIARES.ExportarTablas(ruta_base_cold, ruta_guardado_cold, DataCold);
+                    //HERRAMIENTAS_AUXILIARES.ExportarTablas(ruta_base_steel, ruta_guardado_steel, DataSteel);
+                }
+                else
+                {
+                    MessageBox.Show("Fallo:\n La solucion actual no cumple resistentemente", "ITA_NTC_2018 Result", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
             }
-
-
-            PILAR_MOTOR.ItemsSource = itemsMotor;
-
-            PILAR.ItemsSource = items;
-
-            VIGA_PRINCIPAL.ItemsSource = itemsViga;
-
-            VIGA_SECUNDARIA.ItemsSource = itemsSecundaria;
-
-            if (cumplen_todos_los_perfiles)
+            finally
             {
-                MessageBox.Show("OK:\n La solucion actual cumple resistentemente", "ITA_NTC_2018 Result", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                //HERRAMIENTAS_AUXILIARES.ExportarTablas(ruta_base_cold, ruta_guardado_cold, DataCold);
-                //HERRAMIENTAS_AUXILIARES.ExportarTablas(ruta_base_steel, ruta_guardado_steel, DataSteel);
+                try
+                {
+                    loadingWindow.Close();
+                }
+                catch
+                {
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Se ha producido un error", TipoIncidencia.Error);
+                    ventana.ShowDialog();
+                }
             }
-            else
-            {
-                MessageBox.Show("Fallo:\n La solucion actual no cumple resistentemente", "ITA_NTC_2018 Result", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            
 
         }
 
@@ -686,20 +709,7 @@ namespace SmarTools.Model.Applications
 
     public class SAP2000
     {
-        public static int AsignarCargas
-            (
-            cHelper myHelper,
-            cOAPI mySapObject,
-            cSapModel mySapModel,
-            bool estrategia,
-            string F_Nieve,
-            string M_Nieve,
-            string F_SUP_PRESION,
-            string F_INF_PRESION,
-            string F_SUP_SUCCION,
-            string F_INF_SUCCION,
-            string ProgramPath
-            )
+        public static int AsignarCargas (cHelper myHelper,cOAPI mySapObject,cSapModel mySapModel,bool estrategia,string F_Nieve,string M_Nieve,string F_SUP_PRESION,string F_INF_PRESION,string F_SUP_SUCCION,string F_INF_SUCCION,string ProgramPath)
         {
             int ret = 0;
 
@@ -841,26 +851,7 @@ namespace SmarTools.Model.Applications
             }
         }
 
-        public static int AsignarCargasFija
-            (
-            cHelper myHelper,
-            cOAPI mySapObject,
-            cSapModel mySapModel,
-            bool estrategia,
-            string F_Nieve,
-            string F_SUP_PRESION,
-            string F_INF_PRESION,
-            string F_SUP_SUCCION,
-            string F_INF_SUCCION,
-            string PILAR_DELANTERO,
-            string PILAR_TRASERO,
-            string VIGA,
-            string DIAGONAL,
-            string PANEL,
-            string CORREA,
-            bool MONOPOSTE_BIPOSTE,
-            string ProgramPath
-            )
+        public static int AsignarCargasFija (cHelper myHelper,cOAPI mySapObject,cSapModel mySapModel,bool estrategia,string F_Nieve,string F_SUP_PRESION,string F_INF_PRESION,string F_SUP_SUCCION,string F_INF_SUCCION,string PILAR_DELANTERO,string PILAR_TRASERO,string VIGA,string DIAGONAL,string PANEL,string CORREA,bool MONOPOSTE_BIPOSTE,string ProgramPath)
         {
             int ret = 0;
 
@@ -1333,14 +1324,7 @@ namespace SmarTools.Model.Applications
             }
         }
 
-        public static int CombinacionesCarga(
-            cSapModel mySapModel,
-            bool estrategia,
-            bool sismo,
-            bool nieve,
-            bool fija,
-            int h_s
-            )
+        public static int CombinacionesCarga (cSapModel mySapModel,bool estrategia,bool sismo,bool nieve,bool fija,int h_s)
         {
             int ret = 0;
 
@@ -1912,7 +1896,7 @@ namespace SmarTools.Model.Applications
             }
         }
 
-        public static void Sap2000AssingDesignSteelCombos(cSapModel mySapModel)
+        public static void Sap2000AssingDesignSteelCombos (cSapModel mySapModel)
         {
             int ret = 0;
             int NumberNames = 0;
@@ -1933,12 +1917,7 @@ namespace SmarTools.Model.Applications
             }
         }
 
-        public static int CalcularMordelo
-            (
-            cHelper myHelper,
-            cOAPI mySapObject,
-            cSapModel mySapModel
-            )
+        public static int CalcularMordelo(cHelper myHelper,cOAPI mySapObject,cSapModel mySapModel)
         {
             int ret = 0;
 
@@ -1967,12 +1946,7 @@ namespace SmarTools.Model.Applications
             return ret;
         }
 
-        public static int CambiarNormativaSteel
-            (
-            cHelper myHelper,
-            cOAPI mySapObject,
-            cSapModel mySapModel
-            )
+        public static int CambiarNormativaSteel(cHelper myHelper, cOAPI mySapObject, cSapModel mySapModel)
         {
             int ret = 0;
 

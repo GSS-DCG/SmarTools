@@ -4,9 +4,335 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmarTools.APPS"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        Title="ItaliaNTCRackAPP" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="ItaliaNTCRackAPP" 
+        Height="600" Width="1000"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen">
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="https://www.gsolarsteel.com/wp-content/uploads/2024/08/v2-galeria-4-scaled-1-2048x1394.jpg"
+             Stretch="UniformToFill"/>
+        </Border.Background>
+        <Border CornerRadius="10"
+             BorderThickness="2"
+             Opacity="0.95">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="{StaticResource windowBorderColor1}" Offset="0"></GradientStop>
+                    <GradientStop Color="{StaticResource windowBorderColor2}" Offset="0.5"></GradientStop>
+                    <GradientStop Color="{StaticResource windowBorderColor3}" Offset="1"></GradientStop>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Grid>
+                <!--Navigation Menu-->
+                <Border CornerRadius="10,0,0,10"
+                    Grid.Column="0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                            <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.75"></GradientStop>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <TextBlock x:Name="VersionInfoText" 
+                            VerticalAlignment="Bottom" 
+                            Text="Error" 
+                            Foreground="White" 
+                            FontFamily="Neo Tech Std" 
+                            FontSize="15" Margin="25,0,0,10"></TextBlock>
+
+                <!--Main Section-->
+                <Border CornerRadius="0,10,10,0"
+                    Grid.Column="1">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+                            <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"></GradientStop>
+                            <GradientStop Color="{StaticResource primaryBackColor2}" Offset="0.75"></GradientStop>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <!--Control Bar-->
+                            <RowDefinition Height="25"/>
+                            <!--Content Section-->
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="NTC-2018"
+                                VerticalAlignment="Center"
+                                Foreground="White"
+                                FontWeight="Medium"
+                                FontFamily="Neo Tech Std"
+                                Margin="10,0,0,0"
+                                FontSize="13.5"/>
+                        <!--Control Bar-->
+                        <StackPanel x:Name="pnlControlBar"
+                                 Grid.Row="0"
+                                 Orientation="Horizontal"
+                                 FlowDirection="RightToLeft"
+                                 Background="Transparent"
+                                 Margin="0,0,5,0"
+                                 MouseLeftButtonDown="pnlcControlBar_MouseLeftButtonDown"
+                                 MouseEnter="pnlControlBar_MouseEnter">
+
+                            <Button x:Name="btnClose"
+                                 Style="{StaticResource ControlButton}"
+                                 Tag="{StaticResource General4}"
+                                 Click="btnClose_Click">
+                                <fa:IconImage Icon="Xmark" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+
+                            <Button x:Name="btnMaximize"
+                                 Style="{StaticResource ControlButton}"
+                                 Tag="{StaticResource General4}"
+                                 Click="btnMaximize_Click">
+                                <fa:IconImage Icon="WindowMaximize" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+
+                            <Button x:Name="btnMinimize"
+                                 Style="{StaticResource ControlButton}"
+                                 Tag="{StaticResource General4}"
+                                 Click="btnMinimize_Click">
+                                <fa:IconImage Icon="WindowMinimize" Style="{StaticResource ControlButtonIcon}"></fa:IconImage>
+                            </Button>
+                        </StackPanel>
+
+                        <!--User Control-->
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="500"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <!--Comprobaciones y checkeos-->
+                            <TabControl Grid.Row="0" Margin="10,15,10,0" Height="auto" BorderBrush="#005783" BorderThickness="0" VerticalAlignment="Stretch">
+                                <TabControl.Resources>
+                                    <Style TargetType="TabItem">
+                                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="TabItem">
+                                                    <Border Name="Border" Background="{TemplateBinding Background}" 
+                                                              BorderBrush="{TemplateBinding BorderBrush}" 
+                                                              BorderThickness="1" Padding="5" CornerRadius="4"
+                                                              SnapsToDevicePixels="True">
+                                                        <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter TargetName="Border" Property="Background" Value="White"/>
+                                                            <Setter TargetName="Border" Property="BorderBrush" Value="White"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsSelected" Value="False">
+                                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Blue02}"/>
+                                                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Blue02}"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Resaltado}"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter Property="Background" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource Resaltado}"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TabControl.Resources>
+                                <TabItem Header="Pilares" Width="auto" FontFamily="Neo Tech Std" FontSize="13" HorizontalAlignment="Center">
+                                    <ListView Name="PILARES" IsEnabled="True" Height="auto" Width="970" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,10"
+                           Foreground="{StaticResource Blue02}" Background="Transparent">
+                                        <ListView.Resources>
+                                            <Style TargetType="GridViewColumnHeader">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontFamily" Value="Neo Tech Std"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </ListView.Resources>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                                <Setter Property="FontWeight" Value="Medium"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="true">
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=NOMBRE_PILAR}" Header="Nombre" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=SECCION_PILAR}" Header="Seccion" Width="auto"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=MATERIAL_PILAR}" Header="Tipo Material" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=RATIO_PILAR}" Header="Ratio" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ESBELTEZ_PILAR}" Header="Esbeltez" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ESTADO_PILAR}" Header="Estado" Width="100"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </TabItem>
+
+                                <TabItem Header="Correas" Width="auto" FontFamily="Neo Tech Std" FontSize="13" HorizontalAlignment="Center">
+                                    <ListView Name="CORREAS" IsEnabled="True" Height="auto" Width="970" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,10"
+Foreground="{StaticResource Blue02}" Background="Transparent">
+                                        <ListView.Resources>
+                                            <Style TargetType="GridViewColumnHeader">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontFamily" Value="Neo Tech Std"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </ListView.Resources>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                                <Setter Property="FontWeight" Value="Medium"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="true">
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=NOMBRE_CORREA}" Header="Nombre" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=SECCION_CORREA}" Header="Seccion" Width="auto"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=MATERIAL_CORREA}" Header="Tipo Material" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=RATIO_CORREA}" Header="Ratio" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ESBELTEZ_CORREA}" Header="Esbeltez" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ESTADO_CORREA}" Header="Estado" Width="100"/>
+                                            </GridView>
+
+                                        </ListView.View>
+                                    </ListView>
+                                </TabItem>
+
+                                <TabItem Header="Vigas" Width="auto" FontFamily="Neo Tech Std" FontSize="13" HorizontalAlignment="Center">
+                                    <ListView Name="VIGAS" IsEnabled="True" Height="auto" Width="970" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,10"
+Foreground="{StaticResource Blue02}" Background="Transparent">
+                                        <ListView.Resources>
+                                            <Style TargetType="GridViewColumnHeader">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontFamily" Value="Neo Tech Std"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </ListView.Resources>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                                <Setter Property="FontWeight" Value="Medium"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="true">
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=NOMBRE_VIGA}" Header="Nombre" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=SECCION_VIGA}" Header="Seccion" Width="auto"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=MATERIAL_VIGA}" Header="Tipo Material" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=RATIO_VIGA}" Header="Ratio" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ESBELTEZ_VIGA}" Header="Esbeltez" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ESTADO_VIGA}" Header="Estado" Width="100"/>
+                                            </GridView>
+
+                                        </ListView.View>
+                                    </ListView>
+                                </TabItem>
+
+                                <TabItem Header="Diagonales" Width="auto" FontFamily="Neo Tech Std" FontSize="13" HorizontalAlignment="Center">
+                                    <ListView Name="DIAGONAL" IsEnabled="True" Height="auto" Width="970" IsSynchronizedWithCurrentItem="True" Margin="0,0,0,10"
+Foreground="{StaticResource Blue02}" Background="Transparent">
+                                        <ListView.Resources>
+                                            <Style TargetType="GridViewColumnHeader">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontFamily" Value="Neo Tech Std"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </ListView.Resources>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Blue02}"/>
+                                                <Setter Property="FontSize" Value="12"/>
+                                                <Setter Property="FontWeight" Value="Medium"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="true">
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=NOMBRE_DIAGONAL}" Header="Nombre" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=SECCION_DIAGONAL}" Header="Seccion" Width="auto"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=MATERIAL_DIAGONAL}" Header="Tipo Material" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=RATIO_DIAGONAL}" Header="Ratio" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ESBELTEZ_DIAGONAL}" Header="Esbeltez" Width="100"/>
+
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ESTADO_DIAGONAL}" Header="Estado" Width="100"/>
+                                            </GridView>
+
+                                        </ListView.View>
+                                    </ListView>
+                                </TabItem>
+                            </TabControl>
+                            <!--Boton Comprobacion-->
+                            <Button  Height="30" Width="auto" Grid.Row="1" Padding="15,0" Margin="0,0,0,0"
+                                       Foreground="White" BorderBrush ="#005783" BorderThickness="0" Background="#005783" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Content="Verificar NTC-2018" Click="VERIFICAR_ESTRUCTURA">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="15">
+
+                                        </Setter>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <!--#endregion-->
+                            <CheckBox Name="MONOPOSTE" Grid.Row="1" Margin="600,0,0,0" Foreground="White" FontWeight="Medium" VerticalAlignment="Center" IsChecked="False">Monoposte</CheckBox>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Border>
 </Window>

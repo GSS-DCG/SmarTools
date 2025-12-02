@@ -1868,7 +1868,7 @@ namespace SmarTools.Model.Applications
                     CasosSeleccionados["DEAD"] = "DEAD";
 
                 if (vista.Aplicar_Dead.IsChecked == true)
-                    CasosSeleccionados["PP Paneles"] = "DEAD";
+                    CasosSeleccionados["PP PANELES"] = "DEAD";
 
                 if (vista.Aplicar_Presion.IsChecked == true)
                     CasosSeleccionados["W1_Pos_Cfmin"] = "WIND";
@@ -3702,7 +3702,7 @@ namespace SmarTools.Model.Applications
                 var Eurocodigo = new List<(double valor, TextBox caja)>
                 {
                     (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","B2"),vista.Permanente_Persistente_Favorable),
-                    (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","C2"),vista.Permanente_Desfavorable_SLS),
+                    (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","C2"),vista.Permanente_Persistente_Desfavorable),
                     (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","D2"),vista.Permanente_Accidental_Favorable),
                     (ExcelFunctions.LeerCelda(ruta,"Eurocódigo","E2"),vista.Permanente_Accidental_Desfavorable),
 
@@ -3747,7 +3747,7 @@ namespace SmarTools.Model.Applications
                 var NTC2018 = new List<(double valor, TextBox caja)>
                 {
                     (ExcelFunctions.LeerCelda(ruta,"NTC-2018","B2"),vista.Permanente_Persistente_Favorable),
-                    (ExcelFunctions.LeerCelda(ruta,"NTC-2018","C2"),vista.Permanente_Desfavorable_SLS),
+                    (ExcelFunctions.LeerCelda(ruta,"NTC-2018","C2"),vista.Permanente_Persistente_Desfavorable),
                     (ExcelFunctions.LeerCelda(ruta,"NTC-2018","D2"),vista.Permanente_Accidental_Favorable),
                     (ExcelFunctions.LeerCelda(ruta,"NTC-2018","E2"),vista.Permanente_Accidental_Desfavorable),
 

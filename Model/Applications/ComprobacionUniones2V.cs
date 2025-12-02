@@ -55,7 +55,9 @@ namespace SmarTools.Model.Applications
                 }
                 catch
                 {
-                    MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Se ha producido un error", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
         }
@@ -235,9 +237,10 @@ namespace SmarTools.Model.Applications
             SAP.AnalysisSubclass.RunModel(mySapModel);
             mySapModel.SetPresentUnits(eUnits.kN_m_C);
             double X = 0, Y = 0, Z = 0;
+            string succion = BuscarCombinacionMaxSuccion();
             mySapModel.PointElm.GetCoordCartesian("mps", ref X, ref Y, ref Z);
             double[] esfuerzos_MS_modelo = SAP.AnalysisSubclass.GetFrameForces(mySapModel, "ULS", pilar_MP, Z);
-            double[] esfuerzos_MSFunc_modelo = SAP.AnalysisSubclass.GetFrameForces(mySapModel, "ULS4", pilar_MP, Z);
+            double[] esfuerzos_MSFunc_modelo = SAP.AnalysisSubclass.GetFrameForces(mySapModel, succion, pilar_MP, Z);
 
             //Rellenamos la parte de la tabla de esfuerzos máximos admisibles
             var labels_max = new Label[]
@@ -306,7 +309,7 @@ namespace SmarTools.Model.Applications
                 {
                     labels_esfuerzos[i].Content = "-";
                 }
-                labels_esfuerzosFunc[0].Content = "Func. Succión";
+                labels_esfuerzosFunc[0].Content = succion;
                 for (int i = 1; i <= 6; i++)
                 {
                     labels_esfuerzosFunc[i].Content = esfuerzos_MSFunc_modelo[i - 1].ToString("F3");
@@ -745,6 +748,50 @@ namespace SmarTools.Model.Applications
             if (!cumpleV2) vista.V2_BC.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
             if (!cumpleT) vista.T_BC.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
             if (!cumpleM3) vista.M3_BC.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(199, 32, 32));
+        }
+
+        public static string BuscarCombinacionMaxSuccion()
+        {
+            // Obtener lista de combinaciones
+            int numCombos = 0;
+            string[] combos = null;
+            mySapModel.RespCombo.GetNameList(ref numCombos, ref combos);
+            string resultado = null;
+            double maxSuccion = double.MinValue;
+
+            foreach (var combo in combos)
+            {
+                // Obtener casos y factores de la combinación
+                int numCases = 0;
+                string[] caseNames = null;
+                eCNameType[] CNameType = null;
+                double[] factors = null;
+                mySapModel.RespCombo.GetCaseList(combo, ref numCases,ref CNameType, ref caseNames, ref factors);
+
+                // Validar que solo tenga los tres casos requeridos
+                var casosRequeridos = new[] { "DEAD", "PP PANELES", "W1_Neg_Cfmin" };
+                if (numCases == 3 && casosRequeridos.All(c => caseNames.Contains(c, StringComparer.OrdinalIgnoreCase)))
+                {
+                    // Obtener factores
+                    double fDead = factors[Array.IndexOf(caseNames, "DEAD")];
+                    int index=Array.FindIndex(caseNames, c=>c.Trim().Equals("PP PANELES",StringComparison.OrdinalIgnoreCase));
+                    double fPP = factors[index];
+                    double fSuccion = factors[Array.IndexOf(caseNames, "W1_Neg_Cfmin")];
+
+                    // Validar condiciones
+                    if (Math.Abs(fDead - 1.0) < 0.0001 && Math.Abs(fPP - 1.0) < 0.0001)
+                    {
+                        // Buscar la combinación con mayor succión
+                        if (fSuccion > maxSuccion)
+                        {
+                            maxSuccion = fSuccion;
+                            resultado = combo;
+                        }
+                    }
+                }
+            }
+
+            return resultado;
         }
     }
 }

@@ -64,7 +64,7 @@ namespace SmarTools.Model.Applications
                     CasosSeleccionados["DEAD"] = "DEAD";
 
                 if (vista.Aplicar_Dead.IsChecked == true)
-                    CasosSeleccionados["PP Paneles"] = "DEAD";
+                    CasosSeleccionados["PP PANELES"] = "DEAD";
 
                 if(vista.Aplicar_CM.IsChecked == true)
                 {
@@ -3731,7 +3731,7 @@ namespace SmarTools.Model.Applications
                     CasosSeleccionados["DEAD"] = "DEAD";
 
                 if (vista.Aplicar_Dead.IsChecked == true)
-                    CasosSeleccionados["PP Paneles"] = "DEAD";
+                    CasosSeleccionados["PP PANELES"] = "DEAD";
 
                 if (vista.Aplicar_CM.IsChecked == true)
                 {
