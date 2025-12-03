@@ -436,7 +436,7 @@
                                             <DataGridTextColumn Header="MATERIAL" Width="125"
                                                                 Binding="{Binding Material}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
-                                            <DataGridTextColumn Header="CÓDIGO" Width="125"
+                                            <DataGridTextColumn Header="CÓDIGO" Width="175"
                                                                 Binding="{Binding CODIGO}"
                                                                 CellStyle="{StaticResource EstiloCelda}"/>
                                             <DataGridTextColumn Header="RESULT(kN)" Width="125"

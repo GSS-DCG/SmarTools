@@ -3662,7 +3662,9 @@ namespace SmarTools.Model.Applications
                 }
                 catch
                 {
-                    MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Se ha producido un error", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
         }
@@ -7442,7 +7444,9 @@ namespace SmarTools.Model.Applications
                 }
                 catch
                 {
-                    MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Se ha producido un error", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
         }

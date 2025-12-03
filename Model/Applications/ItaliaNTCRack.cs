@@ -608,14 +608,18 @@ namespace SmarTools.Model.Applications
 
                 if (cumplen_todos_los_perfiles)
                 {
-                    MessageBox.Show("OK:\n La solucion actual cumple resistentemente", "ITA_NTC_2018 Result", MessageBoxButton.OK, MessageBoxImage.Information);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("OK:\n La solucion actual cumple resistentemente", TipoIncidencia.Informacion);
+                    ventana.ShowDialog();
 
                     //HERRAMIENTAS_AUXILIARES.ExportarTablas(ruta_base_cold, ruta_guardado_cold, DataCold);
                     //HERRAMIENTAS_AUXILIARES.ExportarTablas(ruta_base_steel, ruta_guardado_steel, DataSteel);
                 }
                 else
                 {
-                    MessageBox.Show("Fallo:\n La solucion actual no cumple resistentemente", "ITA_NTC_2018 Result", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Fallo:\n La solucion actual no cumple resistentemente", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
             finally

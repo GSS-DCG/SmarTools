@@ -13,6 +13,7 @@ using System.Drawing;
 using Excel = Microsoft.Office.Interop.Excel;
 using static SmarTools.Model.Repository.SAP;
 using ClosedXML.Excel;
+using SmarTools.View;
 
 namespace SmarTools.Model.Repository
 {
@@ -83,7 +84,9 @@ namespace SmarTools.Model.Repository
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: "+ex.Message, TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
 
@@ -119,7 +122,9 @@ namespace SmarTools.Model.Repository
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: "+ex.Message, TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
 
@@ -175,7 +180,9 @@ namespace SmarTools.Model.Repository
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: "+ex.Message, TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
 
@@ -215,7 +222,9 @@ namespace SmarTools.Model.Repository
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
 
@@ -296,15 +305,18 @@ namespace SmarTools.Model.Repository
                 }
                 catch (COMException)
                 {
-                    MessageBox.Show("No hay una instancia activa de Excel.");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No hay una instancia activa de Excel", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                     return;
                 }
 
                 // Verificar si hay libros abiertos
                 if (excelApp.Workbooks.Count == 0)
                 {
-                    MessageBox.Show("No hay libros abiertos en Excel.");
-                    return;
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No hay libros abiertos en Excel", TipoIncidencia.Error);
+                    ventana.ShowDialog(); return;
                 }
 
                 // Tomar el libro activo
@@ -319,7 +331,9 @@ namespace SmarTools.Model.Repository
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo encontrar el archivo generado por SAP2000.");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No se pudo encontrar el archivo generado por SAP2000", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
 
                 // Cerrar la aplicación de Excel si se necesita
@@ -329,7 +343,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -353,14 +369,18 @@ namespace SmarTools.Model.Repository
                 }
                 catch (COMException)
                 {
-                    MessageBox.Show("No hay una instancia activa de Excel.");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No hay una instancia activa de Excel", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                     return;
                 }
 
                 // Verificar si hay libros abiertos
                 if (excelApp.Workbooks.Count == 0)
                 {
-                    MessageBox.Show("No hay libros abiertos en Excel.");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No hay libros abiertos en Excel", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                     return;
                 }
 
@@ -379,7 +399,9 @@ namespace SmarTools.Model.Repository
                 }
                 else
                 {
-                    MessageBox.Show("No se pudo encontrar el archivo generado por SAP2000.");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No se pudo encontrar el archivo generado por SAP2000", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
 
                 // Cerrar la aplicación de Excel si se necesita
@@ -394,7 +416,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -418,14 +442,18 @@ namespace SmarTools.Model.Repository
                 }
                 catch (COMException)
                 {
-                    MessageBox.Show("No hay una instancia activa de Excel.");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No hay una instancia activa de Excel", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                     return null;
                 }
 
                 // Verificar si hay libros abiertos
                 if (excelApp.Workbooks.Count == 0)
                 {
-                    MessageBox.Show("No hay libros abiertos en Excel.");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No hay libros abiertos en Excel", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                     return null;
                 }
 
@@ -436,7 +464,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
                 return null;
             }
 
@@ -494,7 +524,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -538,7 +570,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -579,7 +613,9 @@ namespace SmarTools.Model.Repository
 
                     if (numerocolumnaFiltro == -1)
                     {
-                        MessageBox.Show("No se encontró la columna especificada.");
+                        var ventana = new Incidencias();
+                        ventana.ConfigurarIncidencia("No se encontró la columna especificada", TipoIncidencia.Error);
+                        ventana.ShowDialog();
                         return;
                     }
 
@@ -589,7 +625,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -630,7 +668,9 @@ namespace SmarTools.Model.Repository
 
                     if (numerocolumnaFiltro == -1)
                     {
-                        MessageBox.Show("No se encontró la columna especificada.");
+                        var ventana = new Incidencias();
+                        ventana.ConfigurarIncidencia("No se encontró la columna especificada", TipoIncidencia.Error);
+                        ventana.ShowDialog();
                         return;
                     }
 
@@ -639,7 +679,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -684,7 +726,9 @@ namespace SmarTools.Model.Repository
 
                     if (numerocolumnaFiltro == -1)
                     {
-                        MessageBox.Show("No se encontró la columna especificada.");
+                        var ventana = new Incidencias();
+                        ventana.ConfigurarIncidencia("No se encontró la columna especificada", TipoIncidencia.Error);
+                        ventana.ShowDialog();
                         return;
                     }
 
@@ -700,7 +744,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -736,7 +782,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el archivo de Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al guardar el archivo de Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -796,7 +844,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al copiar la tabla en Excel: " + ex.Message);
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Error al copiar la tabla en Excel: " + ex.Message, TipoIncidencia.Error);
+                ventana.ShowDialog();
                 return null;
             }
         }

@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using static SmarTools.Model.Applications.ItaliaNTC2018;
+using static SmarTools.Model.Applications.ItaliaNTCRack;
 
 namespace SmarTools.Model.Applications
 {
@@ -192,7 +193,7 @@ namespace SmarTools.Model.Applications
                     break;
 
                 case "S460MC":
-                    MM = "S5";
+                    MM = "S6";
                     break;
 
                 case "S450GD":
@@ -341,6 +342,7 @@ namespace SmarTools.Model.Applications
                 string[] pilares = SAP.ElementFinderSubclass.FixedSubclass.ListaPilares(mySapModel);
                 double espesor_pilar = SAP.DesignSubclass.ObtenerEspesor(SAP.DesignSubclass.GetPropName(mySapModel, pilares));
                 string material_pilar = SAP.DesignSubclass.ObtenerMaterial(SAP.DesignSubclass.GetPropName(mySapModel, pilares));
+                int ancho_pilar = SAP.DesignSubclass.ObtenerAlturaC(SAP.DesignSubclass.GetPropName(mySapModel, pilares));
                 (string[] diagDel, string[] diagTras) = SAP.ElementFinderSubclass.FixedSubclass.ListaDiagonales(mySapModel);
                 double espesor_diagDel = SAP.DesignSubclass.ObtenerEspesor(SAP.DesignSubclass.GetPropName(mySapModel, diagDel));
                 string material_diagDel = SAP.DesignSubclass.ObtenerMaterial(SAP.DesignSubclass.GetPropName(mySapModel,diagDel));
@@ -359,6 +361,23 @@ namespace SmarTools.Model.Applications
                 double Apr_diagDel = RDdel / Radm_diagDel * 100;
                 string check_pilar = (Apr_pilar < 100) ? "Cumple" : "No Cumple";
                 string check_diagDel = (Apr_diagDel < 100) ? "Cumple" : "No Cumple";
+
+                //Placa
+                string PPP = "";
+                switch (ancho_pilar)
+                {
+                    case 80:
+                        PPP = "080";
+                        break;
+
+                    case 90:
+                        PPP = "090";
+                        break;
+
+                    default:
+                        PPP = ancho_pilar.ToString("F0");
+                        break;
+                }
 
                 if (vista.DosDiagonal.IsChecked == true)
                 {
@@ -402,7 +421,34 @@ namespace SmarTools.Model.Applications
                         }
                     }
                     EspesorYMaterialPlaca(placaValida, out string espesor_placa, out string material_placa);
+                    string MM = "";
+                    switch (material_placa)
+                    {
+                        case "S355JR":
+                            MM = "S3";
+                            break;
 
+                        case "S350GD":
+                            MM = "M3";
+                            break;
+
+                        case "S420MC":
+                            MM = "S4";
+                            break;
+
+                        case "S420GD":
+                            MM = "M4";
+                            break;
+
+                        case "S460MC":
+                            MM = "S6";
+                            break;
+
+                        case "S450GD":
+                            MM = "M5";
+                            break;
+                    }
+                    string codigo = "FXCPD60"+PPP+"X" + MM + "AAA00";
                     //Aprovechamientos
                     Apr_pilar = Rpilar / Radm_pilar * 100;
                     double Apr_diagTras= RDTras/Radm_diagTras * 100;
@@ -411,9 +457,9 @@ namespace SmarTools.Model.Applications
                     resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Pilar", ESPESOR = espesor_pilar.ToString("F1"), MATERIAL = material_pilar, AXIL = P.ToString("F3"), Vz = V2.ToString("F3"), RESULTANTE = Rpilar.ToString("F3"), MAXADM = Radm_pilar.ToString("F3"), CHECK = check_pilar });
                     resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal Delantera", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
                     resultados.Add(new Resultados { UNION = "Unión Pilar-Diagonal", ELEMENTO = "Diagonal Trasera", ESPESOR = espesor_diagTras.ToString("F1"), MATERIAL = material_diagTras, AXIL = RDiagTras[0].ToString("F3"), Vz = RDiagTras[1].ToString("F3"), RESULTANTE = RDTras.ToString("F3"), MAXADM = Radm_diagTras.ToString("F3"), CHECK = check_diagTras });
-                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Pilar", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = Rpilar.ToString("F3"), MaxAdm = RPpilar, RATIO = ratiopilar});
-                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Diagonal Delantera", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDdel.ToString("F3"), MaxAdm = RPdiagonal, RATIO = ratiodiagDel });
-                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Diagonal Trasera", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDTras.ToString("F3"), MaxAdm = RPdiagonal, RATIO = ratiodiagTras });
+                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Pilar", Espesor = espesor_placa, Material = material_placa, CODIGO = codigo, R = Rpilar.ToString("F3"), MaxAdm = RPpilar, RATIO = ratiopilar});
+                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Diagonal Delantera", Espesor = espesor_placa, Material = material_placa, CODIGO = codigo, R = RDdel.ToString("F3"), MaxAdm = RPdiagonal, RATIO = ratiodiagDel });
+                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Pilar-Diagonal", ELEMENTO = "Diagonal Trasera", Espesor = espesor_placa, Material = material_placa, CODIGO = codigo, R = RDTras.ToString("F3"), MaxAdm = RPdiagonal, RATIO = ratiodiagTras });
 
                 }
                 else if(vista.UnaDiagonal.IsChecked == true)
@@ -508,14 +554,42 @@ namespace SmarTools.Model.Applications
                     }
                 }
                 EspesorYMaterialPlaca(placa_Ddel, out string espesor_placa, out string material_placa);
+                string MM = "";
+                switch (material_placa)
+                {
+                    case "S355JR":
+                        MM = "S3";
+                        break;
+
+                    case "S350GD":
+                        MM = "M3";
+                        break;
+
+                    case "S420MC":
+                        MM = "S4";
+                        break;
+
+                    case "S420GD":
+                        MM = "M4";
+                        break;
+
+                    case "S460MC":
+                        MM = "S6";
+                        break;
+
+                    case "S450GD":
+                        MM = "M5";
+                        break;
+                }
+                string codigo = "FXCVD60-X" + MM + "AAA00";
 
                 if (vista.UnaDiagonal.IsChecked == true)
                 {
                     //Añadimos los resultados a la tabla
                     resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = "-", Vz = "-", RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
                     resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
-                    resultadosPlacas.Add(new ResultPlacas {UNION="Placa Viga-Diagonal", ELEMENTO="Diagonal",Espesor=espesor_placa,Material=material_placa,CODIGO="-",R=RDdel.ToString("F3"),MaxAdm=RPDiag,RATIO=RatioDiag + "%" });
-                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Viga", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDdel.ToString("F3"), MaxAdm = RPviga, RATIO = RatioViga + "%" });
+                    resultadosPlacas.Add(new ResultPlacas {UNION="Placa Viga-Diagonal", ELEMENTO="Diagonal",Espesor=espesor_placa,Material=material_placa,CODIGO=codigo,R=RDdel.ToString("F3"),MaxAdm=RPDiag,RATIO=RatioDiag + "%" });
+                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Viga", Espesor = espesor_placa, Material = material_placa, CODIGO = codigo, R = RDdel.ToString("F3"), MaxAdm = RPviga, RATIO = RatioViga + "%" });
                 }
                 else if (vista.DosDiagonal.IsChecked==true)
                 {
@@ -555,14 +629,42 @@ namespace SmarTools.Model.Applications
                         }
                     }
                     EspesorYMaterialPlaca(placa_Ddel, out espesor_placa, out material_placa);
+                    
+                    switch (material_placa)
+                    {
+                        case "S355JR":
+                            MM = "S3";
+                            break;
+
+                        case "S350GD":
+                            MM = "M3";
+                            break;
+
+                        case "S420MC":
+                            MM = "S4";
+                            break;
+
+                        case "S420GD":
+                            MM = "M4";
+                            break;
+
+                        case "S460MC":
+                            MM = "S6";
+                            break;
+
+                        case "S450GD":
+                            MM = "M5";
+                            break;
+                    }
+                    codigo = "FXCVD60-X" + MM + "AAA00";
 
                     //Añadimos los resultados a la tabla
                     resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Viga", ESPESOR = espesor_viga.ToString("F1"), MATERIAL = material_viga, AXIL = "-", Vz = "-", RESULTANTE = Rviga.ToString("F3"), MAXADM = Radm_viga.ToString("F3"), CHECK = check_viga });
                     resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal Delantera", ESPESOR = espesor_diagDel.ToString("F1"), MATERIAL = material_diagDel, AXIL = RDiagdel[0].ToString("F3"), Vz = RDiagdel[1].ToString("F3"), RESULTANTE = RDdel.ToString("F3"), MAXADM = Radm_diagDel.ToString("F3"), CHECK = check_diagDel });
                     resultados.Add(new Resultados { UNION = "Unión Viga-Diagonal", ELEMENTO = "Diagonal Trasera", ESPESOR = espesor_diagTras.ToString("F1"), MATERIAL = material_diagTras, AXIL = RDiagTras[0].ToString("F3"), Vz = RDiagTras[1].ToString("F3"), RESULTANTE = RDTras.ToString("F3"), MAXADM = Radm_diagTras.ToString("F3"), CHECK = check_diagTras });
-                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Diagonal Delantera", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDdel.ToString("F3"), MaxAdm = RPDiag, RATIO = RatioDiagDel + "%" });
-                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Diagonal Trasera", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = RDTras.ToString("F3"), MaxAdm = RPDiag, RATIO = RatioDiagTras + "%" });
-                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Viga", Espesor = espesor_placa, Material = material_placa, CODIGO = "-", R = Rviga.ToString("F3"), MaxAdm = RPviga, RATIO = RatioViga + "%" });
+                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Diagonal Delantera", Espesor = espesor_placa, Material = material_placa, CODIGO = codigo, R = RDdel.ToString("F3"), MaxAdm = RPDiag, RATIO = RatioDiagDel + "%" });
+                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Diagonal Trasera", Espesor = espesor_placa, Material = material_placa, CODIGO = codigo, R = RDTras.ToString("F3"), MaxAdm = RPDiag, RATIO = RatioDiagTras + "%" });
+                    resultadosPlacas.Add(new ResultPlacas { UNION = "Placa Viga-Diagonal", ELEMENTO = "Viga", Espesor = espesor_placa, Material = material_placa, CODIGO = codigo, R = Rviga.ToString("F3"), MaxAdm = RPviga, RATIO = RatioViga + "%" });
                 }
             }
         }

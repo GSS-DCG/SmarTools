@@ -36,7 +36,9 @@ namespace SmarTools.Model.Applications
         {
             var loadingWindow = new Status();
 
-            MessageBox.Show("Antes de ejecutar, no olvide cerrar todas las ventanas de excel abiertas", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+            var ventana = new Incidencias();
+            ventana.ConfigurarIncidencia("Antes de ejecutar, no olvide cerrar todas las ventanas del excel abiertas", TipoIncidencia.Advertencia);
+            ventana.ShowDialog();
 
             try
             {
@@ -61,7 +63,8 @@ namespace SmarTools.Model.Applications
                         ObtenerListados(modelo, rutaWord, sismo, vista);
                     }
                 }
-                MessageBox.Show("Proceso terminado", "Finalizado", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+                ventana.ConfigurarIncidencia("Proceso terminado", TipoIncidencia.Informacion);
+                ventana.ShowDialog();
             }
             finally
             {
@@ -71,7 +74,8 @@ namespace SmarTools.Model.Applications
                 }
                 catch
                 {
-                    MessageBox.Show("Se ha producido un error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ventana.ConfigurarIncidencia("Se ha producido un error", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
             }
         }

@@ -191,7 +191,9 @@ namespace SmarTools.Model.Applications
 
             // Cerramos la ventana de cargando y mostramos la ventana de proceso concluido
             status.Dispatcher.Invoke(() => status.Close());
-            MessageBox.Show("Proceso concluido correctamente");
+            var ventana = new Incidencias();
+            ventana.ConfigurarIncidencia("Proceso concluido correctamente", TipoIncidencia.Error);
+            ventana.ShowDialog();
         }
 
 
@@ -255,7 +257,9 @@ namespace SmarTools.Model.Applications
             // Comprobamos que al menos esté seleccionado un tipo de tracker
             if (checkBoxes[0].IsChecked == false && checkBoxes[1].IsChecked == false && checkBoxes[2].IsChecked == false && checkBoxes[3].IsChecked == false)
             {
-                MessageBox.Show("Selecciona algún string para obtener sus reacciones");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Selecciona algún string para obtener sus reacciones", TipoIncidencia.Error);
+                ventana.ShowDialog();
                 return false;
             }
 
@@ -264,7 +268,9 @@ namespace SmarTools.Model.Applications
             {
                 if (checkBoxes[i].IsChecked == true && checkBoxesStrat[2 * i].IsChecked == false && checkBoxesStrat[2 * i + 1].IsChecked == false)
                 {
-                    MessageBox.Show($"Selecciona expuesto y/o resguardo para {checkBoxes[i].Name}");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia($"Selecciona expuesto y/o resguardo para {checkBoxes[i].Name}", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                     return false;
                 }
             }
@@ -278,7 +284,9 @@ namespace SmarTools.Model.Applications
                     {
                         if (string.IsNullOrEmpty(SAPstrFilesRoutes[position]))
                         {
-                            MessageBox.Show($"El CheckBox {checkBoxesStrat[i].Name} está seleccionado, pero sus archivos SAP no han sido seleccionados");
+                            var ventana = new Incidencias();
+                            ventana.ConfigurarIncidencia($"El CheckBox {checkBoxesStrat[i].Name} está seleccionado, pero sus archivos SAP no han sido seleccionados", TipoIncidencia.Error);
+                            ventana.ShowDialog();
                             return false;
                         }
                     }
@@ -288,14 +296,18 @@ namespace SmarTools.Model.Applications
             // Comprobamos que la ruta del archivo POT esté seleccionado correctamente
             if (vista.POTOriginalRoute.Text == "")
             {
-                MessageBox.Show("Selecciona el archivo excel para rellenar con las reacciones");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Selecciona el archivo de excel para rellenar con las reacciones", TipoIncidencia.Error);
+                ventana.ShowDialog();
                 return false;
             }
 
             // Comprobamos que la ruta de la carpeta de guardado esté seleccionada correctamente
             if (vista.POTSaveRoute.Text == "")
             {
-                MessageBox.Show("Selecciona la carpeta donde guardar el excel de reacciones");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Selecciona la carpeta donde guardar el excel de reacciones", TipoIncidencia.Error);
+                ventana.ShowDialog();
                 return false;
             }
 
@@ -453,9 +465,16 @@ namespace SmarTools.Model.Applications
                 
                 // Cerramos la ventana de cargando y mostramos la ventana de proceso concluido
                 status.Dispatcher.Invoke(() => status.Close());
-                MessageBox.Show("Proceso concluido");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Proceso concluido", TipoIncidencia.Informacion);
+                ventana.ShowDialog();
             }
-            else { MessageBox.Show("No existen archivos SAP en la carpeta elegida"); }
+            else 
+            {
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("No existen archivos SAP en la carpeta seleccionada", TipoIncidencia.Error);
+                ventana.ShowDialog();
+            }
         }
 
 
@@ -469,13 +488,17 @@ namespace SmarTools.Model.Applications
         {
             if (SAPFolderRoute.Length == 0 | Directory.Exists(SAPFolderRoute) == false)
             {
-                MessageBox.Show("Por favor, inserta una carpeta existente donde haya archivos SAP");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Por favor, selecciona una carpeta existente donde existan archivos de SAP", TipoIncidencia.Advertencia);
+                ventana.ShowDialog();
                 return;
             }
 
             if (ExcelFolderRoute.Length == 0 | Directory.Exists(ExcelFolderRoute) == false)
             {
-                MessageBox.Show("Por favor, inserta una carpeta existente para guardar los archivos Excel");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("Por favor, selecciona una carpeta existente para guardar los archivos de Excel", TipoIncidencia.Advertencia);
+                ventana.ShowDialog();
                 return;
             }
         }
@@ -753,7 +776,9 @@ namespace SmarTools.Model.Applications
                         break;
 
                     default:
-                        MessageBox.Show("Normativa no encontrada");
+                        var ventana = new Incidencias();
+                        ventana.ConfigurarIncidencia("Normativa no encontrada", TipoIncidencia.Error);
+                        ventana.ShowDialog();
                         break;
                 }
                 data = new object[] { ProjectName, Reference, localization, country, str, panel, length, width, thickness, weight, inclination, AxisHeight,
@@ -848,13 +873,17 @@ namespace SmarTools.Model.Applications
 
         public void StoreFileRoutes(ref string[] FileRouteList, int index, string tracker)
         {
-            MessageBox.Show($"Selecciona el archivo de posicion de defensa {tracker}");
+            var ventana = new Incidencias();
+            ventana.ConfigurarIncidencia($"Selecciona el archivo de posicion de defensa {tracker}", TipoIncidencia.Pregunta);
+            ventana.ShowDialog();
             FileRouteList[index] = SearchSAPFile();
 
-            MessageBox.Show($"Selecciona el archivo de posicion intermedia {tracker}");
+            ventana.ConfigurarIncidencia($"Selecciona el archivo de posicion intermedia {tracker}", TipoIncidencia.Pregunta);
+            ventana.ShowDialog();
             FileRouteList[index + 1] = SearchSAPFile();
 
-            MessageBox.Show($"Selecciona el archivo de posicion de funcionamiento {tracker}");
+            ventana.ConfigurarIncidencia($"Selecciona el archivo de posicion de funcionamiento {tracker}", TipoIncidencia.Pregunta);
+            ventana.ShowDialog();
             FileRouteList[index + 2] = SearchSAPFile();
         }
 

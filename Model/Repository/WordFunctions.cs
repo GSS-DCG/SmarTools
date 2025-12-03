@@ -1,5 +1,6 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Word;
+using SmarTools.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,9 @@ namespace SmarTools.Model.Repository
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error al guardar el documento: {ex.Message}");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia($"Error al guardar el documento: {ex.Message}", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                 }
 
                 doc.Close();
@@ -63,7 +66,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"Error al abrir el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
 
             return fileName2.ToString() + ".docx";
@@ -92,7 +97,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"Error al abrir el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
             return doc;
         }
@@ -117,7 +124,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex )
             {
-                MessageBox.Show($"Error al cerrar el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"Error al cerrar el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -155,7 +164,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"Error al abrir el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -176,7 +187,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"Error al abrir el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -232,7 +245,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al abrir el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"Error al abrir el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -252,7 +267,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se encuentra el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"No se encuentra el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -272,7 +289,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se encuentra el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"No se encuentra el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
 
@@ -302,7 +321,9 @@ namespace SmarTools.Model.Repository
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se encuentra el documento: {ex.Message}");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia($"No se encuentra el documento: {ex.Message}", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
         }
     }

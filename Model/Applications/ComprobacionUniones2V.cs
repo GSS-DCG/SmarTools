@@ -530,7 +530,9 @@ namespace SmarTools.Model.Applications
                     break;
 
                 default:
-                    MessageBox.Show("No se encuentra la combinación de secundaria y refuerzo de secundaria", "Aviso");
+                    var ventana = new Incidencias();
+                    ventana.ConfigurarIncidencia("No se encuentra la combinación de secundaria y refuerzo de secundaria", TipoIncidencia.Error);
+                    ventana.ShowDialog();
                     break;
             }
 

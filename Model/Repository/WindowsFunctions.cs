@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using SmarTools.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,7 +35,9 @@ namespace SmarTools.Model.Repository
             }
             else
             {
-                MessageBox.Show("No se ha seleccionado ninguna carpeta");
+                var ventana = new Incidencias();
+                ventana.ConfigurarIncidencia("No se ha seleccionado ninguna carpeta", TipoIncidencia.Error);
+                ventana.ShowDialog();
             }
 
             return ruta;
@@ -132,13 +135,17 @@ namespace SmarTools.Model.Repository
         /// </param>
         public void StoreFileRoutes(string[] FileRouteList, int index)
         {
-            MessageBox.Show("Selecciona el archivo de posicion de defensa");
+            var ventana = new Incidencias();
+            ventana.ConfigurarIncidencia("Selecciona el archivo de posición de defensa", TipoIncidencia.Pregunta);
+            ventana.ShowDialog();
             FileRouteList[index] = SearchSAPFile();
 
-            MessageBox.Show("Selecciona el archivo de posicion intermedia");
+            ventana.ConfigurarIncidencia("Selecciona el archivo de posición intermedia", TipoIncidencia.Pregunta);
+            ventana.ShowDialog();
             FileRouteList[index + 1] = SearchSAPFile();
 
-            MessageBox.Show("Selecciona el archivo de posicion de funcionamiento");
+            ventana.ConfigurarIncidencia("Selecciona el archivo de posición de funcionamiento", TipoIncidencia.Pregunta);
+            ventana.ShowDialog();
             FileRouteList[index + 2] = SearchSAPFile();
 
         }
